@@ -21,12 +21,19 @@ module.exports.loop = function () {
     }
 
     let workers = _.filter(Game.creeps, (creep) => creep.memory.role === 'simpleWorker');
+    let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
     //console.log('Workers: ' + workers.length)
     if(workers.length <= 5) {
-        console.log("111");
-        newName = 'Worker' + Game.time;
+        //console.log("111");
+        let newName = 'Worker' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName,
             { memory: { role: 'simpleWorker', harvesting: false, upgrading: false } });
+    }
+    else if (builders.length <= 3) {
+        let newName = 'Builder' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName,
+            { memory: { role: 'builder', building: false } });
+
     }
 
     if (Game.spawns['Spawn1'].spawning) {
@@ -40,8 +47,11 @@ module.exports.loop = function () {
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'simpleWorker') {
+        if (creep.memory.role === 'simpleWorker') {
             roleSimpleWorker.run(creep);
+        }
+        if (creep.memory.role === 'builder') {
+            roleBuilder.run(creep);
         }
     }
 }
