@@ -17,6 +17,10 @@ var roleBuilder = {
             var target = undefined;
             if(creep.memory.target !== undefined) {
                 target = Game.getObjectById(creep.memory.target);
+                if(target instanceof Structure && target.hits === target.hitsMax) {
+                    target = undefined;
+                    creep.memory.target = undefined;
+                }
             }
             else {
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
