@@ -96,6 +96,14 @@ function RunLatest() {
         if(closestHostile) {
             towers[tower].attack(closestHostile);
         }
+        else {
+            let ramparts = towers[tower].room.find(FIND_STRUCTURES, {
+                filter : (structure) => structure.structureType === STRUCTURE_RAMPART && structure.hits <= 300
+            });
+            if(ramparts && ramparts.length > 0) {
+                towers[tower].repair(ramparts[0]);
+            }
+        }
     }
 
     let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role === 'harvester');
