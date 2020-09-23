@@ -149,8 +149,8 @@ function InitClearObjectsMemory() {
         // console.log(room);
         // console.log(Game.rooms[room]);
         for(let cont in containers) {
-            if(Memory.structures['id'+cont.id] === undefined) {
-                Memory.structures['id'+cont.id] = {containerType: ''};
+            if(Memory.structures['id'+containers[cont].id] === undefined) {
+                Memory.structures['id'+containers[cont].id] = {containerType: ''};
             }
         }
     }
