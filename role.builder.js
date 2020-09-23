@@ -22,7 +22,7 @@ var roleBuilder = {
                     creep.memory.target = undefined;
                 }
             }
-            else {
+            if(creep.memory.target === undefined){
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: function (object) {
                         return ((object.structureType === STRUCTURE_ROAD ? ((object.hits / object.hitsMax) < 0.80) : ((object.hits / object.hitsMax) < 0.95)) && object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART);

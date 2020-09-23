@@ -36,12 +36,12 @@ function RunLevel1() {
     if(workers.length <= 5) {
         //console.log("111");
         let newName = 'Worker' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName,
             { memory: { role: 'simpleWorker', harvesting: false, upgrading: false } });
     }
     else if (builders.length <= 3) {
         let newName = 'Builder' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName,
             { memory: { role: 'builder', building: false } });
 
     }
