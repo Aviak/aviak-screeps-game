@@ -133,6 +133,24 @@ function RunLatest() {
             { memory: { role: 'upgrader', building: false } });
 
     }
+    else if (couriers.length < 2) {
+        let newName = 'Courier' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+            { memory: { role: 'courier', building: false } });
+
+    }
+    else if (builders.length < 3) {
+        let newName = 'Builder' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+            { memory: { role: 'builder', building: false } });
+
+    }
+    else if (upgraders.length < 3) {
+        let newName = 'Upgrader' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+            { memory: { role: 'upgrader', building: false } });
+
+    }
 
     if (Game.spawns['Spawn1'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
