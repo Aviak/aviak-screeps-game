@@ -5,15 +5,6 @@ var roleSimpleWorker = require('role.simpleWorker')
 
 module.exports.loop = function () {
 
-    if (Game.time % 250) {
-        for (name in Memory.creeps) {
-            if (!Game.creeps[name]) {
-                delete Memory.creeps[name];
-                //console.log('Clearing non-existing creep memory:', name);
-            }
-        }
-    }
-
     let rooms = _.filter(Game.rooms, (room) => room.controller.my);
     let roomLevel = rooms[0].controller.level;
     if(roomLevel === 1) {
@@ -29,6 +20,15 @@ module.exports.loop = function () {
 }
 
 function RunLevel1() {
+
+    if (Game.time % 250) {
+        for (name in Memory.creeps) {
+            if (!Game.creeps[name]) {
+                delete Memory.creeps[name];
+                //console.log('Clearing non-existing creep memory:', name);
+            }
+        }
+    }
 
     let workers = _.filter(Game.creeps, (creep) => creep.memory.role === 'simpleWorker');
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
@@ -71,6 +71,17 @@ function RunLevel2() {
 }
 
 function RunLatest() {
+    if (Game.time % 250) {
+        for (name in Memory.creeps) {
+            if (!Game.creeps[name]) {
+                delete Memory.creeps[name];
+                //console.log('Clearing non-existing creep memory:', name);
+            }
+        }
+    }
+
+    InitClearObjectsMemory();
+
     let towers = Game.spawns['Spawn1'].room.find(FIND_STRUCTURES, {
         filter: (structure) => structure.structureType === STRUCTURE_TOWER
     });
@@ -80,8 +91,6 @@ function RunLatest() {
             tower.attack(closestHostile);
         }
     }
-
-    InitObjectsMemory();
 
     let workers = _.filter(Game.creeps, (creep) => creep.memory.role === 'simpleWorker');
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
@@ -119,7 +128,17 @@ function RunLatest() {
     }
 }
 
-function InitObjectsMemory() {
+function InitClearObjectsMemory() {
+    if(Memory.structures === undefined) {
+        Memory.structures = {};
+    }
+    for(let structureId in Memory.structures) {
+        let cleanId = structureId.slice(2);
+        if(!Game.getObjectById(cleanId)) {
+            delete Memory.structureType[structureId];
+        }
+    }
+
     //init containers
     for(let room in Game.rooms) {
         let containers = Game.rooms[room].find(FIND_STRUCTURES, {
@@ -130,8 +149,8 @@ function InitObjectsMemory() {
         // console.log(room);
         // console.log(Game.rooms[room]);
         for(let cont in containers) {
-            if(containers[cont].memory.containerType === undefined) {
-                containers[cont].memory.containerType = "";
+            if(Memory.structures['id'+cont.id] === undefined) {
+                Memory.structures['id'+cont.id] = {containerType: ''};
             }
         }
     }
