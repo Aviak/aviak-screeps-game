@@ -135,7 +135,7 @@ function RunLatest() {
     }
     else if (couriers.length < 4) {
         let newName = 'Courier' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'courier', building: false } });
 
     }
