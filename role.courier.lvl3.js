@@ -23,7 +23,7 @@ var roleCourierLvl3 = {
                     for(let i in targets) {
                         if (targets[i].store.getUsedCapacity() < min) {
                             min = targets[i].store.getUsedCapacity();
-                            target = i;
+                            target = targets[i];
                         }
                     }
                 }
@@ -40,7 +40,7 @@ var roleCourierLvl3 = {
                         for(let i in targets) {
                             if (targets[i].store.getUsedCapacity() < min) {
                                 min = targets[i].store.getUsedCapacity();
-                                target = i;
+                                target = targets[i];
                             }
                         }
                     }
