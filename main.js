@@ -71,7 +71,7 @@ function RunLevel2() {
 }
 
 function RunLatest() {
-    let towers = _.filter(Game.spawns['Spawn1'].room.find(FIND_STRUCTURES, {
+    let towers = Game.spawns['Spawn1'].room.find(FIND_STRUCTURES, {
         filter: (structure) => structure.structureType === STRUCTURE_TOWER
     });
     for(let tower in towers) {
