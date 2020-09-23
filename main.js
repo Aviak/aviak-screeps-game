@@ -121,13 +121,13 @@ function RunLatest() {
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
             { memory: { role: 'harvester' } });
     }
-    else if (builders.length < 3) {
+    else if (builders.length < 1) {
         let newName = 'Builder' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'builder', building: false } });
 
     }
-    else if (upgraders.length < 4) {
+    else if (upgraders.length < 1) {
         let newName = 'Upgrader' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'upgrader', building: false } });
