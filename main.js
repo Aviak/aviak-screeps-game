@@ -29,7 +29,7 @@ module.exports.loop = function () {
         if(workers.length <= 5) {
             //console.log("111");
             let newName = 'Worker' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
                 { memory: { role: 'simpleWorker', harvesting: false, upgrading: false } });
         }
         else if (builders.length <= 3) {
