@@ -111,7 +111,7 @@ function RunLatest() {
     }
     else if (couriers.length < 1) {
         let newName = 'Courier' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'courier', building: false } });
 
     }
@@ -123,13 +123,13 @@ function RunLatest() {
     }
     else if (builders.length < 1) {
         let newName = 'Builder' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'builder', building: false } });
 
     }
     else if (upgraders.length < 1) {
         let newName = 'Upgrader' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'upgrader', building: false } });
 
     }
@@ -141,13 +141,13 @@ function RunLatest() {
     }
     else if (builders.length < 3) {
         let newName = 'Builder' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'builder', building: false } });
 
     }
     else if (upgraders.length < 3) {
         let newName = 'Upgrader' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'upgrader', building: false } });
 
     }
