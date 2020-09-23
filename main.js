@@ -122,12 +122,12 @@ function RunLatest() {
 function InitObjectsMemory() {
     //init containers
     for(let room in Game.rooms) {
-        let containers = room.find(FIND_MY_STRUCTURES, {
+        let containers = Game.rooms[room].find(FIND_MY_STRUCTURES, {
             filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
         });
         for(let cont in containers) {
-            if(cont.memory.containerType === undefined) {
-                cont.memory.containerType = "";
+            if(containers[cont].memory.containerType === undefined) {
+                containers[cont].memory.containerType = "";
             }
         }
     }
