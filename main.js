@@ -1,5 +1,5 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
+
+
 var roleBuilder = require('role.builder');
 var roleSimpleWorker = require('role.simpleWorker')
 
@@ -80,20 +80,8 @@ function RunLatest() {
             tower.attack(closestHostile);
         }
     }
-    // var tower = Game.getObjectById('53d18f0dc25b2141c1388dda');
-    // if(tower) {
-    //     var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-    //         filter: (structure) => structure.hits < structure.hitsMax
-    //     });
-    //     if(closestDamagedStructure) {
-    //         tower.repair(closestDamagedStructure);
-    //     }
-    //
-    //     var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    //     if(closestHostile) {
-    //         tower.attack(closestHostile);
-    //     }
-    // }
+
+    InitObjectsMemory();
 
     let workers = _.filter(Game.creeps, (creep) => creep.memory.role === 'simpleWorker');
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
@@ -127,6 +115,20 @@ function RunLatest() {
         }
         if (creep.memory.role === 'builder') {
             roleBuilder.run(creep);
+        }
+    }
+}
+
+function InitObjectsMemory() {
+    //init containers
+    for(let room in Game.rooms) {
+        let containers = room.find(FIND_MY_STRUCTURES, {
+            filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
+        });
+        for(let cont in containers) {
+            if(cont.memory.containerType === undefined) {
+                cont.memory.containerType = "";
+            }
         }
     }
 }
