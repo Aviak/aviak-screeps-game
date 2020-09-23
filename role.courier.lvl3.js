@@ -21,8 +21,8 @@ var roleCourierLvl3 = {
                     //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
                     let min = 99999;
                     for(let i in targets) {
-                        if (i.store.getUsedCapacity() < min) {
-                            min = i.store.getUsedCapacity();
+                        if (targets[i].store.getUsedCapacity() < min) {
+                            min = targets[i].store.getUsedCapacity();
                             target = i;
                         }
                     }
@@ -38,8 +38,8 @@ var roleCourierLvl3 = {
                         //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
                         let min = -1;
                         for(let i in targets) {
-                            if (i.store.getUsedCapacity() < min) {
-                                min = i.store.getUsedCapacity();
+                            if (targets[i].store.getUsedCapacity() < min) {
+                                min = targets[i].store.getUsedCapacity();
                                 target = i;
                             }
                         }
@@ -73,9 +73,9 @@ var roleCourierLvl3 = {
                 //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
                 let max = -1;
                 for(let i in targets) {
-                    if (i.store.getUsedCapacity() > max) {
-                        max = i.store.getUsedCapacity();
-                        target = i;
+                    if (targets[i].store.getUsedCapacity() > max) {
+                        max = targets[i].store.getUsedCapacity();
+                        target = targets[i];
                     }
                 }
             }
