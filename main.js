@@ -1,7 +1,11 @@
 
 
 var roleBuilder = require('role.builder');
-var roleSimpleWorker = require('role.simpleWorker')
+var roleSimpleWorker = require('role.simpleWorker');
+var roleBuilderLvl3 = require('role.builder.lvl3');
+var roleCourierLvl3 = require('role.courier.lvl3');
+var roleHarvesterLvl3 = require('role.harvester.lvl3');
+var roleUpgraderLvl3 = require('role.upgrader.lvl3');
 
 module.exports.loop = function () {
 
@@ -94,19 +98,39 @@ function RunLatest() {
         }
     }
 
-    let workers = _.filter(Game.creeps, (creep) => creep.memory.role === 'simpleWorker');
+    let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role === 'harvester');
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
+    let upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader');
+    let couriers = _.filter(Game.creeps, (creep) => creep.memory.role === 'courier');
     //console.log('Workers: ' + workers.length)
-    if(workers.length <= 5) {
+    if(harvesters.length < 1) {
         //console.log("111");
-        let newName = 'Worker' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
-            { memory: { role: 'simpleWorker', harvesting: false, upgrading: false } });
+        let newName = 'Harvester' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+            { memory: { role: 'harvester' } });
     }
-    else if (builders.length <= 3) {
+    else if (couriers.length < 1) {
+        let newName = 'Courier' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+            { memory: { role: 'courier', building: false } });
+
+    }
+    else if(harvesters.length < 2) {
+        //console.log("111");
+        let newName = 'Harvester' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+            { memory: { role: 'harvester' } });
+    }
+    else if (builders.length < 3) {
         let newName = 'Builder' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'builder', building: false } });
+
+    }
+    else if (upgraders.length < 4) {
+        let newName = 'Upgrader' + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+            { memory: { role: 'upgrader', building: false } });
 
     }
 
@@ -125,7 +149,16 @@ function RunLatest() {
             roleSimpleWorker.run(creep);
         }
         if (creep.memory.role === 'builder') {
-            roleBuilder.run(creep);
+            roleBuilderLvl3.run(creep);
+        }
+        if (creep.memory.role === 'upgrader') {
+            roleUpgraderLvl3.run(creep);
+        }
+        if (creep.memory.role === 'courier') {
+            roleCourierLvl3.run(creep);
+        }
+        if (creep.memory.role === 'harvester') {
+            roleHarvesterLvl3.run(creep);
         }
     }
 }
