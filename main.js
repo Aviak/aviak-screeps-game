@@ -135,7 +135,7 @@ function InitClearObjectsMemory() {
     for(let structureId in Memory.structures) {
         let cleanId = structureId.slice(2);
         if(!Game.getObjectById(cleanId)) {
-            delete Memory.structureType[structureId];
+            delete Memory.structures[structureId];
         }
     }
 
