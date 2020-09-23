@@ -18,7 +18,14 @@ var roleCourierLvl3 = {
                         && structure.store.getFreeCapacity() !== 0
                 });
                 if(targets && targets.length > 0) {
-                    target = _.first(targets, (e) => e.store.getUsedCapacity())
+                    //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                    let min = 99999;
+                    for(let i in targets) {
+                        if (i.store.getUsedCapacity() < min) {
+                            min = i.store.getUsedCapacity();
+                            target = i;
+                        }
+                    }
                 }
                 else {
                     targets = creep.room.find(FIND_STRUCTURES, {
@@ -28,7 +35,14 @@ var roleCourierLvl3 = {
                             && structure.store.getFreeCapacity() !== 0
                     });
                     if(targets && targets.length > 0) {
-                        target = _.first(targets, (e) => e.store.getUsedCapacity())
+                        //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                        let min = -1;
+                        for(let i in targets) {
+                            if (i.store.getUsedCapacity() < min) {
+                                min = i.store.getUsedCapacity();
+                                target = i;
+                            }
+                        }
                     }
                 }
             }
@@ -42,12 +56,29 @@ var roleCourierLvl3 = {
             }
         }
         else {
-            var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
-                    && Memory.structures['id'+structure.id]
-                    && Memory.structures['id'+structure.id].containerType === 'Harvest'
-                    && structure.store.getUsedCapacity() >= creep.store.getFreeCapacity()
+            // var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            //     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+            //         && Memory.structures['id'+structure.id]
+            //         && Memory.structures['id'+structure.id].containerType === 'Harvest'
+            //         && structure.store.getUsedCapacity() >= creep.store.getFreeCapacity()
+            // });
+            var target = undefined;
+            var targets = creep.room.find(FIND_STRUCTURES, {
+                    filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+                        && Memory.structures['id'+structure.id]
+                        && Memory.structures['id'+structure.id].containerType === 'Harvest'
+                        && structure.store.getUsedCapacity() >= creep.store.getFreeCapacity()
             });
+            if(targets && targets.length > 0) {
+                //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                let max = -1;
+                for(let i in targets) {
+                    if (i.store.getUsedCapacity() > max) {
+                        max = i.store.getUsedCapacity();
+                        target = i;
+                    }
+                }
+            }
             if(target) {
                 if(creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
