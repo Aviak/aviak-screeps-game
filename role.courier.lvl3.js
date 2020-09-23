@@ -17,7 +17,7 @@ var roleCourierLvl3 = {
                         && Memory.structures['id'+structure.id].containerType === 'Request'
                 });
                 if(targets && targets.length > 0) {
-                    target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                    target = _.first(targets, (e) => e.store.getUsedCapacity())
                 }
                 else {
                     targets = creep.room.find(FIND_STRUCTURES, {
@@ -26,7 +26,7 @@ var roleCourierLvl3 = {
                             && Memory.structures['id'+structure.id].containerType !== 'Harvest'
                     });
                     if(targets && targets.length > 0) {
-                        target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                        target = _.first(targets, (e) => e.store.getUsedCapacity())
                     }
                 }
             }
