@@ -80,15 +80,17 @@ function RunLatest() {
         }
     }
 
-    InitClearObjectsMemory();
+    if(Game.time % 10) {
+        InitClearObjectsMemory();
+    }
 
     let towers = Game.spawns['Spawn1'].room.find(FIND_STRUCTURES, {
         filter: (structure) => structure.structureType === STRUCTURE_TOWER
     });
     for(let tower in towers) {
-        let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        let closestHostile = towers[tower].pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(closestHostile) {
-            tower.attack(closestHostile);
+            towers[tower].attack(closestHostile);
         }
     }
 
@@ -140,6 +142,7 @@ function InitClearObjectsMemory() {
     }
 
     //init containers
+
     for(let room in Game.rooms) {
         let containers = Game.rooms[room].find(FIND_STRUCTURES, {
             filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
@@ -149,8 +152,14 @@ function InitClearObjectsMemory() {
         // console.log(room);
         // console.log(Game.rooms[room]);
         for(let cont in containers) {
-            if(Memory.structures['id'+containers[cont].id] === undefined) {
-                Memory.structures['id'+containers[cont].id] = {containerType: ''};
+            let containerMemoryIndex = 'id'+containers[cont].id;
+            if(Memory.structures[containerMemoryIndex] === undefined) {
+                Memory.structures[containerMemoryIndex] = {containerType: ''};
+            }
+            else {
+                if(Memory.structures[containerMemoryIndex].harvester && !Game.getObjectById(Memory.structures[containerMemoryIndex].harvester)) {
+                    Memory.structures[containerMemoryIndex].harvester = undefined;
+                }
             }
         }
     }
