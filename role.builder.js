@@ -50,6 +50,40 @@ var roleBuilder = {
                     }
                 }
             }
+            else {
+                var targets = creep.room.find(FIND_STRUCTURES, {
+                    filter: function (object) {
+                        return ((object.hits < object.hitsMax) && (object.structureType === STRUCTURE_WALL || object.structureType === STRUCTURE_RAMPART));
+                    }
+                });
+                //console.log(targets)
+                var minHits = 2;
+                for (let s of targets) {
+                    let pathfinding = PathFinder.search(creep.pos, s.pos);
+                    if(pathfinding === undefined || pathfinding.incomplete === true) {
+                        continue;
+                    }
+
+                    //console.log(s.hits / s.hitsMax);
+                    if ((s.hits / s.hitsMax) < minHits) {
+                        minHits = s.hits / s.hitsMax;
+                        target = s;
+                    }
+                    if (s.hits < 10000) {
+                        minHits = -1;
+                        target = s;
+                        break;
+                    }
+                }
+                if (target) {
+                    //console.log(creep + " is repairing");
+                    if (creep.repair(target) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+                    }
+                    creep.memory.target = target.id;
+
+                } else { console.log('no walls found wut')}
+            }
 
         }
         else {
