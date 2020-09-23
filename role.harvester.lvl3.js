@@ -34,7 +34,7 @@ var roleHarvesterLvl3 = {
                     source = Game.getObjectById(creep.memory.sourceId);
                 }
                 let container = Game.getObjectById(creep.memory.containerId);
-                if(container.getFreeCapacity() !== 0) {
+                if(container.store.getFreeCapacity() !== 0) {
                     if(creep.store.getFreeCapacity() === 0) {
                         creep.transfer(container, RESOURCE_ENERGY);
                     }
