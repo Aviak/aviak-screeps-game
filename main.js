@@ -5,6 +5,15 @@ var roleSimpleWorker = require('role.simpleWorker')
 
 module.exports.loop = function () {
 
+    if (Game.time % 250) {
+        for (name in Memory.creeps) {
+            if (!Game.creeps[name]) {
+                delete Memory.creeps[name];
+                //console.log('Clearing non-existing creep memory:', name);
+            }
+        }
+    }
+
     let rooms = _.filter(Game.rooms, (room) => room.controller.my);
     let roomLevel = rooms[0].controller.level;
     if(roomLevel >= 1) {
