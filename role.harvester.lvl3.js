@@ -2,6 +2,9 @@ var roleHarvesterLvl3 = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+        if(!creep.id) {
+            return;
+        }
         var targetPosition;
         if(creep.memory.targetPosition === undefined) {
             let harvestContainers = creep.room.find(FIND_STRUCTURES, {
@@ -14,6 +17,7 @@ var roleHarvesterLvl3 = {
                 targetPosition = harvestContainers[0].pos;
                 creep.memory.targetPosition = {x: targetPosition.x, y: targetPosition.y};
                 creep.memory.containerId = harvestContainers[0].id;
+                console.log('111');
                 Memory.structures['id'+harvestContainers[0].id].harvester = creep.id;
             }
         }
