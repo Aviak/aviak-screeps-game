@@ -37,7 +37,7 @@ var roleBuilder = {
                 }
             }
             if(target) {
-                console.log(creep.name + " " + JSON.stringify(target));
+                //console.log(creep.name + " " + JSON.stringify(target));
                 creep.memory.target = target.id;
                 if(target instanceof ConstructionSite) {
                     if(creep.build(target) === ERR_NOT_IN_RANGE) {
