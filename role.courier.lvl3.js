@@ -15,6 +15,7 @@ var roleCourierLvl3 = {
                     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                         && Memory.structures['id'+structure.id]
                         && Memory.structures['id'+structure.id].containerType === 'Request'
+                        && structure.store.getFreeCapacity() !== 0
                 });
                 if(targets && targets.length > 0) {
                     target = _.first(targets, (e) => e.store.getUsedCapacity())
@@ -24,6 +25,7 @@ var roleCourierLvl3 = {
                         filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                             && Memory.structures['id'+structure.id]
                             && Memory.structures['id'+structure.id].containerType !== 'Harvest'
+                            && structure.store.getFreeCapacity() !== 0
                     });
                     if(targets && targets.length > 0) {
                         target = _.first(targets, (e) => e.store.getUsedCapacity())
