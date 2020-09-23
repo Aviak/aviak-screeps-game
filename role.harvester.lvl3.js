@@ -33,10 +33,16 @@ var roleHarvesterLvl3 = {
                 else {
                     source = Game.getObjectById(creep.memory.sourceId);
                 }
-                if(creep.store.getFreeCapacity() === 0) {
-                    creep.transfer(Game.getObjectById(creep.memory.containerId), RESOURCE_ENERGY);
+                let container = Game.getObjectById(creep.memory.containerId);
+                if(container.getFreeCapacity() !== 0) {
+                    if(creep.store.getFreeCapacity() === 0) {
+                        creep.transfer(container, RESOURCE_ENERGY);
+                    }
                 }
-                creep.harvest(source);
+                if(creep.store.getFreeCapacity() !== 0) {
+                    creep.harvest(source);
+                }
+
             }
         }
     }
