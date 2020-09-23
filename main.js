@@ -125,6 +125,10 @@ function InitObjectsMemory() {
         let containers = Game.rooms[room].find(FIND_MY_STRUCTURES, {
             filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
         });
+        console.log('0123')
+        console.log(JSON.stringify(containers));
+        console.log(room);
+        console.log(Game.rooms[room]);
         for(let cont in containers) {
             if(containers[cont].memory.containerType === undefined) {
                 containers[cont].memory.containerType = "";
