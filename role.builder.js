@@ -28,7 +28,7 @@ var roleBuilder = {
                         return ((object.hits / object.hitsMax) < 0.95 && object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART);
                     }
                 });
-                if(target === undefined) {
+                if(!target) {
                     let targets = creep.room.find(FIND_CONSTRUCTION_SITES);
                     if(targets.length) {
                         target = targets[0];
@@ -36,7 +36,7 @@ var roleBuilder = {
                     }
                 }
             }
-            if(target !== undefined) {
+            if(target) {
                 console.log(creep.name + " " + JSON.stringify(target));
                 creep.memory.target = target.id;
                 if(target instanceof ConstructionSite) {
