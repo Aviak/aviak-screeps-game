@@ -5,6 +5,7 @@ var roleBuilder = {
 
         if(creep.memory.building && creep.carry.energy === 0) {
             creep.memory.building = false;
+            creep.memory.target = undefined;
             //creep.say('🔄 harvest');
         }
         if(!creep.memory.building && creep.carry.energy === creep.carryCapacity) {
@@ -13,12 +14,38 @@ var roleBuilder = {
         }
 
         if(creep.memory.building) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-                if(creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            var target = undefined;
+            if(creep.memory.target !== undefined) {
+                target = Game.getObjectById(creep.memory.target);
+            }
+            else {
+                target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: function (object) {
+                        return ((object.hits / object.hitsMax) < 0.95 && object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART);
+                    }
+                });
+                if(target === undefined) {
+                    let targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                    if(targets.length) {
+                        target = targets[0];
+
+                    }
                 }
             }
+            if(target !== undefined) {
+                creep.memory.target = target.id;
+                if(target instanceof ConstructionSite) {
+                    if(creep.build(target) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                    }
+                }
+                else {
+                    if(creep.repair(target) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                    }
+                }
+            }
+
         }
         else {
             let source = Game.getObjectById('5bbcadb09099fc012e637a3e');
