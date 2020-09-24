@@ -391,7 +391,7 @@ function RunLatest() {
                 { memory: { role: 'upgrader', building: false } });
 
         }
-        else if (claimers.length < 1) {
+        else if (claimers.length < 1 && Memory.claiming && Memory.claiming.claimRoom) {
             let newName = 'Claimer' + Game.time;
             Game.spawns['Spawn1'].spawnCreep([CLAIM, MOVE], newName,
                 { memory: { role: 'claimer' } });
