@@ -104,6 +104,7 @@ var roleCourierLvl3 = {
                             Memory.structures['id'+target.id].requested -= creep.memory.requested;
                             creep.memory.requested = 0;
                             Memory['onDeath'+creep.id] = Game.time;
+                            Console.log('Courier dead effect ' + creep.id);
                         }
                     }
                     else {
