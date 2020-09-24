@@ -376,7 +376,7 @@ function RunLatest() {
             console.log('required ' + longDistanceMinersRequired + 'long distance miners');
             newName = 'LongDistanceMiner' + Game.time;
 
-            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'longdistanceminer' } });
         }
         else if (builders.length < 4) {
