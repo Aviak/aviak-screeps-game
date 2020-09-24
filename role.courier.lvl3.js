@@ -88,7 +88,7 @@ var roleCourierLvl3 = {
                     //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
                     let max = -1;
                     for(let i in targets) {
-                        let requested = (Memory.structures['id'+i.id].requested) ? Memory.structures['id'+i.id].requested : 0;
+                        let requested = (Memory.structures['id'+targets[i].id].requested) ? Memory.structures['id'+targets[i].id].requested : 0;
                         if ((targets[i].store.getUsedCapacity() - requested) > max) {
                             max = targets[i].store.getUsedCapacity();
                             target = targets[i];
