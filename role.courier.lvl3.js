@@ -103,7 +103,7 @@ var roleCourierLvl3 = {
                         if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
                             Memory.structures['id'+target.id].requested -= creep.memory.requested;
                             creep.memory.requested = 0;
-                            Memory['onDeath'+creep.id] = true;
+                            Memory['onDeath'+creep.id] = Game.time;
                         }
                     }
                     else {

@@ -498,7 +498,7 @@ function InitClearObjectsMemory() {
         if(MemoryObj.includes('LongDistanceMiner')) {
             delete Memory[MemoryObj];
         }
-        if(MemoryObj.includes('onDeath') && !Game.getObjectById(MemoryObj.slice('onDeath'.length))) {
+        if(MemoryObj.includes('onDeath') && (Game.time - Memory[MemoryObj] > 1000)) {
             delete Memory[MemoryObj];
         }
     }
