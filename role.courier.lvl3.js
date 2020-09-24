@@ -117,7 +117,7 @@ var roleCourierLvl3 = {
                     }
 
                 } else {
-                    Memory.structures['id'+target.id].requested -= creep.store.getCapacity();
+                    Memory.structures['id'+target.id].requested -= creep.memory.requested;
                     creep.memory.requested = 0;
                     creep.memory.target = undefined;
                 }

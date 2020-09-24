@@ -153,6 +153,13 @@ function RunLatest() {
             { memory: { role: 'courier', building: false } });
 
     }
+    else if (longDistanceMinersRequired > 0) {
+        console.log('required ' + longDistanceMinersRequired + 'long distance miners');
+        newName = 'LongDistanceMiner' + Game.time;
+
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+            { memory: { role: 'longdistanceminer' } });
+    }
     else if (builders.length < 4) {
         let newName = 'Builder' + Game.time;
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
@@ -164,13 +171,6 @@ function RunLatest() {
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
             { memory: { role: 'upgrader', building: false } });
 
-    }
-    else if (longDistanceMinersRequired > 0) {
-        console.log('required ' + longDistanceMinersRequired + 'long distance miners');
-        newName = 'LongDistanceMiner' + Game.time;
-
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'longdistanceminer' } });
     }
 
     if (Game.spawns['Spawn1'].spawning) {
