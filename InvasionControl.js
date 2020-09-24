@@ -11,7 +11,7 @@ var invasionControl = {
         for(let creepName in all_ranged_v1) {
             let creep = all_ranged_v1[creepName];
             //console.log('#'+creep.memory.gang);
-            if(!Memory.invasionParameters.gangs[creep.memory.gang].creeps.contains(creep.id)) {
+            if(!Memory.invasionParameters.gangs[creep.memory.gang].creeps.includes(creep.id)) {
                 creep.memory.gang = undefined;
             }
         }
