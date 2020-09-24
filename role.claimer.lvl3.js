@@ -49,7 +49,7 @@ var roleLongDistanceMinerLvl3 = {
         if (creep.room.name === Memory.claiming.claimRoom) {
             //console.log('claim 1');
             let res = creep.attackController(creep.room.controller);
-            //console.log(res);
+            console.log(res);
             if(res === ERR_NOT_IN_RANGE) {
                 //console.log('claim 2');
                 creep.moveTo(creep.room.controller);
