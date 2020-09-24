@@ -56,7 +56,19 @@ var invasionControl = {
                             creep.moveTo(exitPos);
                         }
                         else {
-                            let target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+                            let flags = creep.room.find(FIND_FLAGS, {
+                                filter: (flag) => flag.color === COLOR_BROWN
+                            });
+                            let target = undefined;
+                            let objects = creep.room.find(FIND_STRUCTURES, {
+                                filter : (structure) => structure.pos.isEqualTo(flags[0].pos)
+                            });
+                            if(objects && objects.length > 0) {
+                                target = objects[0];
+                            }
+                            if(!target) {
+                                target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+                            }
                             if(!target) {
                                 target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {
                                     filter : (structure) => structure.structureType === STRUCTURE_SPAWN
