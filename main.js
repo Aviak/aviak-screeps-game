@@ -238,6 +238,7 @@ function RunLatest() {
             Game.spawns['Spawn1'].spawnCreep(invader.config, newName,
                 { memory: { role: invader.role } });
         }
+        InvasionControl.run();
     }
 
 
