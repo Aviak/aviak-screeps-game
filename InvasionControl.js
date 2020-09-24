@@ -5,9 +5,9 @@ var invasionControl = {
             Memory.invasionParameters = {gangNumerator : 0, gangs: [], invadeRoom : ''};
         }
         if(Game.rooms[Memory.invasionParameters.invadeRoom] && (Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === ''
-                                                                || !Game.rooms[Memory.invasionParameters.invadeRoom].find(FIND_HOSTILE_STRUCTURES, {
+                                                                || Game.rooms[Memory.invasionParameters.invadeRoom].find(FIND_HOSTILE_STRUCTURES, {
                                                                     filter: (structure) => structure.structureType === STRUCTURE_SPAWN
-                                                             })))
+                                                             }).length === 0))
         {
             Memory.invasionParameters.invasionDone = true;
         }
