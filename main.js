@@ -195,7 +195,7 @@ function RunLatest() {
         }
     }
     else {
-        Console.log('INVASION MODE');
+        console.log('INVASION MODE');
         if(harvesters.length < 1) {
             //console.log("111");
             let newName = 'Harvester' + Game.time;
