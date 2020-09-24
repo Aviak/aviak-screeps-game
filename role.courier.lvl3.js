@@ -100,7 +100,7 @@ var roleCourierLvl3 = {
             if(target) {
                 creep.memory.target = target.id;
                 if(creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    if(creep.ticksToLive < 2 && !Memory['onDeath'+creep.id]) {
+                    if(creep.ticksToLive < 3 && !Memory['onDeath'+creep.id]) {
                         if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
                             Memory.structures['id'+target.id].requested -= creep.memory.requested;
                             creep.memory.requested = 0;
