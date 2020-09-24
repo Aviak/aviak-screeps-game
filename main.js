@@ -122,7 +122,7 @@ function RunLatest() {
         Memory.invasionParameters = {gangNumerator : 0, gangs: [], invadeRoom : ''};
     }
     if(!Memory.invasionParameters.invasionDone) {
-        if(Memory.invadeRoom && (!Game.rooms[Memory.invasionParameters.invadeRoom] || (!Game.rooms[Memory.invasionParameters.invadeRoom].controller.my && !(Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === 'Aviack')))) {
+        if(Memory.invasionParameters.invadeRoom && (!Game.rooms[Memory.invasionParameters.invadeRoom] || (!Game.rooms[Memory.invasionParameters.invadeRoom].controller.my && !(Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === 'Aviack')))) {
             invasion = true;
             console.log('invading room ' + Memory.invasionParameters.invadeRoom);
         }
