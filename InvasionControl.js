@@ -7,7 +7,15 @@ var invasionControl = {
         if(Game.rooms[Memory.invasionParameters.invadeRoom] && Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === '') {
             Memory.invasionParameters.invasionDone = true;
         }
+        let all_ranged_v1 = _.filter(Game.creeps, (creep) => creep.memory.role === 'ranged_v1' && creep.memory.gang);
+        for(let creepName in all_ranged_v1) {
+            let creep = all_ranged_v1[creepName];
+            if(!Memory.invasionParameters.gangs[creep.gang].contains(creep.id)) {
+                creep.memory.gang = undefined;
+            }
+        }
         let ranged_v1 = _.filter(Game.creeps, (creep) => creep.memory.role === 'ranged_v1' && !creep.memory.gang);
+
         var currentGang;
         if(Memory.invasionParameters.gangs.length === 0) {
             currentGang = {creeps: [], status: 'forming'};
