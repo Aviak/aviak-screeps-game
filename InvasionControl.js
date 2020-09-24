@@ -97,7 +97,14 @@ var invasionControl = {
     },
 
     createNextInvader: function () {
-        return {role: 'ranged_v1', config:[RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, TOUGH]}
+        ranged_v1_totel = _.filter(Game.creeps, (creep) => creep.memory.role === 'ranged_v1').length;
+        if(ranged_v1_totel < 12) {
+            return {role: 'ranged_v1', config:[RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, TOUGH]}
+        }
+        else {
+            return undefined;
+        }
+
     }
 };
 

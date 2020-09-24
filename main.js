@@ -234,9 +234,12 @@ function RunLatest() {
         }
         else {
             let invader = InvasionControl.createNextInvader();
-            let newName = 'Ganger' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep(invader.config, newName,
-                { memory: { role: invader.role } });
+            if(invader) {
+                let newName = 'Ganger' + Game.time;
+                Game.spawns['Spawn1'].spawnCreep(invader.config, newName,
+                    { memory: { role: invader.role } });
+            }
+
         }
         InvasionControl.run();
     }
