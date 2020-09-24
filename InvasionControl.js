@@ -9,7 +9,7 @@ var invasionControl = {
         }
         let ranged_v1 = _.filter(Game.creeps, (creep) => creep.memory.role === 'ranged_v1' && !creep.memory.gang);
         var currentGang;
-        if(Memory.invasionParameters.gangs.length = 0) {
+        if(Memory.invasionParameters.gangs.length === 0) {
             currentGang = {creeps: [], status: 'forming'};
         }
         else {
@@ -18,7 +18,7 @@ var invasionControl = {
         const gangSize = 3;
         for(let creepName in ranged_v1) {
             let creep = ranged_v1[creepName];
-            if(currentGang.length >= gangSize) {
+            if(currentGang.creeps.length >= gangSize) {
                 Memory.invasionParameters.gangs[Memory.invasionParameters.gangNumerator] = currentGang;
                 Memory.invasionParameters.gangNumerator++;
                 currentGang = {creeps: [], status: 'forming'};
