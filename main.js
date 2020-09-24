@@ -8,6 +8,7 @@ var roleHarvesterLvl3 = require('role.harvester.lvl3');
 var roleUpgraderLvl3 = require('role.upgrader.lvl3');
 var roleLongDistanceMinerLvl3 = require('role.longdistanceminer.lvl3');
 var InvasionControl = require('InvasionControl');
+var roleClaimerLvl3 = require('role.claimer.lvl3');
 
 module.exports.loop = function () {
 
@@ -112,6 +113,7 @@ function RunLatest() {
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
     let upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader');
     let couriers = _.filter(Game.creeps, (creep) => creep.memory.role === 'courier');
+    let claimers = _.filter(Game.creeps, (creep) => creep.memory.role === 'claimer');
     let longDistanceMiningLocations = roleLongDistanceMinerLvl3.getMiningLocations();
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
@@ -182,6 +184,12 @@ function RunLatest() {
             let newName = 'Upgrader' + Game.time;
             Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'upgrader', building: false } });
+
+        }
+        else if (claimers.length < 1) {
+            let newName = 'Claimer' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CLAIM, MOVE], newName,
+                { memory: { role: 'claimer' } });
 
         }
 
@@ -264,6 +272,9 @@ function RunLatest() {
         }
         if (creep.memory.role === 'longdistanceminer') {
             roleLongDistanceMinerLvl3.run(creep);
+        }
+        if (creep.memory.role === 'claimer') {
+            roleClaimerLvl3.run(creep);
         }
     }
 }
