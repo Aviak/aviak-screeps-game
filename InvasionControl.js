@@ -89,6 +89,7 @@ var invasionControl = {
                                 }
                             }
                             if(target) {
+                                console.log('target : ' + JSON.stringify(target));
                                 if(creep.pos.getRangeTo(target) > 1) {
                                     creep.moveTo(target);
                                 }
