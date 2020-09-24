@@ -38,7 +38,7 @@ var roleCourierLvl3 = {
                         filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                             && Memory.structures['id'+structure.id]
                             && Memory.structures['id'+structure.id].containerType !== 'Harvest'
-                            && structure.store.getFreeCapacity() !== 0
+                            && Memory.structures['id'+structure.id].containerType !== 'Provider'
                     });
                     if(targets && targets.length > 0) {
                         //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
@@ -80,8 +80,9 @@ var roleCourierLvl3 = {
                 var targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                         && Memory.structures['id'+structure.id]
-                        && Memory.structures['id'+structure.id].containerType === 'Harvest'
-                        && structure.store.getUsedCapacity() >= creep.store.getFreeCapacity()
+                        && (Memory.structures['id'+structure.id].containerType === 'Harvest'
+                            || Memory.structures['id'+structure.id].containerType === 'Provider')
+                        && (structure.store.getUsedCapacity() - (Memory.structures['id'+target.id].requested) ? Memory.structures['id'+target.id].requested : 0) >= creep.store.getFreeCapacity()
                 });
                 if(targets && targets.length > 0) {
                     //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
@@ -98,7 +99,16 @@ var roleCourierLvl3 = {
                 creep.memory.target = target.id;
                 if(creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
+                    if(!creep.memory.requested || creep.memory.requested === 0) {
+                        creep.memory.requested = creep.store.getCapacity();
+                        if(!Memory.structures['id'+target.id].requested) {
+                            Memory.structures['id'+target.id].requested = 0;
+                        }
+                        Memory.structures['id'+target.id].requested += creep.store.getCapacity();
+                    }
                 } else {
+                    Memory.structures['id'+target.id].requested -= creep.store.getCapacity();
+                    creep.memory.requested = 0;
                     creep.memory.target = undefined;
                 }
             }
