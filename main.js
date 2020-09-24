@@ -6,7 +6,8 @@ var roleBuilderLvl3 = require('role.builder.lvl3');
 var roleCourierLvl3 = require('role.courier.lvl3');
 var roleHarvesterLvl3 = require('role.harvester.lvl3');
 var roleUpgraderLvl3 = require('role.upgrader.lvl3');
-var roleLongDistanceMinerLvl3 = require('role.longdistanceminer.lvl3')
+var roleLongDistanceMinerLvl3 = require('role.longdistanceminer.lvl3');
+var InvasionControl = require('InvasionControl');
 
 module.exports.loop = function () {
 
@@ -116,71 +117,126 @@ function RunLatest() {
     for (let i of longDistanceMiningLocations) {
         longDistanceMinersRequired += i.maxMiners;
     }
+    var invasion = false;
+    if(!Memory.invasionDone) {
+        if(Memory.invadeRoom && (!Game.rooms[Memory.invadeRoom] || (!Game.rooms[Memory.invadeRoom].controller.my && !(Game.rooms[Memory.invadeRoom].controller.owner === 'Aviack')))) {
+            invasion = true;
+            console.log('invading room ' + Memory.invadeRoom);
+        }
+    }
     //console.log('Workers: ' + workers.length)
-    if(harvesters.length < 1) {
-        //console.log("111");
-        let newName = 'Harvester' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
-            { memory: { role: 'harvester' } });
-    }
-    else if (couriers.length < 1) {
-        let newName = 'Courier' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'courier', building: false } });
+    if(!invasion) {
+        if(harvesters.length < 1) {
+            //console.log("111");
+            let newName = 'Harvester' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+                { memory: { role: 'harvester' } });
+        }
+        else if (couriers.length < 1) {
+            let newName = 'Courier' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'courier', building: false } });
 
-    }
-    else if(harvesters.length < 2) {
-        //console.log("111");
-        let newName = 'Harvester' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
-            { memory: { role: 'harvester' } });
-    }
-    else if (builders.length < 1) {
-        let newName = 'Builder' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'builder', building: false } });
+        }
+        else if(harvesters.length < 2) {
+            //console.log("111");
+            let newName = 'Harvester' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+                { memory: { role: 'harvester' } });
+        }
+        else if (builders.length < 1) {
+            let newName = 'Builder' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'builder', building: false } });
 
-    }
-    else if (upgraders.length < 1) {
-        let newName = 'Upgrader' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'upgrader', building: false } });
+        }
+        else if (upgraders.length < 1) {
+            let newName = 'Upgrader' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'upgrader', building: false } });
 
-    }
-    else if (couriers.length < 4) {
-        let newName = 'Courier' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'courier', building: false } });
+        }
+        else if (couriers.length < 4) {
+            let newName = 'Courier' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'courier', building: false } });
 
-    }
-    else if (longDistanceMinersRequired > 0) {
-        console.log('required ' + longDistanceMinersRequired + 'long distance miners');
-        newName = 'LongDistanceMiner' + Game.time;
+        }
+        else if (longDistanceMinersRequired > 0) {
+            console.log('required ' + longDistanceMinersRequired + 'long distance miners');
+            newName = 'LongDistanceMiner' + Game.time;
 
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'longdistanceminer' } });
-    }
-    else if (builders.length < 4) {
-        let newName = 'Builder' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'builder', building: false } });
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'longdistanceminer' } });
+        }
+        else if (builders.length < 4) {
+            let newName = 'Builder' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'builder', building: false } });
 
-    }
-    else if (upgraders.length < 4) {
-        let newName = 'Upgrader' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
-            { memory: { role: 'upgrader', building: false } });
+        }
+        else if (upgraders.length < 4) {
+            let newName = 'Upgrader' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'upgrader', building: false } });
 
+        }
+
+        if (Game.spawns['Spawn1'].spawning) {
+            var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
+            Game.spawns['Spawn1'].room.visual.text(
+                'oh no ' + spawningCreep.memory.role,
+                Game.spawns['Spawn1'].pos.x + 1,
+                Game.spawns['Spawn1'].pos.y,
+                { align: 'left', opacity: 0.8 });
+        }
+    }
+    else {
+        Console.log('INVASION MODE');
+        if(harvesters.length < 1) {
+            //console.log("111");
+            let newName = 'Harvester' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+                { memory: { role: 'harvester' } });
+        }
+        else if (couriers.length < 1) {
+            let newName = 'Courier' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'courier', building: false } });
+
+        }
+        else if(harvesters.length < 2) {
+            //console.log("111");
+            let newName = 'Harvester' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+                { memory: { role: 'harvester' } });
+        }
+        else if (builders.length < 1) {
+            let newName = 'Builder' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'builder', building: false } });
+
+        }
+        else if (upgraders.length < 1) {
+            let newName = 'Upgrader' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'upgrader', building: false } });
+
+        }
+        else if (couriers.length < 2) {
+            let newName = 'Courier' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'courier', building: false } });
+
+        }
+        else {
+            let invader = InvasionControl.createNextInvader();
+            let newName = 'Ganger' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep(invader.config, newName,
+                { memory: { role: invader.role } });
+        }
     }
 
-    if (Game.spawns['Spawn1'].spawning) {
-        var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-        Game.spawns['Spawn1'].room.visual.text(
-            'oh no ' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1,
-            Game.spawns['Spawn1'].pos.y,
-            { align: 'left', opacity: 0.8 });
-    }
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];

@@ -79,10 +79,10 @@ var roleLongDistanceMinerLvl3 = {
 
                 var containerPostion = new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name);
                 if (creep.pos.isEqualTo(containerPostion)) {
-                    if(!Memory['LongDistanceMiner'+creep.id]) {
-                        Memory['LongDistanceMiner'+creep.id] = 0;
-                    }
-                    Memory['LongDistanceMiner'+creep.id] += creep.store.getUsedCapacity();
+                    // if(!Memory['LongDistanceMiner'+creep.id]) {
+                    //     Memory['LongDistanceMiner'+creep.id] = 0;
+                    // }
+                    // Memory['LongDistanceMiner'+creep.id] += creep.store.getUsedCapacity();
                     creep.drop(RESOURCE_ENERGY);
                 } else {
                     creep.moveTo(containerPostion);
