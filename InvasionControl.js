@@ -24,6 +24,7 @@ var invasionControl = {
                 currentGang = {creeps: [], status: 'forming'};
             }
             currentGang.creeps.push(creep.id);
+            creep.memory.gang = Memory.invasionParameters.gangNumerator;
         }
         Memory.invasionParameters.gangs[Memory.invasionParameters.gangNumerator] = currentGang;
         for(let currentGangName in Memory.invasionParameters.gangs) {
