@@ -10,8 +10,8 @@ var invasionControl = {
         let all_ranged_v1 = _.filter(Game.creeps, (creep) => creep.memory.role === 'ranged_v1' && creep.memory.gang);
         for(let creepName in all_ranged_v1) {
             let creep = all_ranged_v1[creepName];
-            console.log('#'+creep.gang);
-            if(!Memory.invasionParameters.gangs[creep.gang].creeps.contains(creep.id)) {
+            //console.log('#'+creep.memory.gang);
+            if(!Memory.invasionParameters.gangs[creep.memory.gang].creeps.contains(creep.id)) {
                 creep.memory.gang = undefined;
             }
         }
