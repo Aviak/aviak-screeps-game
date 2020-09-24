@@ -66,10 +66,10 @@ var invasionControl = {
                                 }
                             }
                             if(target) {
-                                if(creep.getRangeTo(target) > 1) {
+                                if(creep.pos.getRangeTo(target) > 1) {
                                     creep.moveTo(target);
                                 }
-                                if(creep.getRangeTo(target) <= 3) {
+                                if(creep.pos.getRangeTo(target) <= 3) {
                                     creep.rangedAttack(target);
                                 }
                             }
