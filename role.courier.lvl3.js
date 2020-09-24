@@ -99,14 +99,23 @@ var roleCourierLvl3 = {
             if(target) {
                 creep.memory.target = target.id;
                 if(creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
-                    if(!creep.memory.requested || creep.memory.requested === 0) {
-                        creep.memory.requested = creep.store.getCapacity();
-                        if(!Memory.structures['id'+target.id].requested) {
-                            Memory.structures['id'+target.id].requested = 0;
+                    if(creep.ticksToLive < 2) {
+                        if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
+                            Memory.structures['id'+target.id].requested -= creep.memory.requested;
+                            creep.memory.requested = 0;
                         }
-                        Memory.structures['id'+target.id].requested += creep.store.getCapacity();
                     }
+                    else {
+                        creep.moveTo(target);
+                        if(!creep.memory.requested || creep.memory.requested === 0) {
+                            creep.memory.requested = creep.store.getCapacity();
+                            if(!Memory.structures['id'+target.id].requested) {
+                                Memory.structures['id'+target.id].requested = 0;
+                            }
+                            Memory.structures['id'+target.id].requested += creep.store.getCapacity();
+                        }
+                    }
+
                 } else {
                     Memory.structures['id'+target.id].requested -= creep.store.getCapacity();
                     creep.memory.requested = 0;

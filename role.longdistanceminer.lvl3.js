@@ -40,11 +40,11 @@ var roleLongDistanceMinerLvl3 = {
             creep.memory.mining = true;
         }
         //console.log('' + (creep.memory.mining == true && creep.carry[RESOURCE_ENERGY] == creep.carryCapacity));
-        if (creep.memory.mining == true && creep.carry[RESOURCE_ENERGY] == creep.carryCapacity) {
+        if (creep.memory.mining == true && creep.store.getUsedCapacity() == creep.store.getCapacity()) {
             creep.memory.mining = false;
         }
         //console.log(creep.memory.mining);
-        if (creep.memory.mining == false && creep.carry[RESOURCE_ENERGY]  == 0) {
+        if (creep.memory.mining == false && creep.store.getUsedCapacity()  == 0) {
             creep.memory.mining = true;
         }
         //console.log(creep.memory.mining);
@@ -69,8 +69,8 @@ var roleLongDistanceMinerLvl3 = {
                 if (creep.memory.longDistanceMining.containerLocation == undefined) {
                     var container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                         filter: (s) => s.structureType == STRUCTURE_CONTAINER
-                            && Memory.structures['id'+structure.id]
-                            && Memory.structures['id'+structure.id].containerType === 'Provider'
+                            && Memory.structures['id'+s.id]
+                            && Memory.structures['id'+s.id].containerType === 'Provider'
                     });
 
                     creep.memory.longDistanceMining.containerLocation = { x: container.pos.x, y: container.pos.y, room: container.room.name };
@@ -79,6 +79,10 @@ var roleLongDistanceMinerLvl3 = {
 
                 var containerPostion = new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name);
                 if (creep.pos.isEqualTo(containerPostion)) {
+                    if(!Memory['LongDistanceMiner'+creep.id]) {
+                        Memory['LongDistanceMiner'+creep.id] = 0;
+                    }
+                    Memory['LongDistanceMiner'+creep.id] += creep.store.getUsedCapacity();
                     creep.drop(RESOURCE_ENERGY);
                 } else {
                     creep.moveTo(containerPostion);
@@ -103,7 +107,7 @@ var roleLongDistanceMinerLvl3 = {
     }
     ,
     getMiningLocations: function () {
-        var locations = [{ room: 'E13N3', x: 42, y: 34, maxMiners: 0 }, { room: 'E13N1', x: 19, y: 33, maxMiners: 0 }, { room: 'E13N1', x: 37, y: 39, maxMiners: 0 }];
+        var locations = [{ room: 'E13N3', x: 42, y: 34, maxMiners: 2 }, { room: 'E13N1', x: 19, y: 33, maxMiners: 3 }, { room: 'E13N1', x: 37, y: 39, maxMiners: 3 }];
 
         var assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining != undefined);
 
