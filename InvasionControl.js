@@ -33,7 +33,7 @@ var invasionControl = {
                 for(let creepId in currentGang.creeps) {
                     let creep = Game.getObjectById(currentGang.creeps[creepId]);
                     if(creep) {
-                        if(!creep.pos.getRangeTo(Game.flags.Rally)) {
+                        if(creep.pos.getRangeTo(Game.flags.Rally) > 3) {
                             allInPosition = false;
                             creep.moveTo(Game.flags.Rally);
                         }
