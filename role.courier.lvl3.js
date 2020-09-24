@@ -82,7 +82,7 @@ var roleCourierLvl3 = {
                         && Memory.structures['id'+structure.id]
                         && (Memory.structures['id'+structure.id].containerType === 'Harvest'
                             || Memory.structures['id'+structure.id].containerType === 'Provider')
-                        && (structure.store.getUsedCapacity() - (Memory.structures['id'+target.id].requested) ? Memory.structures['id'+target.id].requested : 0) >= creep.store.getFreeCapacity()
+                        && (structure.store.getUsedCapacity() - (Memory.structures['id'+structure.id].requested) ? Memory.structures['id'+structure.id].requested : 0) >= creep.store.getFreeCapacity()
                 });
                 if(targets && targets.length > 0) {
                     //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
