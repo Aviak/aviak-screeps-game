@@ -118,10 +118,13 @@ function RunLatest() {
         longDistanceMinersRequired += i.maxMiners;
     }
     var invasion = false;
-    if(!Memory.invasionDone) {
-        if(Memory.invadeRoom && (!Game.rooms[Memory.invadeRoom] || (!Game.rooms[Memory.invadeRoom].controller.my && !(Game.rooms[Memory.invadeRoom].controller.owner === 'Aviack')))) {
+    if(!Memory.invasionParameters) {
+        Memory.invasionParameters = {gangNumerator : 0, gangs: [], invadeRoom : ''};
+    }
+    if(!Memory.invasionParameters.invasionDone) {
+        if(Memory.invadeRoom && (!Game.rooms[Memory.invasionParameters.invadeRoom] || (!Game.rooms[Memory.invasionParameters.invadeRoom].controller.my && !(Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === 'Aviack')))) {
             invasion = true;
-            console.log('invading room ' + Memory.invadeRoom);
+            console.log('invading room ' + Memory.invasionParameters.invadeRoom);
         }
     }
     //console.log('Workers: ' + workers.length)
@@ -269,6 +272,14 @@ function InitClearObjectsMemory() {
         let cleanId = structureId.slice(2);
         if(!Game.getObjectById(cleanId)) {
             delete Memory.structures[structureId];
+        }
+    }
+    for(let MemoryObj in Memory) {
+        if(MemoryObj.includes('LongDistanceMiner')) {
+            delete Memory[MemoryObj];
+        }
+        if(MemoryObj.includes('onDeath') && !Game.getObjectById(MemoryObj.slice('onDeath'.length))) {
+            delete Memory[MemoryObj];
         }
     }
 

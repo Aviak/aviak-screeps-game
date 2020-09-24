@@ -2,10 +2,10 @@ var invasionControl = {
 
     run: function() {
         if(!Memory.invasionParameters) {
-            Memory.invasionParameters = {gangNumerator : 0, gangs: []};
+            Memory.invasionParameters = {gangNumerator : 0, gangs: [], invadeRoom : ''};
         }
-        if(Game.rooms[Memory.invadeRoom] && Game.rooms[Memory.invadeRoom].controller.owner === '') {
-            Memory.invasionDone = true;
+        if(Game.rooms[Memory.invasionParameters.invadeRoom] && Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === '') {
+            Memory.invasionParameters.invasionDone = true;
         }
         let ranged_v1 = _.filter(Game.creeps, (creep) => creep.memory.role === 'ranged_v1' && !creep.memory.gang);
         var currentGang;
@@ -48,8 +48,8 @@ var invasionControl = {
                 for(let creepId in currentGang.creeps) {
                     let creep = Game.getObjectById(currentGang.creeps[creepId]);
                     if(creep) {
-                        if(creep.pos.roomName !== Memory.invadeRoom) {
-                            let exitCode = creep.room.findExitTo(Memory.invadeRoom);
+                        if(creep.pos.roomName !== Memory.invasionParameters.invadeRoom) {
+                            let exitCode = creep.room.findExitTo(Memory.invasionParameters.invadeRoom);
                             let exitPos = creep.pos.findClosestByRange(exitCode);
                             creep.moveTo(exitPos);
                         }
