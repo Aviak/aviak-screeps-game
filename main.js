@@ -111,7 +111,7 @@ function RunLatest() {
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
     let upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader');
     let couriers = _.filter(Game.creeps, (creep) => creep.memory.role === 'courier');
-    let longDistanceMiningLocations = roleLongDistanceMiner.getMiningLocations();
+    let longDistanceMiningLocations = roleLongDistanceMinerLvl3.getMiningLocations();
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
         longDistanceMinersRequired += i.maxMiners;
