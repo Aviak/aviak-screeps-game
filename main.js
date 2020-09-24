@@ -351,7 +351,7 @@ function RunLatest() {
         else if(harvesters.length < 2) {
             //console.log("111");
             let newName = 'Harvester' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'harvester' } });
         }
         else if (builders.length < 1) {
@@ -362,7 +362,7 @@ function RunLatest() {
         }
         else if (upgraders.length < 1) {
             let newName = 'Upgrader' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'upgrader', building: false } });
 
         }
@@ -385,9 +385,9 @@ function RunLatest() {
                 { memory: { role: 'builder', building: false } });
 
         }
-        else if (upgraders.length < 4) {
+        else if (upgraders.length < 3) {
             let newName = 'Upgrader' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'upgrader', building: false } });
 
         }
