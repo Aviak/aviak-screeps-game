@@ -83,7 +83,9 @@ var invasionControl = {
                                     filter : (structure) => structure.structureType === STRUCTURE_SPAWN
                                 });
                                 if(!target) {
-                                    target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES);
+                                    target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {
+                                        filter : (structure) => structure.structureType !== STRUCTURE_CONTROLLER
+                                    });
                                 }
                             }
                             if(target) {
