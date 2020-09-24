@@ -21,7 +21,7 @@ var roleLongDistanceMinerLvl3 = {
             //let miningLocations = _.filter(this.getMiningLocations(), (elem) => elem.maxMiners > 0);
             //console.log('miningLocations=' + miningLocations);
 
-            let roomName = Memory.claimRoom;
+            let roomName = Memory.claiming.claimRoom;
             // creep.memory.longDistanceMining.room = location.room;
             // creep.memory.longDistanceMining.x = location.x;
             // creep.memory.longDistanceMining.y = location.y;
