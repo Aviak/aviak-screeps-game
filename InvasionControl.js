@@ -4,7 +4,11 @@ var invasionControl = {
         if(!Memory.invasionParameters) {
             Memory.invasionParameters = {gangNumerator : 0, gangs: [], invadeRoom : ''};
         }
-        if(Game.rooms[Memory.invasionParameters.invadeRoom] && Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === '') {
+        if(Game.rooms[Memory.invasionParameters.invadeRoom] && (Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === ''
+                                                                || !Game.rooms[Memory.invasionParameters.invadeRoom].find(FIND_HOSTILE_STRUCTURES, {
+                                                                    filter: (structure) => structure.structureType === STRUCTURE_SPAWN
+                                                             })))
+        {
             Memory.invasionParameters.invasionDone = true;
         }
         let all_ranged_v1 = _.filter(Game.creeps, (creep) => creep.memory.role === 'ranged_v1' && creep.memory.gang);
