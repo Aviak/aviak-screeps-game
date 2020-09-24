@@ -29,7 +29,7 @@ var roleLongDistanceMinerLvl3 = {
             //console.log('2222');
 
         }
-        if (creep.room.name !== roomName) {
+        if (creep.room.name !== roomName && !creep.memory.claiming.exitToRoom) {
            // console.log('1111');
             let exitCode = creep.room.findExitTo(roomName);
             let exitPos = creep.pos.findClosestByPath(exitCode, {ignoreCreeps: true});
