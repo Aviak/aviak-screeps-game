@@ -379,7 +379,7 @@ function RunLatest() {
             Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'longdistanceminer' } });
         }
-        else if (builders.length < 3) {
+        else if (builders.length < 4) {
             let newName = 'Builder' + Game.time;
             Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'builder', building: false } });
