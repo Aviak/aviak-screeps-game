@@ -373,8 +373,8 @@ function RunLatest() {
 
         }
         else if (longDistanceMinersRequired > 0) {
-            console.log('required ' + longDistanceMinersRequired + 'long distance miners');
-            newName = 'LongDistanceMiner' + Game.time;
+            //console.log('required ' + longDistanceMinersRequired + 'long distance miners');
+            let newName = 'LongDistanceMiner' + Game.time;
 
             Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'longdistanceminer' } });
@@ -460,6 +460,9 @@ function RunLatest() {
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
+        if(!Game.getObjectById(creep.id)) {
+            continue;
+        }
         if (creep.memory.role === 'simpleWorker') {
             roleSimpleWorker.run(creep);
         }

@@ -2,6 +2,7 @@ var roleCourierLvl3 = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+
         if(creep.store.getUsedCapacity() !== 0 ){
             var target = undefined;
             if(creep.memory.target) {
