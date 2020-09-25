@@ -21,17 +21,20 @@ var roleUpgraderLvl3 = {
                 });
             }
             if(targetContainer) {
-                if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                if(creep.pos.getRangeTo(targetContainer) > 1) {
                     creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
+                creep.withdraw(targetContainer, RESOURCE_ENERGY);
             }
             if(creep.store.getFreeCapacity() === 0) {
                 creep.memory.upgrading = true;
             }
         }
         if(creep.memory.upgrading) {
-            if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE)
+            if(creep.pos.getRangeTo(creep.room.controller) >= 3) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}});
+            }
+            creep.upgradeController(creep.room.controller);
         }
     }
 };
