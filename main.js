@@ -311,6 +311,14 @@ function RunLatest() {
             if(ramparts && ramparts.length > 0) {
                 towers[tower].repair(ramparts[0]);
             }
+            else {
+                let damagedCreeps = towers[tower].room.find(FIND_MY_CREEPS, {
+                    filter : (creep) => creep.hits < creep.hitsMax
+                });
+                if(damagedCreeps && damagedCreeps.length > 0) {
+                    towers[tower].heal(damagedCreeps[0]);
+                }
+            }
         }
     }
 
