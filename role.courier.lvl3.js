@@ -8,6 +8,14 @@ var roleCourierLvl3 = {
             if(creep.memory.target) {
                 target = Game.getObjectById(creep.memory.target);
             }
+            if(!target && creep.store.getUsedCapacity() !== creep.store[RESOURCE_ENERGY]) {
+                let storages = creep.room.find(FIND_STRUCTURES, {
+                    filter : (structure) => structure.structureType === STRUCTURE_STORAGE
+                });
+                if(storages && storages.length > 0) {
+                    target = storages[0];
+                }
+            }
             if(!target) {
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: (structure) => {
@@ -59,7 +67,14 @@ var roleCourierLvl3 = {
                 //if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
-                let result = creep.transfer(target, RESOURCE_ENERGY);
+                let resourceType = RESOURCE_ENERGY;
+                for(let res in creep.store) {
+                    if(res !== RESOURCE_ENERGY) {
+                        resourceType = res;
+                        break;
+                    }
+                }
+                let result = creep.transfer(target, resourceType);
                 if(result !== ERR_NOT_IN_RANGE) {
                     creep.memory.target = undefined;
                 }
@@ -82,24 +97,41 @@ var roleCourierLvl3 = {
                 target = Game.getObjectById(creep.memory.target);
             }
             if(!target) {
-                let targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
-                        && Memory.structures['id'+structure.id]
-                        && (Memory.structures['id'+structure.id].containerType === 'Harvest'
-                            || Memory.structures['id'+structure.id].containerType === 'Provider')
-                        && (structure.store.getUsedCapacity() - ((Memory.structures['id'+structure.id].requested) ? Memory.structures['id'+structure.id].requested : 0)) >= creep.store.getFreeCapacity()
+                let targets = creep.room.find(FIND_TOMBSTONES, {
+                    filter: (tomb) => tomb.store.getUsedCapacity() !== tomb.store[RESOURCE_ENERGY]
                 });
-                if(targets && targets.length > 0) {
-                    //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
-                    let max = -1;
-                    for(let i in targets) {
-                        let requested = (Memory.structures['id'+targets[i].id].requested) ? Memory.structures['id'+targets[i].id].requested : 0;
-                        if ((targets[i].store.getUsedCapacity() - requested) > max) {
-                            max = targets[i].store.getUsedCapacity();
-                            target = targets[i];
+                if(targets && targets.length > 0 && creep.room.find(FIND_HOSTILE_CREEPS).length === 0) {
+                    target = targets[0];
+                }
+                else {
+                    targets = creep.room.find(FIND_DROPPED_RESOURCES, {
+                        filter: (res) => res.resourceType !== RESOURCE_ENERGY
+                    });
+                    if(targets && targets.length > 0 && creep.room.find(FIND_HOSTILE_CREEPS).length === 0) {
+                        target = targets[0];
+                    }
+                }
+                if(!target) {
+                    targets = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+                            && Memory.structures['id'+structure.id]
+                            && (Memory.structures['id'+structure.id].containerType === 'Harvest'
+                                || Memory.structures['id'+structure.id].containerType === 'Provider')
+                            && (structure.store.getUsedCapacity() - ((Memory.structures['id'+structure.id].requested) ? Memory.structures['id'+structure.id].requested : 0)) >= creep.store.getFreeCapacity()
+                    });
+                    if(targets && targets.length > 0) {
+                        //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                        let max = -1;
+                        for(let i in targets) {
+                            let requested = (Memory.structures['id'+targets[i].id].requested) ? Memory.structures['id'+targets[i].id].requested : 0;
+                            if ((targets[i].store.getUsedCapacity() - requested) > max) {
+                                max = targets[i].store.getUsedCapacity();
+                                target = targets[i];
+                            }
                         }
                     }
                 }
+
             }
             if(target) {
                 creep.memory.target = target.id;
@@ -116,7 +148,7 @@ var roleCourierLvl3 = {
                     }
                     else {
                         creep.moveTo(target);
-                        if(!creep.memory.requested || creep.memory.requested === 0) {
+                        if(target instanceof Structure && !creep.memory.requested || creep.memory.requested === 0) {
                             creep.memory.requested = creep.store.getCapacity();
                             if(!Memory.structures['id'+target.id].requested) {
                                 Memory.structures['id'+target.id].requested = 0;
@@ -126,11 +158,31 @@ var roleCourierLvl3 = {
                     }
 
                 }
-                let result = creep.withdraw(target, RESOURCE_ENERGY);
+                let resourceType = (target instanceof Resource) ? target.resourceType : RESOURCE_ENERGY;
+                let result = creep.withdraw(target, resourceType);
                 if(result === OK) {
+                    if(target instanceof Structure) {
                         Memory.structures['id'+target.id].requested -= creep.memory.requested;
                         creep.memory.requested = 0;
                         creep.memory.target = undefined;
+                    }
+                    if(target instanceof Resource) {
+                        if(creep.store.getFreeCapacity() !== 0){
+                            let anotherResources = creep.room.find(FIND_DROPPED_RESOURCES, {
+                                filter : (res) => res.pos.isEqualTo(target.pos) && res.resourceType !== target.resourceType
+                            }) ;
+                            if(anotherResources && anotherResources.length > 0) {
+                                target = anotherResources[0];
+                                creep.memory.target = target.id;
+                            }
+                        }
+                        else {
+                            creep.memory.requested = 0;
+                            creep.memory.target = undefined;
+                        }
+
+                    }
+
                 }
             }
             else {
