@@ -24,7 +24,9 @@ var roleUpgraderLvl3 = {
                 if(creep.pos.getRangeTo(targetContainer) > 1) {
                     creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
-                creep.withdraw(targetContainer, RESOURCE_ENERGY);
+                if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === OK) {
+                    creep.memory.upgrading = true;
+                }
             }
             if(creep.store.getFreeCapacity() === 0) {
                 creep.memory.upgrading = true;
