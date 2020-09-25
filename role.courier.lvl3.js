@@ -73,12 +73,12 @@ var roleCourierLvl3 = {
             //         && Memory.structures['id'+structure.id].containerType === 'Harvest'
             //         && structure.store.getUsedCapacity() >= creep.store.getFreeCapacity()
             // });
-            var target = undefined;
+            let target = undefined;
             if(creep.memory.target) {
                 target = Game.getObjectById(creep.memory.target);
             }
             if(!target) {
-                var targets = creep.room.find(FIND_STRUCTURES, {
+                targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                         && Memory.structures['id'+structure.id]
                         && (Memory.structures['id'+structure.id].containerType === 'Harvest'
@@ -99,7 +99,8 @@ var roleCourierLvl3 = {
             }
             if(target) {
                 creep.memory.target = target.id;
-                if(creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                let result = creep.withdraw(target, RESOURCE_ENERGY);
+                if(result === ERR_NOT_IN_RANGE) {
                     if(creep.ticksToLive < 3 && !Memory['onDeath'+creep.id]) {
                         if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
                             Memory.structures['id'+target.id].requested -= creep.memory.requested;
@@ -119,7 +120,8 @@ var roleCourierLvl3 = {
                         }
                     }
 
-                } else {
+                }
+                else if(result === OK) {
                     Memory.structures['id'+target.id].requested -= creep.memory.requested;
                     creep.memory.requested = 0;
                     creep.memory.target = undefined;
