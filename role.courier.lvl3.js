@@ -55,10 +55,14 @@ var roleCourierLvl3 = {
             }
             if(target) {
                 creep.memory.target = target.id;
-                if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                if(creep.pos.getRangeTo(target) > 1) {
+                //if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 } else {
-                    creep.memory.target = undefined;
+                    let result = creep.transfer(target, RESOURCE_ENERGY);
+                    if(result === OK) {
+                        creep.memory.target = undefined;
+                    }
                 }
             }
             else {
@@ -99,8 +103,9 @@ var roleCourierLvl3 = {
             }
             if(target) {
                 creep.memory.target = target.id;
-                let result = creep.withdraw(target, RESOURCE_ENERGY);
-                if(result === ERR_NOT_IN_RANGE) {
+                //let result = creep.withdraw(target, RESOURCE_ENERGY);
+                if(creep.pos.getRangeTo(target) > 1) {
+                // if(result === ERR_NOT_IN_RANGE) {
                     if(creep.ticksToLive < 3 && !Memory['onDeath'+creep.id]) {
                         if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
                             Memory.structures['id'+target.id].requested -= creep.memory.requested;
@@ -121,10 +126,11 @@ var roleCourierLvl3 = {
                     }
 
                 }
-                else if(result === OK) {
-                    Memory.structures['id'+target.id].requested -= creep.memory.requested;
-                    creep.memory.requested = 0;
-                    creep.memory.target = undefined;
+                let result = creep.withdraw(target, RESOURCE_ENERGY);
+                if(result === OK) {
+                        Memory.structures['id'+target.id].requested -= creep.memory.requested;
+                        creep.memory.requested = 0;
+                        creep.memory.target = undefined;
                 }
             }
             else {
