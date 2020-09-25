@@ -33,7 +33,7 @@ var roleUpgraderLvl3 = {
             }
         }
         if(creep.memory.upgrading) {
-            if(creep.pos.getRangeTo(creep.room.controller) >= 3) {
+            if(creep.pos.getRangeTo(creep.room.controller) > 3) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
             creep.upgradeController(creep.room.controller);
