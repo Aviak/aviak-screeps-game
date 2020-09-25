@@ -4,7 +4,7 @@ var roleCourierLvl3 = {
     run: function(creep) {
 
         if(creep.store.getUsedCapacity() !== 0 ){
-            var target = undefined;
+            let target = undefined;
             if(creep.memory.target) {
                 target = Game.getObjectById(creep.memory.target);
             }
@@ -18,7 +18,7 @@ var roleCourierLvl3 = {
                 });
             }
             if(!target) {
-                var targets = creep.room.find(FIND_STRUCTURES, {
+                let targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                         && Memory.structures['id'+structure.id]
                         && Memory.structures['id'+structure.id].containerType === 'Request'
@@ -58,12 +58,12 @@ var roleCourierLvl3 = {
                 if(creep.pos.getRangeTo(target) > 1) {
                 //if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
-                } else {
-                    let result = creep.transfer(target, RESOURCE_ENERGY);
-                    if(result === OK) {
-                        creep.memory.target = undefined;
-                    }
                 }
+                let result = creep.transfer(target, RESOURCE_ENERGY);
+                if(result === OK) {
+                    creep.memory.target = undefined;
+                }
+
             }
             else {
                 creep.moveTo(Game.flags.IdleFlag);
@@ -82,7 +82,7 @@ var roleCourierLvl3 = {
                 target = Game.getObjectById(creep.memory.target);
             }
             if(!target) {
-                targets = creep.room.find(FIND_STRUCTURES, {
+                let targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                         && Memory.structures['id'+structure.id]
                         && (Memory.structures['id'+structure.id].containerType === 'Harvest'
