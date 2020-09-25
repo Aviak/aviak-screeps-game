@@ -158,7 +158,19 @@ var roleCourierLvl3 = {
                     }
 
                 }
-                let resourceType = (target instanceof Resource) ? target.resourceType : RESOURCE_ENERGY;
+                let resourceType = RESOURCE_ENERGY;
+                if(target instanceof Tombstone) {
+                    let resourceType = RESOURCE_ENERGY;
+                    for(let res in target.store) {
+                        if(res !== RESOURCE_ENERGY) {
+                            resourceType = res;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    resourceType = (target instanceof Resource) ? target.resourceType : RESOURCE_ENERGY;
+                }
                 let result = creep.withdraw(target, resourceType);
                 if(result === OK) {
                     if(target instanceof Structure) {
@@ -166,7 +178,7 @@ var roleCourierLvl3 = {
                         creep.memory.requested = 0;
                         creep.memory.target = undefined;
                     }
-                    if(target instanceof Resource) {
+                    if(target instanceof Resource || target instanceof Tombstone) {
                         if(creep.store.getFreeCapacity() !== 0){
                             let anotherResources = creep.room.find(FIND_DROPPED_RESOURCES, {
                                 filter : (res) => res.pos.isEqualTo(target.pos) && res.resourceType !== target.resourceType
