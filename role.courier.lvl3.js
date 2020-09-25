@@ -60,7 +60,7 @@ var roleCourierLvl3 = {
                     creep.moveTo(target);
                 }
                 let result = creep.transfer(target, RESOURCE_ENERGY);
-                if(result === OK) {
+                if(result !== ERR_NOT_IN_RANGE) {
                     creep.memory.target = undefined;
                 }
 
