@@ -385,7 +385,7 @@ function RunLatest() {
                 { memory: { role: 'builder', building: false } });
 
         }
-        else if (upgraders.length < 3) {
+        else if (upgraders.length < 4) {
             let newName = 'Upgrader' + Game.time;
             Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'upgrader', building: false } });
