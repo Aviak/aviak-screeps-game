@@ -347,7 +347,7 @@ function RunLatest() {
         if(harvesters.length < 1) {
             //console.log("111");
             let newName = 'Harvester' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, MOVE], newName,
                 { memory: { role: 'harvester' } });
         }
         else if (couriers.length < 1) {
