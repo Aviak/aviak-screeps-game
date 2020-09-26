@@ -107,7 +107,7 @@ var roleLongDistanceMinerLvl3 = {
     }
     ,
     getMiningLocations: function () {
-        var locations = [{ room: 'E13N3', x: 42, y: 34, maxMiners: 2 }];
+        var locations = [{ room: 'E13N3', x: 42, y: 34, maxMiners: 3 }];
 
         var assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining != undefined);
 
