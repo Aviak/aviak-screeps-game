@@ -138,13 +138,16 @@ var roleCourierLvl3 = {
                 //let result = creep.withdraw(target, RESOURCE_ENERGY);
                 if(creep.pos.getRangeTo(target) > 1) {
                 // if(result === ERR_NOT_IN_RANGE) {
-                    if(creep.ticksToLive < 3 && !Memory['onDeath'+creep.id]) {
-                        if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
-                            Memory.structures['id'+target.id].requested -= creep.memory.requested;
-                            creep.memory.requested = 0;
-                            Memory['onDeath'+creep.id] = Game.time;
-                            console.log('Courier dead effect ' + creep.id);
+                    if(creep.ticksToLive < 3) {
+                        if(!Memory['onDeath'+creep.id]) {
+                            if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
+                                Memory.structures['id'+target.id].requested -= creep.memory.requested;
+                                creep.memory.requested = 0;
+                                Memory['onDeath'+creep.id] = Game.time;
+                                console.log('Courier dead effect ' + creep.id);
+                            }
                         }
+
                     }
                     else {
                         creep.moveTo(target);
