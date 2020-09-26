@@ -66,7 +66,7 @@ var roleCourierLvl3 = {
                 if(creep.pos.getRangeTo(target) > 1) {
                 //if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
-                    console.log('---courier|not in range to put');
+                    //console.log('---courier|not in range to put');
                 }
                 let resourceType = RESOURCE_ENERGY;
                 for(let res in creep.store) {
@@ -77,11 +77,11 @@ var roleCourierLvl3 = {
                 }
                 let result = creep.transfer(target, resourceType);
                 if(result !== ERR_NOT_IN_RANGE) {
-                    console.log('---courier '+creep.id+' |put success ' + result);
+                    // console.log('---courier '+creep.id+' |put success ' + result);
                     creep.memory.target = undefined;
                 }
                 else {
-                    console.log('---courier '+creep.id+' |error ' + result);
+                    // console.log('---courier '+creep.id+' |error ' + result);
                 }
 
             }
@@ -155,7 +155,7 @@ var roleCourierLvl3 = {
 
                     }
                     else {
-                        console.log('+++courier '+creep.id+' |not in range to get');
+                        // console.log('+++courier '+creep.id+' |not in range to get');
                         creep.moveTo(target);
                         if(target instanceof Structure && !creep.memory.requested || creep.memory.requested === 0) {
                             creep.memory.requested = creep.store.getCapacity();
@@ -182,7 +182,7 @@ var roleCourierLvl3 = {
                 }
                 let result = creep.withdraw(target, resourceType);
                 if(result === OK) {
-                    console.log('+++courier '+creep.id+' |get success ' + result);
+                    // console.log('+++courier '+creep.id+' |get success ' + result);
                     if(target instanceof Structure) {
                         Memory.structures['id'+target.id].requested -= creep.memory.requested;
                         creep.memory.requested = 0;
@@ -207,7 +207,7 @@ var roleCourierLvl3 = {
 
                 }
                 else {
-                    console.log('+++courier '+creep.id+' |get error ' + result);
+                    // console.log('+++courier '+creep.id+' |get error ' + result);
                 }
             }
             else {
