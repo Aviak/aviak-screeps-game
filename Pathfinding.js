@@ -18,7 +18,7 @@ var pathfinding = {
             creep.memory.ticksStuck = 0;
         }
         console.log(JSON.stringify(creep.memory.prevPosition));
-        if(creep.pos.isEqualTo(new RoomPosition(creep.memory.prevPosition.x, creep.memory.prevPosition.y, creep.memory.prevPosition.roomName))) {
+        if(creep.pos.isEqualTo(new RoomPosition(creep.memory.prevPosition.x, creep.memory.prevPosition.y, creep.room.roomName))) {
             creep.memory.ticksStuck++;
         }
         if(creep.memory.ticksStuck > 2) {
