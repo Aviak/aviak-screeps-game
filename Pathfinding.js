@@ -3,7 +3,7 @@ var pathfinding = {
     maxCachedPaths : 100,
     cachePathClearInterval : 100,
     /** @param {Creep} creep
-     *  @param {RoomPosition} targetPos
+     *  @param {RoomPosition, Structure} targetPos
      *  @param {number} radius
      * **/
     modMoveTo : function (creep, targetPos, radius) {
