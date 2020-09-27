@@ -9,7 +9,7 @@ var pathfinding = {
 
         let forceNewPath = false;
         if(!creep.memory.prevPosition) {
-            creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.roomName};
+            creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
         }
         if(!creep.memory.prevPosition.roomName) {
             creep.memory.prevPosition.roomName = creep.room.roomName;
@@ -18,7 +18,7 @@ var pathfinding = {
             creep.memory.ticksStuck = 0;
         }
         console.log(JSON.stringify(creep.memory.prevPosition));
-        if(creep.pos.isEqualTo(new RoomPosition(creep.memory.prevPosition.x, creep.memory.prevPosition.y, creep.room.roomName))) {
+        if(creep.pos.isEqualTo(new RoomPosition(creep.memory.prevPosition.x, creep.memory.prevPosition.y, creep.memory.prevPosition.roomName))) {
             creep.memory.ticksStuck++;
         }
         if(creep.memory.ticksStuck > 2) {
