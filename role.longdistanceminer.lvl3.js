@@ -25,10 +25,10 @@ var roleLongDistanceMinerLvl3 = {
                 if (creep.room.name !== location.room) {
                     let exitCode = creep.room.findExitTo(location.room);
                     let exitPos = creep.pos.findClosestByPath(exitCode, {ignoreCreeps: true});
-                    console.log('INIT MINER');
+                    //console.log('INIT MINER');
                     if (!exitPos) {
                         //wait a turn
-                        console.log('WAIT A TURN');
+                        //console.log('WAIT A TURN');
                         creep.memory.longDistanceMining = undefined;
                         return;
                     }

@@ -206,7 +206,9 @@ var pathfinding = {
                     }
                 }
             }
-            room.memory.costMatrixCache[creepMoveCoefficient] = newMatrix.serialize();
+            let serializedMatrix = newMatrix.serialize();
+            console.log('new matrix: ' + JSON.stringify(serializedMatrix));
+            room.memory.costMatrixCache[creepMoveCoefficient] = serializedMatrix;
             return newMatrix;
         }
     },
@@ -228,39 +230,41 @@ var pathfinding = {
 
     /** @param {number} coef **/
     simplifyCoefficient : function(coef) {
-        if(coef === 0) {
-            return 0;
-        }
-        if(coef === 1) {
+
+        if(coef == 1) {
             return 1;
         }
-        if(coef === 2) {
+        if(coef == 2) {
             return 2;
         }
-        if(coef === 3) {
+        if(coef == 3) {
             return 3;
         }
-        if(coef === 4) {
+        if(coef == 4) {
             return 2;
         }
-        if(coef === 5) {
+        if(coef == 5) {
             return 5;
         }
-        if(coef === 7) {
+        if(coef == 7) {
             return 7;
         }
-        if(coef === 8) {
+        if(coef == 8) {
             return 2;
         }
-        if(coef === 9) {
+        if(coef == 9) {
             return 9;
         }
-        if(coef === 10) {
+        if(coef == 10) {
             return 5;
         }
-        if(coef === 11) {
+        if(coef == 11) {
             return 11;
         }
+        if(coef == 0) {
+            return 0;
+        }
+        return coef;
     }
 };
 

@@ -173,6 +173,7 @@ var roleCourierLvl3 = {
 
                 }
                 let resourceType = RESOURCE_ENERGY;
+
                 if(target instanceof Tombstone) {
                     let resourceType = RESOURCE_ENERGY;
                     for(let res in target.store) {
@@ -185,6 +186,7 @@ var roleCourierLvl3 = {
                 else {
                     resourceType = (target instanceof Resource) ? target.resourceType : RESOURCE_ENERGY;
                 }
+                console.log('1111 ' + resourceType);
                 let result = creep.withdraw(target, resourceType);
                 if(result === OK) {
                     // console.log('+++courier '+creep.id+' |get success ' + result);
