@@ -8,7 +8,7 @@ var pathfinding = {
      * **/
     modMoveTo : function (creep, targetPos, radius) {
 
-        console.log(JSON.stringify(targetPos));
+        //console.log(JSON.stringify(targetPos));
         // if(targetPos.pos) {
         //     targetPos = targetPos.pos;
         // }
@@ -47,7 +47,8 @@ var pathfinding = {
             let currentPath = undefined;
 
             try {
-                currentPath = Room.deserializePath(creep.memory.currentPath.path);
+                //currentPath = Room.deserializePath(creep.memory.currentPath.path);
+                currentPath = JSON.parse(creep.memory.currentPath.path);
                 creep.moveByPath(currentPath);
             }
             catch {
@@ -79,7 +80,8 @@ var pathfinding = {
                 let index = creep.room.memory.cachePath.indexOf(cachedPath);
                 try {
 
-                    currentPath = Room.deserializePath(cachedPath.path);
+                    //currentPath = Room.deserializePath(cachedPath.path);
+                    currentPath = JSON.parse(cachedPath.path);
 
                     creep.memory.currentPath = {};
                     creep.memory.currentPath.destination = {x : cachedPath.start.x, y : cachedPath.start.y, roomName : cachedPath.start.room, radius : radius};
@@ -99,7 +101,8 @@ var pathfinding = {
             if(!cachedPath || cachedPath.length === 0) {
                 console.log('creating new path');
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
-                let serialisedPath = Room.serializePath(newPath.path);
+                //let serialisedPath = Room.serializePath(newPath.path);
+                let serialisedPath = JSON.stringify(newPath.path);
                 creep.memory.currentPath = {};
                 creep.memory.currentPath.destination = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name, radius : radius};
                 creep.memory.currentPath.path = serialisedPath;
