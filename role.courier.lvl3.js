@@ -1,3 +1,5 @@
+var pathfinding = require('Pathfinding');
+
 var roleCourierLvl3 = {
 
     /** @param {Creep} creep **/
@@ -65,7 +67,8 @@ var roleCourierLvl3 = {
                 creep.memory.target = target.id;
                 if(creep.pos.getRangeTo(target) > 1) {
                 //if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                    //creep.moveTo(target);
+                    pathfinding.modMoveTo(creep, target, 1)
                     //console.log('---courier|not in range to put');
                 }
                 let resourceType = RESOURCE_ENERGY;
@@ -156,7 +159,8 @@ var roleCourierLvl3 = {
                     }
                     else {
                         // console.log('+++courier '+creep.id+' |not in range to get');
-                        creep.moveTo(target);
+                        //creep.moveTo(target);
+                        pathfinding.modMoveTo(creep, target, 1)
                         if(target instanceof Structure && !creep.memory.requested || creep.memory.requested === 0) {
                             creep.memory.requested = creep.store.getCapacity();
                             if(!Memory.structures['id'+target.id].requested) {
@@ -211,7 +215,8 @@ var roleCourierLvl3 = {
                 }
             }
             else {
-                creep.moveTo(Game.flags.IdleFlag);
+                //creep.moveTo(Game.flags.IdleFlag);
+                pathfinding.modMoveTo(creep, Game.flags.IdleFlag);
                 creep.memory.target = undefined;
             }
         }

@@ -1,3 +1,5 @@
+var pathfinding = require('Pathfinding');
+
 var roleUpgraderLvl3 = {
 
     /** @param {Creep} creep **/

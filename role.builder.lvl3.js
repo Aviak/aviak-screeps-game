@@ -1,3 +1,5 @@
+var pathfinding = require('Pathfinding');
+
 var roleBuilderLvl3 = {
 
     /** @param {Creep} creep **/
@@ -103,6 +105,8 @@ var roleBuilderLvl3 = {
             }
         }
     }
-};
+
+
+}
 
 module.exports = roleBuilderLvl3;

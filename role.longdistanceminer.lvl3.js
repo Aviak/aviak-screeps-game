@@ -1,3 +1,5 @@
+var pathfinding = require('Pathfinding');
+
 var roleLongDistanceMinerLvl3 = {
 
     /** @param {Creep} creep **/
