@@ -42,6 +42,7 @@ var pathfinding = {
                 creep.moveByPath(currentPath);
             }
             catch {
+
                 creep.memory.currentPath = undefined;
             }
 
@@ -79,7 +80,7 @@ var pathfinding = {
                 }
                 catch {
                     creep.memory.currentPath = undefined;
-                    delete creep.room.memory.cachePath[index];
+                    creep.room.memory.cachePath.splice(index, 1);
                 }
 
             }
@@ -100,7 +101,7 @@ var pathfinding = {
                                 min = creep.room.memory.cachePath[path].timesUsed;
                             }
                         }
-                        delete creep.room.memory.cachePath[minPath];
+                        creep.room.memory.cachePath.splice(minPath, 1);
                     }
                     creep.room.memory.cachePath.push({
                         start : {x : creep.pos.x, y : creep.pos.y, room : creep.room.roomName},
