@@ -157,7 +157,7 @@ var pathfinding = {
         }
         let cachedMatrix = room.memory.costMatrixCache[creepMoveCoefficient];
         if(cachedMatrix) {
-            return PathFinder.CostMatrix.deserialize(cachedMatrix);
+            return PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
         }
         else {
             let newMatrix = new PathFinder.CostMatrix;
@@ -209,8 +209,8 @@ var pathfinding = {
                 }
             }
             let serializedMatrix = newMatrix.serialize();
-            console.log('new matrix: ' + JSON.stringify(serializedMatrix));
-            room.memory.costMatrixCache[creepMoveCoefficient] = serializedMatrix;
+            //console.log('new matrix: ' + JSON.stringify(serializedMatrix));
+            room.memory.costMatrixCache[creepMoveCoefficient] = JSON.stringify(serializedMatrix);
             return newMatrix;
         }
     },
