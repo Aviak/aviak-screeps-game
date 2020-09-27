@@ -35,8 +35,16 @@ var pathfinding = {
             && creep.memory.currentPath.destination.room === targetPos.roomName
             && creep.memory.currentPath.destination.radius === radius
         ) {
-            //let currentPath = JSON.parse(creep.memory.currentPath.path);
-            creep.moveByPath(creep.memory.currentPath.path);
+            let currentPath = undefined;
+
+            try {
+                currentPath = creep.room.deserializePath(creep.memory.currentPath.path);
+                creep.moveByPath(currentPath);
+            }
+            catch {
+                creep.memory.currentPath = undefined;
+            }
+
         }
         else {
             if(!creep.room.memory.cachePath) {
@@ -65,7 +73,7 @@ var pathfinding = {
             }
             else {
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
-                let serialisedPath = JSON.stringify(newPath.path);
+                let serialisedPath = creep.room.serializePath(newPath.path);
                 creep.memory.currentPath = {};
                 creep.memory.currentPath.destination = {x : creep.pos.x, y : creep.pos.y, room : creep.room.roomName};
                 creep.memory.currentPath.path = serialisedPath;
