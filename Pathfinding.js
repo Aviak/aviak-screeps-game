@@ -188,7 +188,8 @@ var pathfinding = {
                     newMatrix.set(x,y,cost);
                 }
             }
-            for(let structure in roomStructures) {
+            for(let structureInd in roomStructures) {
+                let structure = roomStructures[structureInd];
                 if(structure.structureType === STRUCTURE_STORAGE
                     || structure.structureType === STRUCTURE_SPAWN
                     || structure.structureType === STRUCTURE_TOWER
