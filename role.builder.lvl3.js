@@ -46,7 +46,7 @@ var roleBuilderLvl3 = {
                 }
             }
             if(!creep.memory.target){
-                console.log('b3');
+                // console.log('b3');
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: function (object) {
                         return ((object.structureType === STRUCTURE_ROAD ? ((object.hits / object.hitsMax) < 0.80) : ((object.hits / object.hitsMax) < 0.95)) && object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART);
@@ -63,6 +63,7 @@ var roleBuilderLvl3 = {
             if(target) {
                 //console.log('b4');
                 //console.log(creep.name + " " + JSON.stringify(target));
+
                 creep.memory.target = target.id;
                 if(target instanceof ConstructionSite) {
                     // if(creep.build(target) === ERR_NOT_IN_RANGE) {
@@ -110,6 +111,7 @@ var roleBuilderLvl3 = {
                     }
                 }
                 if (target) {
+                    console.log(JSON.stringify(target));
                     //console.log('b5');
                     //console.log(creep + " is repairing");
                     // if (creep.repair(target) === ERR_NOT_IN_RANGE) {
