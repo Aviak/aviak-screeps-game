@@ -28,7 +28,7 @@ var roleBuilderLvl3 = {
             if(targetContainer) {
                 if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     //creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
-                    pathfinding.modMoveTo(creep, targetContainer, 1);
+                    pathfinding.modMoveTo(creep, targetContainer.pos, 1);
                 }
             }
             if(creep.store.getFreeCapacity() === 0) {
@@ -70,7 +70,7 @@ var roleBuilderLvl3 = {
                     //     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                     // }
                     if(creep.pos.getRangeTo(target) > 3) {
-                        pathfinding.modMoveTo(creep, target, 3);
+                        pathfinding.modMoveTo(creep, target.pos, 3);
                     }
                     creep.build(target);
                 }
@@ -79,7 +79,7 @@ var roleBuilderLvl3 = {
                     //     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                     // }
                     if(creep.pos.getRangeTo(target) > 3) {
-                        pathfinding.modMoveTo(creep, target, 3);
+                        pathfinding.modMoveTo(creep, target.pos, 3);
                     }
                     creep.repair(target);
                 }
@@ -119,7 +119,7 @@ var roleBuilderLvl3 = {
                     // }
                     if(creep.pos.getRangeTo(target) > 3) {
                         //console.log('wall rep mov ');
-                        pathfinding.modMoveTo(target);
+                        pathfinding.modMoveTo(target.pos);
                     }
                     let res = creep.repair(target);
                     //console.log('wall rep res ' + res);

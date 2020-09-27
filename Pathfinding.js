@@ -3,15 +3,15 @@ var pathfinding = {
     maxCachedPaths : 100,
     cachePathClearInterval : 100,
     /** @param {Creep} creep
-     *  @param {RoomPosition, Structure} targetPos
+     *  @param {RoomPosition} targetPos
      *  @param {number} radius
      * **/
     modMoveTo : function (creep, targetPos, radius) {
 
         //console.log(JSON.stringify(targetPos));
-        if(targetPos.pos) {
-            targetPos = targetPos.pos;
-        }
+        // if(targetPos.pos) {
+        //     targetPos = targetPos.pos;
+        // }
         let forceNewPath = false;
         if(!creep.memory.prevPosition) {
             creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
