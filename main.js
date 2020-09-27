@@ -742,6 +742,14 @@ function InitClearObjectsMemory() {
         }
     }
 
+    for(let roomMemory in Memory.rooms) {
+        for(let path in Memory.rooms[roomMemory].cachePath) {
+            if(Memory.rooms[roomMemory].cachePath[path] == null) {
+                Memory.rooms[roomMemory].cachePath.splice(path, 1);
+            }
+        }
+    }
+
     //init containers
 
     for(let room in Game.rooms) {
