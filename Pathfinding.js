@@ -139,6 +139,7 @@ var pathfinding = {
         let costMatrix = this.createCostMatrix(room, creepMoveCoefficient, ignoreCreeps);
         let newPath = PathFinder.search(startPos, {pos : endPos, range : radius}, {
             roomCallback : function(roomName) {
+                console.log('callback ' + roomName + ' = ' + (roomName === room.name));
                 if(roomName === room.name) {
                     return costMatrix;
                 }
