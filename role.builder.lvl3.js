@@ -1,4 +1,4 @@
-var pathfinding = require('Pathfinding');
+let pathfinding = require('Pathfinding');
 
 var roleBuilderLvl3 = {
 
