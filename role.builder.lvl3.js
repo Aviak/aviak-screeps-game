@@ -1,4 +1,4 @@
-let pathfinding = require('Pathfinding');
+var pathfinding = require('Pathfinding');
 
 var roleBuilderLvl3 = {
 
@@ -10,9 +10,9 @@ var roleBuilderLvl3 = {
             creep.memory.target = undefined;
         }
 
-        console.log('b0');
+        //console.log('b0');
         if(!creep.memory.building) {
-            console.log('b1');
+            //console.log('b1');
             let targetContainer = creep.pos.findClosestByPath(FIND_STRUCTURES,{
                 filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                     && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
@@ -36,7 +36,7 @@ var roleBuilderLvl3 = {
             }
         }
         if(creep.memory.building) {
-            console.log('b2');
+            //.log('b2');
             let target = undefined;
             if(creep.memory.target) {
                 target = Game.getObjectById(creep.memory.target);
@@ -61,7 +61,7 @@ var roleBuilderLvl3 = {
                 }
             }
             if(target) {
-                console.log('b4');
+                //console.log('b4');
                 //console.log(creep.name + " " + JSON.stringify(target));
                 creep.memory.target = target.id;
                 if(target instanceof ConstructionSite) {
@@ -84,7 +84,7 @@ var roleBuilderLvl3 = {
                 }
             }
             else {
-                console.log('wall');
+                //console.log('wall');
                 let targets = creep.room.find(FIND_STRUCTURES, {
                     filter: function (object) {
                         return ((object.hits < object.hitsMax) && (object.structureType === STRUCTURE_WALL || object.structureType === STRUCTURE_RAMPART));
@@ -110,17 +110,17 @@ var roleBuilderLvl3 = {
                     }
                 }
                 if (target) {
-                    console.log('b5');
+                    //console.log('b5');
                     //console.log(creep + " is repairing");
                     // if (creep.repair(target) === ERR_NOT_IN_RANGE) {
                     //     creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
                     // }
                     if(creep.pos.getRangeTo(target) > 3) {
-                        console.log('wall rep mov ');
+                        //console.log('wall rep mov ');
                         pathfinding.modMoveTo(target);
                     }
                     let res = creep.repair(target);
-                    console.log('wall rep res ' + res);
+                    //console.log('wall rep res ' + res);
                     creep.memory.target = target.id;
 
                 } else { console.log('no walls found wut')}
