@@ -7,6 +7,9 @@ var pathfinding = {
      * **/
     modMoveTo : function (creep, targetPos, radius) {
 
+        if(targetPos.pos) {
+            targetPos = targetPos.pos;
+        }
         let forceNewPath = false;
         if(!creep.memory.prevPosition) {
             creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
