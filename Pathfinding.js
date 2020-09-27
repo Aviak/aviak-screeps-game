@@ -47,8 +47,8 @@ var pathfinding = {
             let currentPath = undefined;
 
             try {
-                //currentPath = Room.deserializePath(creep.memory.currentPath.path);
-                currentPath = JSON.parse(creep.memory.currentPath.path);
+                currentPath = Room.deserializePath(creep.memory.currentPath.path);
+                // currentPath = JSON.parse(creep.memory.currentPath.path);
                 creep.moveByPath(currentPath);
             }
             catch {
@@ -80,8 +80,8 @@ var pathfinding = {
                 let index = creep.room.memory.cachePath.indexOf(cachedPath);
                 try {
 
-                    //currentPath = Room.deserializePath(cachedPath.path);
-                    currentPath = JSON.parse(cachedPath.path);
+                    currentPath = Room.deserializePath(cachedPath.path);
+                    // currentPath = JSON.parse(cachedPath.path);
 
                     creep.memory.currentPath = {};
                     creep.memory.currentPath.destination = {x : cachedPath.start.x, y : cachedPath.start.y, roomName : cachedPath.start.room, radius : radius};
@@ -101,8 +101,8 @@ var pathfinding = {
             if(!cachedPath || cachedPath.length === 0) {
                 // console.log('creating new path');
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
-                //let serialisedPath = Room.serializePath(newPath.path);
-                let serialisedPath = JSON.stringify(newPath.path);
+                let serialisedPath = Room.serializePath(newPath);
+                // let serialisedPath = JSON.stringify(newPath.path);
                 creep.memory.currentPath = {};
                 creep.memory.currentPath.destination = {x : targetPos.x, y : targetPos.y, roomName : targetPos.roomName, radius : radius};
                 creep.memory.currentPath.path = serialisedPath;
@@ -129,7 +129,7 @@ var pathfinding = {
                     });
                 }
 
-                creep.moveByPath(newPath.path);
+                creep.moveByPath(newPath);
             }
         }
         creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
@@ -145,18 +145,19 @@ var pathfinding = {
      * **/
     createInnerPath : function(creep, room, startPos, endPos, radius, ignoreCreeps) {
         let creepMoveCoefficient = this.getCreepMoveCoefficient(creep);
-        let costMatrix = this.createCostMatrix(room, creepMoveCoefficient, ignoreCreeps);
-        let newPath = PathFinder.search(startPos, {pos : endPos, range : radius}, {
-            roomCallback : function(roomName) {
+        let newCostMatrix = this.createCostMatrix(room, creepMoveCoefficient, ignoreCreeps);
+        let newPath = room.findPath(startPos, new RoomPosition(endPos.x, endPos.y, endPos.roomName), {
+            costCallback : function(roomName, costMatrix) {
                 // console.log('callback ' + roomName + ' = ' + (roomName === room.name));
                 if(roomName === room.name) {
-                    return costMatrix;
+                    return newCostMatrix;
                 }
                 else {
-                    return false;
+                    return costMatrix;
                 }
             },
-            maxRooms : 1
+            maxRooms : 1,
+            range : radius
         });
         // console.log(JSON.stringify(newPath));
         return newPath;
