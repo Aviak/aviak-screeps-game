@@ -137,7 +137,7 @@ var pathfinding = {
     createInnerPath : function(creep, room, startPos, endPos, radius, ignoreCreeps) {
         let creepMoveCoefficient = this.getCreepMoveCoefficient(creep);
         let costMatrix = this.createCostMatrix(room, creepMoveCoefficient, ignoreCreeps);
-        return PathFinder.search(startPos, {pos : endPos, range : radius}, {
+        let newPath = PathFinder.search(startPos, {pos : endPos, range : radius}, {
             roomCallback : function(roomName) {
                 if(roomName === room.name) {
                     return costMatrix;
@@ -148,6 +148,8 @@ var pathfinding = {
             },
             maxRooms : 1
         });
+        console.log(JSON.stringify(newPath));
+        return newPath;
     },
 
     /** @param {Room} room
