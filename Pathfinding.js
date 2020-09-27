@@ -58,7 +58,7 @@ var pathfinding = {
                 creep.moveByPath(creep.memory.currentPath.path);
             }
             else {
-                let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius);
+                let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
                 let serialisedPath = JSON.stringify(newPath.path);
                 creep.memory.currentPath = {};
                 creep.memory.currentPath.destination = {x : creep.pos.x, y : creep.pos.y, room : creep.room.roomName};
@@ -95,11 +95,12 @@ var pathfinding = {
      *  @param {RoomPosition} startPos
      *  @param {RoomPosition} endPos
      *  @param {number} radius
+     *  @param {boolean} ignoreCreeps
      * **/
-    createInnerPath : function(creep, room, startPos, endPos, radius) {
+    createInnerPath : function(creep, room, startPos, endPos, radius, ignoreCreeps) {
         let creepMoveCoefficient = this.getCreepMoveCoefficient(creep);
-        let costMatrix = this.createCostMatrix(room, creepMoveCoefficient);
-        let path = PathFinder.search(startPos, endPos, {
+        let costMatrix = this.createCostMatrix(room, creepMoveCoefficient, ignoreCreeps);
+        return PathFinder.search(startPos, {pos : endPos, range : radius}, {
             roomCallback : function(roomName) {
                 if(roomName === room.name) {
                     return costMatrix;
@@ -110,14 +111,17 @@ var pathfinding = {
             },
             maxRooms : 1
         });
-        return path;
     },
 
     /** @param {Room} room
      *  @param {number} creepMoveCoefficient
+     *  @param {boolean} ignoreCreeps
      * **/
-    createCostMatrix : function (room, creepMoveCoefficient) {
+    createCostMatrix : function (room, creepMoveCoefficient, ignoreCreeps) {
 
+        if(ignoreCreeps === undefined) {
+            ignoreCreeps = true;
+        }
 
         if(!room.memory.costMatrixCache) {
             room.memory.costMatrixCache = [];
@@ -165,6 +169,14 @@ var pathfinding = {
                 }
                 else if(structure.structureType === STRUCTURE_ROAD) {
                     newMatrix.set(structure.pos.x, structure.pos.y, Math.ceil(creepMoveCoefficient / 2.0));
+                }
+
+                if(!ignoreCreeps) {
+                    let creeps = room.find(FIND_CREEPS);
+                    for(let creepName in creeps) {
+                        let creep = creeps[creepName];
+                        newMatrix.set(creep.pos.x, creep.pox.y, 255);
+                    }
                 }
             }
             room.memory.costMatrixCache[creepMoveCoefficient] = newMatrix.serialize();
