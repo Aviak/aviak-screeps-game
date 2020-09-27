@@ -12,7 +12,7 @@ var pathfinding = {
             creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
         }
         if(!creep.memory.prevPosition.roomName) {
-            creep.memory.prevPosition.roomName = creep.room.roomName;
+            creep.memory.prevPosition.roomName = creep.room.name;
         }
         if(!creep.memory.ticksStuck) {
             creep.memory.ticksStuck = 0;
