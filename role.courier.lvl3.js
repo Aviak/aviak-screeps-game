@@ -188,7 +188,7 @@ var roleCourierLvl3 = {
                 else {
                     resourceType = (target instanceof Resource) ? target.resourceType : RESOURCE_ENERGY;
                 }
-                console.log('1111 ' + resourceType);
+                //console.log('1111 ' + resourceType);
                 let result = undefined;
 
                 if(target instanceof Resource) {
@@ -197,7 +197,7 @@ var roleCourierLvl3 = {
                 else {
                     result = creep.withdraw(target, resourceType);
                 }
-                console.log('4444 ' + result);
+                //console.log('4444 ' + result);
                 if(result === OK) {
                     // console.log('+++courier '+creep.id+' |get success ' + result);
                     if(target instanceof Structure) {
