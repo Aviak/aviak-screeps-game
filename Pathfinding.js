@@ -33,9 +33,9 @@ var pathfinding = {
             forceNewPath = true;
         }
 
-        console.log('===================================================');
-        console.log(creep.memory.role + ' ' + creep.id);
-        console.log('force new path: ' + forceNewPath);
+        // console.log('===================================================');
+        // console.log(creep.memory.role + ' ' + creep.id);
+        // console.log('force new path: ' + forceNewPath);
         if(!forceNewPath
             && creep.memory.currentPath
             && creep.memory.currentPath.destination.x === targetPos.x
@@ -43,7 +43,7 @@ var pathfinding = {
             && creep.memory.currentPath.destination.roomName === targetPos.roomName
             && creep.memory.currentPath.destination.radius === radius
         ) {
-            console.log('found path in creep cache');
+            // console.log('found path in creep cache');
             let currentPath = undefined;
 
             try {
@@ -52,7 +52,7 @@ var pathfinding = {
                 creep.moveByPath(currentPath);
             }
             catch {
-                console.log('ERROR in CREEP memory path');
+                // console.log('ERROR in CREEP memory path');
                 creep.memory.currentPath = undefined;
             }
 
@@ -74,7 +74,7 @@ var pathfinding = {
             }
 
             if(cachedPath && cachedPath.length > 0) {
-                console.log('found path in ROOM cache');
+                // console.log('found path in ROOM cache');
                 let currentPath = undefined;
                 cachedPath = cachedPath[0];
                 let index = creep.room.memory.cachePath.indexOf(cachedPath);
@@ -91,7 +91,7 @@ var pathfinding = {
                     creep.moveByPath(currentPath);
                 }
                 catch {
-                    console.log('ERROR in ROOM memory path');
+                    // console.log('ERROR in ROOM memory path');
                     creep.memory.currentPath = undefined;
                     creep.room.memory.cachePath.splice(index, 1);
                     cachedPath = undefined;
@@ -99,7 +99,7 @@ var pathfinding = {
 
             }
             if(!cachedPath || cachedPath.length === 0) {
-                console.log('creating new path');
+                // console.log('creating new path');
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
                 //let serialisedPath = Room.serializePath(newPath.path);
                 let serialisedPath = JSON.stringify(newPath.path);
@@ -133,7 +133,7 @@ var pathfinding = {
             }
         }
         creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
-        console.log('===================================================');
+        // console.log('===================================================');
     },
 
     /** @param {Creep} creep
@@ -148,7 +148,7 @@ var pathfinding = {
         let costMatrix = this.createCostMatrix(room, creepMoveCoefficient, ignoreCreeps);
         let newPath = PathFinder.search(startPos, {pos : endPos, range : radius}, {
             roomCallback : function(roomName) {
-                console.log('callback ' + roomName + ' = ' + (roomName === room.name));
+                // console.log('callback ' + roomName + ' = ' + (roomName === room.name));
                 if(roomName === room.name) {
                     return costMatrix;
                 }
@@ -158,7 +158,7 @@ var pathfinding = {
             },
             maxRooms : 1
         });
-        console.log(JSON.stringify(newPath));
+        // console.log(JSON.stringify(newPath));
         return newPath;
     },
 
@@ -168,7 +168,7 @@ var pathfinding = {
      * **/
     createCostMatrix : function (room, creepMoveCoefficient, ignoreCreeps) {
 
-        console.log('----K='+creepMoveCoefficient);
+        // console.log('----K='+creepMoveCoefficient);
         if(ignoreCreeps === undefined) {
             ignoreCreeps = true;
         }
@@ -182,7 +182,7 @@ var pathfinding = {
         }
         if(cachedMatrix) {
             let deserializedMatrix = PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
-            console.log('matrix found in cache ' + deserializedMatrix.get(26, 17));
+            // console.log('matrix found in cache ' + deserializedMatrix.get(26, 17));
             return deserializedMatrix;
         }
         else {
