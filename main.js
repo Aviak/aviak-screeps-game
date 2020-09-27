@@ -708,9 +708,6 @@ function RunLatest() {
         if (creep.memory.role === 'upgrader') {
             roleUpgraderLvl3.run(creep);
         }
-        if (creep.memory.role === 'courier') {
-            roleCourierLvl3.run(creep);
-        }
         if (creep.memory.role === 'harvester') {
             roleHarvesterLvl3.run(creep);
         }
@@ -719,6 +716,9 @@ function RunLatest() {
         }
         if (creep.memory.role === 'claimer') {
             roleClaimerLvl3.run(creep);
+        }
+        if (creep.memory.role === 'courier') {
+            roleCourierLvl3.run(creep);
         }
     }
 }
