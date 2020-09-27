@@ -80,6 +80,7 @@ var roleBuilderLvl3 = {
                     if(creep.pos.getRangeTo(target) > 3) {
                         pathfinding.modMoveTo(creep, target, 3);
                     }
+                    creep.repair(target);
                 }
             }
             else {
