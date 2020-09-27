@@ -62,14 +62,25 @@ var pathfinding = {
             }
 
             if(cachedPath && cachedPath.length > 0) {
+                let currentPath = undefined;
                 cachedPath = cachedPath[0];
                 let index = creep.room.memory.cachePath.indexOf(cachedPath);
-                creep.memory.currentPath = {};
-                creep.memory.currentPath.destination = {x : cachedPath.start.x, y : cachedPath.start.y, room : cachedPath.start.room};
-                creep.memory.currentPath.path = cachedPath.path;
-                creep.room.memory.cachePath[index].timesUsed++;
+                try {
 
-                creep.moveByPath(creep.memory.currentPath.path);
+                    currentPath = Room.deserializePath(cachedPath.path);
+
+                    creep.memory.currentPath = {};
+                    creep.memory.currentPath.destination = {x : cachedPath.start.x, y : cachedPath.start.y, room : cachedPath.start.room};
+                    creep.memory.currentPath.path = currentPath;
+                    creep.room.memory.cachePath[index].timesUsed++;
+
+                    creep.moveByPath(currentPath);
+                }
+                catch {
+                    creep.memory.currentPath = undefined;
+                    delete creep.room.memory.cachePath[index];
+                }
+
             }
             else {
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
