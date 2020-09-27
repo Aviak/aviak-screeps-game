@@ -172,7 +172,10 @@ var pathfinding = {
         if(!room.memory.costMatrixCache) {
             room.memory.costMatrixCache = [];
         }
-        let cachedMatrix = room.memory.costMatrixCache[creepMoveCoefficient];
+        let cachedMatrix = undefined;
+        if(ignoreCreeps) {
+            cachedMatrix = room.memory.costMatrixCache[creepMoveCoefficient];
+        }
         if(cachedMatrix) {
             let deserializedMatrix = PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
             console.log('matrix found in cache ' + deserializedMatrix.get(26, 17));
