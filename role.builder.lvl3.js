@@ -111,7 +111,7 @@ var roleBuilderLvl3 = {
                     }
                 }
                 if (target) {
-                    console.log('bbbb'+JSON.stringify(target));
+                    // console.log('bbbb'+JSON.stringify(target));
                     //console.log('b5');
                     //console.log(creep + " is repairing");
                     // if (creep.repair(target) === ERR_NOT_IN_RANGE) {
