@@ -104,7 +104,7 @@ var pathfinding = {
                 //let serialisedPath = Room.serializePath(newPath.path);
                 let serialisedPath = JSON.stringify(newPath.path);
                 creep.memory.currentPath = {};
-                creep.memory.currentPath.destination = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name, radius : radius};
+                creep.memory.currentPath.destination = {x : targetPos.x, y : targetPos.y, roomName : targetPos.roomName, radius : radius};
                 creep.memory.currentPath.path = serialisedPath;
 
                 if(!forceNewPath) {
