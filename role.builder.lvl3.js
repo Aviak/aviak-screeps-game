@@ -78,6 +78,7 @@ var roleBuilderLvl3 = {
                 }
             }
             else {
+                console.log('wall');
                 let targets = creep.room.find(FIND_STRUCTURES, {
                     filter: function (object) {
                         return ((object.hits < object.hitsMax) && (object.structureType === STRUCTURE_WALL || object.structureType === STRUCTURE_RAMPART));
