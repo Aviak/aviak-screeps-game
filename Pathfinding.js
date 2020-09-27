@@ -8,6 +8,7 @@ var pathfinding = {
      * **/
     modMoveTo : function (creep, targetPos, radius) {
 
+        console.log(JSON.stringify(targetPos));
         if(targetPos.pos) {
             targetPos = targetPos.pos;
         }
