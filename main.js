@@ -9,6 +9,7 @@ var roleUpgraderLvl3 = require('role.upgrader.lvl3');
 var roleLongDistanceMinerLvl3 = require('role.longdistanceminer.lvl3');
 var InvasionControl = require('InvasionControl');
 var roleClaimerLvl3 = require('role.claimer.lvl3');
+var pathfinding = require('Pathfinding');
 
 module.exports.loop = function () {
 
@@ -516,6 +517,12 @@ function RunLatest() {
 
     if(Game.time % 10) {
         InitClearObjectsMemory();
+    }
+
+    if(Game.time % pathfinding.cachePathClearInterval) {
+        for(let room in Game.rooms) {
+            pathfinding.clearUnusedPaths(Game.rooms[room]);
+        }
     }
 
     let towers = Game.spawns['Spawn1'].room.find(FIND_STRUCTURES, {

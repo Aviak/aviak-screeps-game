@@ -1,6 +1,7 @@
 var pathfinding = {
 
     maxCachedPaths : 100,
+    cachePathClearInterval : 100,
     /** @param {Creep} creep
      *  @param {RoomPosition} targetPos
      *  @param {number} radius
@@ -92,23 +93,24 @@ var pathfinding = {
                 creep.memory.currentPath.path = serialisedPath;
 
                 if(!forceNewPath) {
-                    if(creep.room.memory.cachePath.length > this.maxCachedPaths) {
-                        let min = Number.MAX_VALUE;
-                        let minPath = undefined;
-                        for(let path in creep.room.memory.cachePath) {
-                            if(creep.room.memory.cachePath[path].timesUsed < min) {
-                                minPath = path;
-                                min = creep.room.memory.cachePath[path].timesUsed;
-                            }
-                        }
-                        creep.room.memory.cachePath.splice(minPath, 1);
-                    }
+                    // if(creep.room.memory.cachePath.length > this.maxCachedPaths) {
+                    //     let min = Number.MAX_VALUE;
+                    //     let minPath = undefined;
+                    //     for(let path in creep.room.memory.cachePath) {
+                    //         if(creep.room.memory.cachePath[path].timesUsed < min) {
+                    //             minPath = path;
+                    //             min = creep.room.memory.cachePath[path].timesUsed;
+                    //         }
+                    //     }
+                    //     creep.room.memory.cachePath.splice(minPath, 1);
+                    // }
                     creep.room.memory.cachePath.push({
                         start : {x : creep.pos.x, y : creep.pos.y, room : creep.room.roomName},
                         destination : {x : targetPos.x, y : targetPos.y, room : targetPos.roomName},
                         radius : radius,
                         timesUsed : 1,
-                        path : serialisedPath
+                        path : serialisedPath,
+                        timeCreated : Game.time
                     });
                 }
 
@@ -265,6 +267,20 @@ var pathfinding = {
             return 0;
         }
         return coef;
+    },
+
+    clearUnusedPaths : function (room) {
+        let currentTick = Game.time;
+        let arrayOfPathToClear = [];
+        for(let path in room.memory.cachePath) {
+            if (!room.memory.cachePath[path].timeCreated || (currentTick - room.memory.cachePath[path].timeCreated > this.cachePathClearInterval)) {
+                arrayOfPathToClear.push({path: path, used: room.memory.cachePath[path].timesUsed});
+            }
+        }
+        arrayOfPathToClear.sort((a, b) => a.used-b.used);
+        for(let i = this.maxCachedPaths; i<arrayOfPathToClear.length; i++) {
+            room.memory.cachePath.splice(arrayOfPathToClear[i], 1);
+        }
     }
 };
 

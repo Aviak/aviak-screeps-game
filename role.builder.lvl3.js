@@ -18,7 +18,7 @@ var roleBuilderLvl3 = {
                     && Memory.structures['id'+structure.id].containerType === 'Request'
             });
             if(!targetContainer) {
-                targetContainer = creep.pos.findClosestByPath(FIND_STRUCTURES,{
+                targetContainer =  creep.pos.findClosestByPath(FIND_STRUCTURES,{
                     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                         && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
                 });
