@@ -10,7 +10,9 @@ var roleBuilderLvl3 = {
             creep.memory.target = undefined;
         }
 
+        console.log('b0');
         if(!creep.memory.building) {
+            console.log('b1');
             let targetContainer = creep.pos.findClosestByPath(FIND_STRUCTURES,{
                 filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                     && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
@@ -34,6 +36,7 @@ var roleBuilderLvl3 = {
             }
         }
         if(creep.memory.building) {
+            console.log('b2');
             let target = undefined;
             if(creep.memory.target) {
                 target = Game.getObjectById(creep.memory.target);
@@ -43,6 +46,7 @@ var roleBuilderLvl3 = {
                 }
             }
             if(!creep.memory.target){
+                console.log('b3');
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: function (object) {
                         return ((object.structureType === STRUCTURE_ROAD ? ((object.hits / object.hitsMax) < 0.80) : ((object.hits / object.hitsMax) < 0.95)) && object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART);
@@ -57,6 +61,7 @@ var roleBuilderLvl3 = {
                 }
             }
             if(target) {
+                console.log('b4');
                 //console.log(creep.name + " " + JSON.stringify(target));
                 creep.memory.target = target.id;
                 if(target instanceof ConstructionSite) {
@@ -104,6 +109,7 @@ var roleBuilderLvl3 = {
                     }
                 }
                 if (target) {
+                    console.log('b5');
                     //console.log(creep + " is repairing");
                     // if (creep.repair(target) === ERR_NOT_IN_RANGE) {
                     //     creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
