@@ -25,7 +25,8 @@ var roleBuilderLvl3 = {
             }
             if(targetContainer) {
                 if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    //creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    pathfinding.modMoveTo(creep, targetContainer, 1);
                 }
             }
             if(creep.store.getFreeCapacity() === 0) {
@@ -33,7 +34,7 @@ var roleBuilderLvl3 = {
             }
         }
         if(creep.memory.building) {
-            var target = undefined;
+            let target = undefined;
             if(creep.memory.target) {
                 target = Game.getObjectById(creep.memory.target);
                 if(!target || (target instanceof Structure && target.hits === target.hitsMax)) {
@@ -59,24 +60,31 @@ var roleBuilderLvl3 = {
                 //console.log(creep.name + " " + JSON.stringify(target));
                 creep.memory.target = target.id;
                 if(target instanceof ConstructionSite) {
-                    if(creep.build(target) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                    // if(creep.build(target) === ERR_NOT_IN_RANGE) {
+                    //     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                    // }
+                    if(creep.pos.getRangeTo(target) > 3) {
+                        pathfinding.modMoveTo(creep, target, 3);
                     }
+                    creep.build(target);
                 }
                 else {
-                    if(creep.repair(target) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                    // if(creep.repair(target) === ERR_NOT_IN_RANGE) {
+                    //     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                    // }
+                    if(creep.pos.getRangeTo(target) > 3) {
+                        pathfinding.modMoveTo(creep, target, 3);
                     }
                 }
             }
             else {
-                var targets = creep.room.find(FIND_STRUCTURES, {
+                let targets = creep.room.find(FIND_STRUCTURES, {
                     filter: function (object) {
                         return ((object.hits < object.hitsMax) && (object.structureType === STRUCTURE_WALL || object.structureType === STRUCTURE_RAMPART));
                     }
                 });
                 //console.log(targets)
-                var minHits = Number.MAX_VALUE;
+                let minHits = Number.MAX_VALUE;
                 for (let s of targets) {
                     let pathfinding = PathFinder.search(creep.pos, s.pos);
                     if(pathfinding === undefined || pathfinding.incomplete === true) {
@@ -96,9 +104,13 @@ var roleBuilderLvl3 = {
                 }
                 if (target) {
                     //console.log(creep + " is repairing");
-                    if (creep.repair(target) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+                    // if (creep.repair(target) === ERR_NOT_IN_RANGE) {
+                    //     creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+                    // }
+                    if(creep.pos.getRangeTo(target) > 3) {
+                        pathfinding.modMoveTo(target);
                     }
+                    creep.repair(target);
                     creep.memory.target = target.id;
 
                 } else { console.log('no walls found wut')}
