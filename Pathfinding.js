@@ -29,6 +29,9 @@ var pathfinding = {
             forceNewPath = true;
         }
 
+        console.log('===================================================');
+        console.log(creep.memory.role + ' ' + creep.id);
+        console.log('force new path: ' + forceNewPath);
         if(!forceNewPath
             && creep.memory.currentPath
             && creep.memory.currentPath.destination.x === targetPos.x
@@ -36,6 +39,7 @@ var pathfinding = {
             && creep.memory.currentPath.destination.room === targetPos.roomName
             && creep.memory.currentPath.destination.radius === radius
         ) {
+            console.log('found path in creep cache');
             let currentPath = undefined;
 
             try {
@@ -65,6 +69,7 @@ var pathfinding = {
             }
 
             if(cachedPath && cachedPath.length > 0) {
+                console.log('found path in ROOM cache');
                 let currentPath = undefined;
                 cachedPath = cachedPath[0];
                 let index = creep.room.memory.cachePath.indexOf(cachedPath);
@@ -86,6 +91,7 @@ var pathfinding = {
 
             }
             else {
+                console.log('creating new path');
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
                 let serialisedPath = Room.serializePath(newPath.path);
                 creep.memory.currentPath = {};
@@ -117,6 +123,7 @@ var pathfinding = {
                 creep.moveByPath(newPath.path);
             }
         }
+        console.log('===================================================');
     },
 
     /** @param {Creep} creep
