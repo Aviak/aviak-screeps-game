@@ -200,27 +200,10 @@ var roleCourierLvl3 = {
                 //console.log('4444 ' + result);
                 if(result === OK) {
                     // console.log('+++courier '+creep.id+' |get success ' + result);
-                    if(target instanceof Structure) {
-                        Memory.structures['id'+target.id].requested -= creep.memory.requested;
-                        creep.memory.requested = 0;
-                        creep.memory.target = undefined;
-                    }
-                    if(target instanceof Resource || target instanceof Tombstone) {
-                        if(creep.store.getFreeCapacity() !== 0){
-                            let anotherResources = creep.room.find(FIND_DROPPED_RESOURCES, {
-                                filter : (res) => res.pos.isEqualTo(target.pos) && res.resourceType !== target.resourceType
-                            }) ;
-                            if(anotherResources && anotherResources.length > 0) {
-                                target = anotherResources[0];
-                                creep.memory.target = target.id;
-                            }
-                        }
-                        else {
-                            creep.memory.requested = 0;
-                            creep.memory.target = undefined;
-                        }
 
-                    }
+                    Memory.structures['id'+target.id].requested -= creep.memory.requested;
+                    creep.memory.requested = 0;
+                    creep.memory.target = undefined;
 
                 }
                 else {
