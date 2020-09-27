@@ -8,8 +8,11 @@ var pathfinding = {
     modMoveTo : function (creep, targetPos, radius) {
 
         let forceNewPath = false;
-        if(!creep.memory.prevPosition || !creep.memory.prevPosition.roomName) {
+        if(!creep.memory.prevPosition) {
             creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.roomName};
+        }
+        if(!creep.memory.prevPosition.roomName) {
+            creep.memory.prevPosition.roomName = creep.room.roomName;
         }
         if(!creep.memory.ticksStuck) {
             creep.memory.ticksStuck = 0;
