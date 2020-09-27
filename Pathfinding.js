@@ -178,7 +178,7 @@ var pathfinding = {
                     let creeps = room.find(FIND_CREEPS);
                     for(let creepName in creeps) {
                         let creep = creeps[creepName];
-                        newMatrix.set(creep.pos.x, creep.pox.y, 255);
+                        newMatrix.set(creep.pos.x, creep.pos.y, 255);
                     }
                 }
             }
