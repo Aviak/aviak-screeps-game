@@ -25,6 +25,9 @@ var pathfinding = {
         if(creep.pos.isEqualTo(new RoomPosition(creep.memory.prevPosition.x, creep.memory.prevPosition.y, creep.memory.prevPosition.roomName))) {
             creep.memory.ticksStuck++;
         }
+        else {
+            creep.memory.ticksStuck = 0;
+        }
         if(creep.memory.ticksStuck > 2) {
             forceNewPath = true;
         }
@@ -125,6 +128,7 @@ var pathfinding = {
                 creep.moveByPath(newPath.path);
             }
         }
+        creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
         console.log('===================================================');
     },
 
