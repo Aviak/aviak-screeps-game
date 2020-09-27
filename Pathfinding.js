@@ -40,7 +40,7 @@ var pathfinding = {
             && creep.memory.currentPath
             && creep.memory.currentPath.destination.x === targetPos.x
             && creep.memory.currentPath.destination.y === targetPos.y
-            && creep.memory.currentPath.destination.room === targetPos.roomName
+            && creep.memory.currentPath.destination.roomName === targetPos.roomName
             && creep.memory.currentPath.destination.radius === radius
         ) {
             console.log('found path in creep cache');
@@ -82,7 +82,7 @@ var pathfinding = {
                     currentPath = Room.deserializePath(cachedPath.path);
 
                     creep.memory.currentPath = {};
-                    creep.memory.currentPath.destination = {x : cachedPath.start.x, y : cachedPath.start.y, room : cachedPath.start.room};
+                    creep.memory.currentPath.destination = {x : cachedPath.start.x, y : cachedPath.start.y, roomName : cachedPath.start.room, radius : radius};
                     creep.memory.currentPath.path = currentPath;
                     creep.room.memory.cachePath[index].timesUsed++;
 
@@ -101,7 +101,7 @@ var pathfinding = {
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
                 let serialisedPath = Room.serializePath(newPath.path);
                 creep.memory.currentPath = {};
-                creep.memory.currentPath.destination = {x : creep.pos.x, y : creep.pos.y, room : creep.room.roomName};
+                creep.memory.currentPath.destination = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name, radius : radius};
                 creep.memory.currentPath.path = serialisedPath;
 
                 if(!forceNewPath) {
@@ -117,7 +117,7 @@ var pathfinding = {
                     //     creep.room.memory.cachePath.splice(minPath, 1);
                     // }
                     creep.room.memory.cachePath.push({
-                        start : {x : creep.pos.x, y : creep.pos.y, room : creep.room.roomName},
+                        start : {x : creep.pos.x, y : creep.pos.y, room : creep.room.name},
                         destination : {x : targetPos.x, y : targetPos.y, room : targetPos.roomName},
                         radius : radius,
                         timesUsed : 1,

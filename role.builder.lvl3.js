@@ -26,10 +26,14 @@ var roleBuilderLvl3 = {
                 });
             }
             if(targetContainer) {
-                if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    //creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
+                // if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                //     //creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
+                //     pathfinding.modMoveTo(creep, targetContainer.pos, 1);
+                // }
+                if(creep.pos.getRangeTo(targetContainer) > 1) {
                     pathfinding.modMoveTo(creep, targetContainer.pos, 1);
                 }
+                creep.withdraw(targetContainer, RESOURCE_ENERGY);
             }
             if(creep.store.getFreeCapacity() === 0) {
                 creep.memory.building = true;
@@ -119,7 +123,7 @@ var roleBuilderLvl3 = {
                     // }
                     if(creep.pos.getRangeTo(target) > 3) {
                         //console.log('wall rep mov ');
-                        pathfinding.modMoveTo(target.pos);
+                        pathfinding.modMoveTo(creep, target.pos, 3);
                     }
                     let res = creep.repair(target);
                     //console.log('wall rep res ' + res);
