@@ -305,7 +305,7 @@ var pathfinding = {
                 arrayOfPathToClear.push({path: path, used: room.memory.cachePath[path].timesUsed});
             }
         }
-        arrayOfPathToClear.sort((a, b) => a.used-b.used);
+        arrayOfPathToClear.sort((a, b) => b.used-a.used);
         for(let i = this.maxCachedPaths; i<arrayOfPathToClear.length; i++) {
             room.memory.cachePath.splice(arrayOfPathToClear[i], 1);
         }
