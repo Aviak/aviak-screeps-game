@@ -148,6 +148,7 @@ var pathfinding = {
      * **/
     createCostMatrix : function (room, creepMoveCoefficient, ignoreCreeps) {
 
+        console.log('----K='+creepMoveCoefficient);
         if(ignoreCreeps === undefined) {
             ignoreCreeps = true;
         }
