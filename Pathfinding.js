@@ -88,10 +88,11 @@ var pathfinding = {
                     console.log('ERROR in ROOM memory path');
                     creep.memory.currentPath = undefined;
                     creep.room.memory.cachePath.splice(index, 1);
+                    cachedPath = undefined;
                 }
 
             }
-            else {
+            if(!cachedPath || cachedPath.length === 0) {
                 console.log('creating new path');
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
                 let serialisedPath = Room.serializePath(newPath.path);
@@ -169,7 +170,9 @@ var pathfinding = {
         }
         let cachedMatrix = room.memory.costMatrixCache[creepMoveCoefficient];
         if(cachedMatrix) {
-            return PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
+            let deserializedMatrix = PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
+            console.log('matrix found in cache ' + deserializedMatrix.get(26, 17));
+            return deserializedMatrix;
         }
         else {
             let newMatrix = new PathFinder.CostMatrix;
