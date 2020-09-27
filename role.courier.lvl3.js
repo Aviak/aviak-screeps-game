@@ -174,6 +174,7 @@ var roleCourierLvl3 = {
                 }
                 let resourceType = RESOURCE_ENERGY;
 
+                console.log('2222 ' + (target instanceof Tombstone));
                 if(target instanceof Tombstone) {
                     let resourceType = RESOURCE_ENERGY;
                     for(let res in target.store) {
