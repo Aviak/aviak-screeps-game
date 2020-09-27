@@ -86,8 +86,8 @@ var roleBuilderLvl3 = {
                 //console.log(targets)
                 let minHits = Number.MAX_VALUE;
                 for (let s of targets) {
-                    let pathfinding = PathFinder.search(creep.pos, s.pos);
-                    if(pathfinding === undefined || pathfinding.incomplete === true) {
+                    let pathfind = PathFinder.search(creep.pos, s.pos);
+                    if(pathfind === undefined || pathfind.incomplete === true) {
                         continue;
                     }
 
