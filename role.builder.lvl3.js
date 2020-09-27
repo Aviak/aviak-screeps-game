@@ -108,9 +108,11 @@ var roleBuilderLvl3 = {
                     //     creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
                     // }
                     if(creep.pos.getRangeTo(target) > 3) {
+                        console.log('wall rep mov ');
                         pathfinding.modMoveTo(target);
                     }
-                    creep.repair(target);
+                    let res = creep.repair(target);
+                    console.log('wall rep res ' + res);
                     creep.memory.target = target.id;
 
                 } else { console.log('no walls found wut')}
