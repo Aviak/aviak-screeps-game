@@ -53,7 +53,8 @@ var pathfinding = {
             let cachedPath = undefined;
             if(!forceNewPath) {
                 cachedPath = _.filter(creep.room.memory.cachePath,
-                    (path) => path.start.x === creep.pos.x
+                    (path) => path != null
+                        && path.start.x === creep.pos.x
                         && path.start.y === creep.pos.y
                         && path.radius === radius
                         && path.destination.x === targetPos.x
