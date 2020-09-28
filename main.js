@@ -10,6 +10,8 @@ var roleLongDistanceMinerLvl3 = require('role.longdistanceminer.lvl3');
 var InvasionControl = require('InvasionControl');
 var roleClaimerLvl3 = require('role.claimer.lvl3');
 var pathfinding = require('Pathfinding');
+var roleCourierLvl5 = require('role.courier.lvl5');
+var roleBuilderLvl5 = require('role.builder.lvl5');
 
 module.exports.loop = function () {
 
@@ -547,6 +549,34 @@ function RunLatest() {
                 if(damagedCreeps && damagedCreeps.length > 0) {
                     towers[tower].heal(damagedCreeps[0]);
                 }
+                else {
+                    let damagedStructures = towers[tower].room.find(FIND_STRUCTURES, {
+                        filter : (structure) => structure.structureType !== STRUCTURE_RAMPART
+                                            && structure.structureType !== STRUCTURE_WALL
+                                            && (structure.hits / structure.hitsMax) < 0.9
+                    });
+                    let otherTowers = towers[tower].room.find(FIND_STRUCTURES, {
+                        filter : (structure) => structure.structureType === STRUCTURE_TOWER && structure.id !== tower.id
+                    });
+                    for(let currStructure in damagedStructures) {
+                        if(currStructure.pos.getRangeTo(tower.pos) <= 5) {
+                            tower.repair(currStructure);
+                            break;
+                        }
+                        else {
+                            let inRangeOfOtherTower = false;
+                            for(let otherTower in otherTowers) {
+                                if(otherTower.pos.getRangeTo(currStructure.pos) <= 5) {
+                                    inRangeOfOtherTower = true;
+                                    break;
+                                }
+                            }
+                            if(!inRangeOfOtherTower) {
+                                tower.repair(structure);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -710,7 +740,7 @@ function RunLatest() {
             roleSimpleWorker.run(creep);
         }
         if (creep.memory.role === 'builder') {
-            roleBuilderLvl3.run(creep);
+            roleCourierLvl5.run(creep);
         }
         if (creep.memory.role === 'upgrader') {
             roleUpgraderLvl3.run(creep);
@@ -725,7 +755,7 @@ function RunLatest() {
             roleClaimerLvl3.run(creep);
         }
         if (creep.memory.role === 'courier') {
-            roleCourierLvl3.run(creep);
+            roleCourierLvl5.run(creep);
         }
     }
 }
