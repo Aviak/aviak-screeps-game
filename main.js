@@ -855,5 +855,6 @@ function ProcessCreepsOnDeathEffects() {
                 delete Memory.creeps[creepName];
             }
         }
+
     }
 }
