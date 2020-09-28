@@ -4,7 +4,9 @@ var roleCourierLvl3 = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
+        if(!creep.memory.onDeathEffect) {
+            creep.memory.onDeathEffect = true;
+        }
         if(creep.store.getUsedCapacity() !== 0 ){
             let target = undefined;
             if(creep.memory.target) {
@@ -147,29 +149,29 @@ var roleCourierLvl3 = {
                 //let result = creep.withdraw(target, RESOURCE_ENERGY);
                 if(creep.pos.getRangeTo(target) > 1) {
                     // if(result === ERR_NOT_IN_RANGE) {
-                    if(creep.ticksToLive < 3) {
-                        if(!Memory['onDeath'+creep.id]) {
-                            if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
-                                Memory.structures['id'+target.id].requested -= creep.memory.requested;
-                                creep.memory.requested = 0;
-                                Memory['onDeath'+creep.id] = Game.time;
-                                console.log('Courier dead effect ' + creep.id);
-                            }
+                    // if(creep.ticksToLive < 3) {
+                    //     if(!Memory['onDeath'+creep.id]) {
+                    //         if(creep.memory.requested && creep.memory.requested > 0 && Memory.structures['id'+target.id].requested) {
+                    //             Memory.structures['id'+target.id].requested -= creep.memory.requested;
+                    //             creep.memory.requested = 0;
+                    //             Memory['onDeath'+creep.id] = Game.time;
+                    //             console.log('Courier dead effect ' + creep.id);
+                    //         }
+                    //     }
+                    //
+                    // }
+                    // else {
+                    // console.log('+++courier '+creep.id+' |not in range to get');
+                    // creep.moveTo(target);
+                    pathfinding.modMoveTo(creep, target.pos, 1)
+                    if(target instanceof Structure && !creep.memory.requested || creep.memory.requested === 0) {
+                        creep.memory.requested = creep.store.getCapacity();
+                        if(!Memory.structures['id'+target.id].requested) {
+                            Memory.structures['id'+target.id].requested = 0;
                         }
-
+                        Memory.structures['id'+target.id].requested += creep.store.getCapacity();
                     }
-                    else {
-                        // console.log('+++courier '+creep.id+' |not in range to get');
-                        // creep.moveTo(target);
-                        pathfinding.modMoveTo(creep, target.pos, 1)
-                        if(target instanceof Structure && !creep.memory.requested || creep.memory.requested === 0) {
-                            creep.memory.requested = creep.store.getCapacity();
-                            if(!Memory.structures['id'+target.id].requested) {
-                                Memory.structures['id'+target.id].requested = 0;
-                            }
-                            Memory.structures['id'+target.id].requested += creep.store.getCapacity();
-                        }
-                    }
+                    // }
 
                 }
                 let resourceType = RESOURCE_ENERGY;
@@ -216,7 +218,16 @@ var roleCourierLvl3 = {
                 creep.memory.target = undefined;
             }
         }
+    },
+
+    processOnDeathEffect : function(creepName) {
+        if(Memory.creeps[creepName].target) {
+            Memory.structures['id'+Memory.creeps[creepName].target].requested -= Memory.creeps[creepName].requested;
+            Memory.creeps[creepName].requested = 0;
+        }
+
     }
+
 };
 
 module.exports = roleCourierLvl3;

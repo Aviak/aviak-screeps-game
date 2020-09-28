@@ -510,7 +510,7 @@ function RunLevel4() {
 function RunLatest() {
     if (Game.time % 250) {
         for (name in Memory.creeps) {
-            if (!Game.creeps[name]) {
+            if (!Memory.creeps.onDeathEffect && !Game.creeps[name]) {
                 delete Memory.creeps[name];
                 //console.log('Clearing non-existing creep memory:', name);
             }
@@ -520,6 +520,28 @@ function RunLatest() {
     if(Game.time % 10) {
         InitClearObjectsMemory();
     }
+
+    if(Game.time % 11) {
+        ProcessCreepsOnDeathEffects();
+    }
+
+    //while it's all shit with requests
+    if(Game.time % 6) {
+        let couriersRequestedTotal = 0;
+        for(let creepName in Memory.creeps) {
+            if(Memory.creeps[creepName].role === 'courier') {
+                couriersRequestedTotal += Memory.creeps[creepName].requested;
+            }
+        }
+        if(couriersRequestedTotal === 0) {
+            for(let structureId in Memory.structures) {
+                if(Memory.structures[structureId].requested) {
+                    Memory.structures[structureId].requested = 0;
+                }
+            }
+        }
+    }
+
 
     if(Game.time % pathfinding.cachePathClearInterval) {
         for(let room in Game.rooms) {
@@ -820,6 +842,17 @@ function InitClearObjectsMemory() {
                 if(Memory.structures[containerMemoryIndex].harvester && !Game.getObjectById(Memory.structures[containerMemoryIndex].harvester)) {
                     Memory.structures[containerMemoryIndex].harvester = undefined;
                 }
+            }
+        }
+    }
+}
+
+function ProcessCreepsOnDeathEffects() {
+    for(let creepName in Memory.creeps) {
+        if(Memory.creeps[creepName].onDeathEffect === true && !Game.creeps[creepName]) {
+            if (Memory.creeps[creepName].role === 'courier') {
+                roleCourierLvl5.processOnDeathEffect(creepName);
+                delete Memory.creeps[creepName];
             }
         }
     }
