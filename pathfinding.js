@@ -186,97 +186,102 @@ var pathfinding = {
             cachedMatrix = room.memory.costMatrixCache[creepMoveCoefficient];
         }
         if(cachedMatrix) {
-            let deserializedMatrix = PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
+            try {
+                let deserializedMatrix = PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
+                return deserializedMatrix;
+            }
+            catch {
+                room.memory.costMatrixCache[creepMoveCoefficient] = undefined;
+            }
             // console.log('matrix found in cache ' + deserializedMatrix.get(26, 17));
-            return deserializedMatrix;
+
         }
-        else {
-            let newMatrix = new PathFinder.CostMatrix;
-            let roomTerrain = room.getTerrain();
-            let roomStructures = room.find(FIND_STRUCTURES);
-            for(let x = 0; x < 50; x++) {
-                for(let y = 0; y < 50; y++) {
-                    let tile = roomTerrain.get(x, y);
-                    let cost =
-                        tile === TERRAIN_MASK_WALL  ? 255 : // wall  => unwalkable
-                        tile === TERRAIN_MASK_SWAMP ?   5*creepMoveCoefficient : // swamp => weight:  5
-                                                        creepMoveCoefficient ; // plain => weight:  1
-                    newMatrix.set(x,y,cost);
-                }
+        let newMatrix = new PathFinder.CostMatrix;
+        let roomTerrain = room.getTerrain();
+        let roomStructures = room.find(FIND_STRUCTURES);
+        for(let x = 0; x < 50; x++) {
+            for(let y = 0; y < 50; y++) {
+                let tile = roomTerrain.get(x, y);
+                let cost =
+                    tile === TERRAIN_MASK_WALL  ? 255 : // wall  => unwalkable
+                    tile === TERRAIN_MASK_SWAMP ?   5*creepMoveCoefficient : // swamp => weight:  5
+                                                    creepMoveCoefficient ; // plain => weight:  1
+                newMatrix.set(x,y,cost);
             }
-            for(let structureInd in roomStructures) {
-                let structure = roomStructures[structureInd];
-                if(structure.structureType === STRUCTURE_STORAGE
-                    || structure.structureType === STRUCTURE_SPAWN
-                    || structure.structureType === STRUCTURE_TOWER
-                    || structure.structureType === STRUCTURE_SPAWN
-                    || structure.structureType === STRUCTURE_EXTENSION
-                    || structure.structureType === STRUCTURE_CONTROLLER
-                    || structure.structureType === STRUCTURE_EXTRACTOR
-                    || structure.structureType === STRUCTURE_FACTORY
-                    || structure.structureType === STRUCTURE_KEEPER_LAIR
-                    || structure.structureType === STRUCTURE_LAB
-                    || structure.structureType === STRUCTURE_LINK
-                    || structure.structureType === STRUCTURE_NUKER
-                    || structure.structureType === STRUCTURE_OBSERVER
-                    || structure.structureType === STRUCTURE_POWER_BANK
-                    || structure.structureType === STRUCTURE_POWER_SPAWN
-                    || structure.structureType === STRUCTURE_TERMINAL
-                    || structure.structureType === STRUCTURE_WALL
-                    || (!structure.my && structure.structureType === STRUCTURE_RAMPART)
-                    ) {
-
-                    newMatrix.set(structure.pos.x, structure.pos.y, 255);
-                }
-                else if(structure.structureType === STRUCTURE_ROAD) {
-                    newMatrix.set(structure.pos.x, structure.pos.y, Math.ceil(creepMoveCoefficient / 2.0));
-                }
-            }
-            let roomConstructionSites = room.find(FIND_MY_CONSTRUCTION_SITES, {
-                filter : (structure) => structure.structureType === STRUCTURE_STORAGE
-                    || structure.structureType === STRUCTURE_SPAWN
-                    || structure.structureType === STRUCTURE_TOWER
-                    || structure.structureType === STRUCTURE_SPAWN
-                    || structure.structureType === STRUCTURE_EXTENSION
-                    || structure.structureType === STRUCTURE_CONTROLLER
-                    || structure.structureType === STRUCTURE_EXTRACTOR
-                    || structure.structureType === STRUCTURE_FACTORY
-                    || structure.structureType === STRUCTURE_KEEPER_LAIR
-                    || structure.structureType === STRUCTURE_LAB
-                    || structure.structureType === STRUCTURE_LINK
-                    || structure.structureType === STRUCTURE_NUKER
-                    || structure.structureType === STRUCTURE_OBSERVER
-                    || structure.structureType === STRUCTURE_POWER_BANK
-                    || structure.structureType === STRUCTURE_POWER_SPAWN
-                    || structure.structureType === STRUCTURE_TERMINAL
-                    || structure.structureType === STRUCTURE_WALL
-            });
-            for(let constructionSiteId in roomConstructionSites) {
-                let constructionSite = roomConstructionSites[constructionSiteId];
-                newMatrix.set(constructionSite.pos.x, constructionSite.pos.y, 255);
-            }
-
-            if(!ignoreCreeps) {
-                let creeps = room.find(FIND_CREEPS);
-                for(let creepName in creeps) {
-                    let creep = creeps[creepName];
-                    newMatrix.set(creep.pos.x, creep.pos.y, 255);
-                }
-            }
-            for(let flagName in Game.flags) {
-                if(ignoreCreeps) {
-                    break;
-                }
-
-                if(Game.flags[flagName].pos.roomName === room.name && Game.flags[flagName].color === COLOR_PURPLE) {
-                    newMatrix.set(Game.flags[flagName].pos.x, Game.flags[flagName].pos.y, 255);
-                }
-            }
-            let serializedMatrix = newMatrix.serialize();
-            //console.log('new matrix: ' + JSON.stringify(serializedMatrix));
-            room.memory.costMatrixCache[creepMoveCoefficient] = JSON.stringify(serializedMatrix);
-            return newMatrix;
         }
+        for(let structureInd in roomStructures) {
+            let structure = roomStructures[structureInd];
+            if(structure.structureType === STRUCTURE_STORAGE
+                || structure.structureType === STRUCTURE_SPAWN
+                || structure.structureType === STRUCTURE_TOWER
+                || structure.structureType === STRUCTURE_SPAWN
+                || structure.structureType === STRUCTURE_EXTENSION
+                || structure.structureType === STRUCTURE_CONTROLLER
+                || structure.structureType === STRUCTURE_EXTRACTOR
+                || structure.structureType === STRUCTURE_FACTORY
+                || structure.structureType === STRUCTURE_KEEPER_LAIR
+                || structure.structureType === STRUCTURE_LAB
+                || structure.structureType === STRUCTURE_LINK
+                || structure.structureType === STRUCTURE_NUKER
+                || structure.structureType === STRUCTURE_OBSERVER
+                || structure.structureType === STRUCTURE_POWER_BANK
+                || structure.structureType === STRUCTURE_POWER_SPAWN
+                || structure.structureType === STRUCTURE_TERMINAL
+                || structure.structureType === STRUCTURE_WALL
+                || (!structure.my && structure.structureType === STRUCTURE_RAMPART)
+                ) {
+
+                newMatrix.set(structure.pos.x, structure.pos.y, 255);
+            }
+            else if(structure.structureType === STRUCTURE_ROAD) {
+                newMatrix.set(structure.pos.x, structure.pos.y, Math.ceil(creepMoveCoefficient / 2.0));
+            }
+        }
+        let roomConstructionSites = room.find(FIND_MY_CONSTRUCTION_SITES, {
+            filter : (structure) => structure.structureType === STRUCTURE_STORAGE
+                || structure.structureType === STRUCTURE_SPAWN
+                || structure.structureType === STRUCTURE_TOWER
+                || structure.structureType === STRUCTURE_SPAWN
+                || structure.structureType === STRUCTURE_EXTENSION
+                || structure.structureType === STRUCTURE_CONTROLLER
+                || structure.structureType === STRUCTURE_EXTRACTOR
+                || structure.structureType === STRUCTURE_FACTORY
+                || structure.structureType === STRUCTURE_KEEPER_LAIR
+                || structure.structureType === STRUCTURE_LAB
+                || structure.structureType === STRUCTURE_LINK
+                || structure.structureType === STRUCTURE_NUKER
+                || structure.structureType === STRUCTURE_OBSERVER
+                || structure.structureType === STRUCTURE_POWER_BANK
+                || structure.structureType === STRUCTURE_POWER_SPAWN
+                || structure.structureType === STRUCTURE_TERMINAL
+                || structure.structureType === STRUCTURE_WALL
+        });
+        for(let constructionSiteId in roomConstructionSites) {
+            let constructionSite = roomConstructionSites[constructionSiteId];
+            newMatrix.set(constructionSite.pos.x, constructionSite.pos.y, 255);
+        }
+
+        if(!ignoreCreeps) {
+            let creeps = room.find(FIND_CREEPS);
+            for(let creepName in creeps) {
+                let creep = creeps[creepName];
+                newMatrix.set(creep.pos.x, creep.pos.y, 255);
+            }
+        }
+        for(let flagName in Game.flags) {
+            if(ignoreCreeps) {
+                break;
+            }
+
+            if(Game.flags[flagName].pos.roomName === room.name && Game.flags[flagName].color === COLOR_PURPLE) {
+                newMatrix.set(Game.flags[flagName].pos.x, Game.flags[flagName].pos.y, 255);
+            }
+        }
+        let serializedMatrix = newMatrix.serialize();
+        //console.log('new matrix: ' + JSON.stringify(serializedMatrix));
+        room.memory.costMatrixCache[creepMoveCoefficient] = JSON.stringify(serializedMatrix);
+        return newMatrix;
+
     },
 
     /** @param {Creep} creep **/
@@ -356,7 +361,7 @@ var pathfinding = {
                 }
 
                 let newMatrix = this.createCostMatrix(room, matrixIndex, true);
-                let newMatrixString = newMatrix.serialize();
+                let newMatrixString = JSON.stringify(newMatrix.serialize());
                 if(oldMatrix !== newMatrixString) {
                     room.memory.costMatrixCache[matrixIndex] = newMatrixString;
                     room.memory.cachePath = [];
