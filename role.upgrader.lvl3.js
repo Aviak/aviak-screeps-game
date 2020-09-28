@@ -1,6 +1,6 @@
-var pathfinding = require('pathfinding');
+let pathfinding = require('pathfinding');
 
-var roleUpgraderLvl3 = {
+let roleUpgraderLvl3 = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -24,7 +24,8 @@ var roleUpgraderLvl3 = {
             }
             if(targetContainer) {
                 if(creep.pos.getRangeTo(targetContainer) > 1) {
-                    creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    //creep.moveTo(targetContainer, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    pathfinding.modMoveTo(creep, targetContainer.pos, 1);
                 }
                 if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === OK) {
                     creep.memory.upgrading = true;
@@ -36,7 +37,8 @@ var roleUpgraderLvl3 = {
         }
         if(creep.memory.upgrading) {
             if(creep.pos.getRangeTo(creep.room.controller) > 3) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}});
+                //creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}});
+                pathfinding.modMoveTo(creep, creep.room.controller.pos, 3);
             }
             creep.upgradeController(creep.room.controller);
         }

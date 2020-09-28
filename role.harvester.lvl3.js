@@ -1,16 +1,16 @@
-var pathfinding = require('pathfinding');
+let pathfinding = require('pathfinding');
 
-var roleHarvesterLvl3 = {
+let roleHarvesterLvl3 = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
         if(!creep.id) {
             return;
         }
-        var targetPosition;
+        let targetPosition;
         //console.log('---');
         if(creep.memory.targetPosition === undefined) {
-            console.log('000');
+            // console.log('000');
             let harvestContainers = creep.room.find(FIND_STRUCTURES, {
                 filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
                                             && Memory.structures['id'+structure.id]
@@ -21,7 +21,7 @@ var roleHarvesterLvl3 = {
                 targetPosition = harvestContainers[0].pos;
                 creep.memory.targetPosition = {x: targetPosition.x, y: targetPosition.y};
                 creep.memory.containerId = harvestContainers[0].id;
-                console.log('111');
+                // console.log('111');
                 Memory.structures['id'+harvestContainers[0].id].harvester = creep.id;
             }
         }
@@ -33,7 +33,7 @@ var roleHarvesterLvl3 = {
                 creep.moveTo(targetPosition);
             }
             if(targetPosition.isEqualTo(creep.pos)) {
-                var source;
+                let source;
                 if(!creep.memory.sourceId) {
                     source = creep.pos.findClosestByRange(FIND_SOURCES);
                     creep.memory.sourceId = source.id;
@@ -41,7 +41,7 @@ var roleHarvesterLvl3 = {
                 else {
                     source = Game.getObjectById(creep.memory.sourceId);
                 }
-                var transferredThisTurn = false;
+                let transferredThisTurn = false;
                 let container = Game.getObjectById(creep.memory.containerId);
                 if(container.store.getFreeCapacity() !== 0) {
                     if(creep.store.getFreeCapacity() === 0) {

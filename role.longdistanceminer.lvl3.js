@@ -11,9 +11,9 @@ var roleLongDistanceMinerLvl3 = {
         //console.log('' + creep + ' ' + creep.memory.longDistanceMining);
 
         if (!creep.memory.longDistanceMining) {
-            console.log('INIT MINER');
+            // console.log('INIT MINER');
             creep.memory.longDistanceMining = {};
-            let miningLocations = _.filter(this.getMiningLocations(), (elem) => elem.maxMiners > 0);
+            let miningLocations = _.filter(this.getMiningLocations(Game.rooms[creep.memory.roomOrigin]), (elem) => elem.maxMiners > 0);
             //console.log('miningLocations=' + miningLocations);
 
             if (miningLocations.length > 0) {
@@ -87,7 +87,7 @@ var roleLongDistanceMinerLvl3 = {
             }
         } else {
             //console.log('1' + creep.memory.mining);
-            if (creep.room.name === 'E13N2') {
+            if (creep.room.name === creep.memory.roomOrigin) {
                 //console.log('3');
                 if (!creep.memory.longDistanceMining.containerLocation) {
                     let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
@@ -115,7 +115,7 @@ var roleLongDistanceMinerLvl3 = {
                 //console.log('4');
                 if (!creep.memory.longDistanceMining.exitHome) {
                     //console.log('5');
-                    let exitCode = creep.room.findExitTo('E13N2');
+                    let exitCode = creep.room.findExitTo(creep.memory.roomOrigin);
                     let exitPos = creep.pos.findClosestByPath(exitCode, { ignoreCreeps: true });
                     creep.memory.longDistanceMining.exitHome = { x: exitPos.x, y: exitPos.y };
                 }
@@ -129,10 +129,13 @@ var roleLongDistanceMinerLvl3 = {
 
     }
     ,
-    getMiningLocations: function () {
-        let locations = [{ room: 'E13N3', x: 42, y: 34, maxMiners: 2 }, { room: 'E13N1', x: 19, y: 33, maxMiners: 3 }, { room: 'E13N1', x: 37, y: 39, maxMiners: 3 }];
+    getMiningLocations: function (room) {
+        const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', x: 42, y: 34, maxMiners: 2 },
+                                    { originRoom : 'E13N2', room: 'E13N1', x: 19, y: 33, maxMiners: 3 },
+                                    { originRoom : 'E13N2', room: 'E13N1', x: 37, y: 39, maxMiners: 3 }];
+        let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
-        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining != undefined);
+        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined);
 
         for (let l of locations) {
 
