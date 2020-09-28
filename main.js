@@ -88,7 +88,7 @@ function RunLevel1(room) {
 
     let sources = room.find(FIND_SOURCES);
     for(let sourceName in sources) {
-        Memory.structures['id'+sources[sourceName].id].creeps = 0;
+        Memory.structures['id'+sources[sourceName].id] = {creeps : 0};
     }
     for(let creepName in thisRoomCreeps) {
         if(thisRoomCreeps[creepName].memory.sourceId) {
