@@ -113,15 +113,31 @@ var roleLongDistanceMinerLvl3 = {
 
             } else {
                 //console.log('4');
-                if (!creep.memory.longDistanceMining.exitHome) {
-                    //console.log('5');
-                    let exitCode = creep.room.findExitTo(creep.memory.roomOrigin);
-                    let exitPos = creep.pos.findClosestByPath(exitCode, { ignoreCreeps: true });
-                    creep.memory.longDistanceMining.exitHome = { x: exitPos.x, y: exitPos.y };
+                let constructionSite = undefined;
+                if(creep.room.controller.my) {
+                    let spawnConstructionSites = creep.room.find(FIND_CONSTRUCTION_SITES, {
+                        filter : (c)=>c.structureType === STRUCTURE_SPAWN
+                    });
+                    if(spawnConstructionSites && spawnConstructionSites.length > 0) {
+                        constructionSite = spawnConstructionSites[0];
+                    }
                 }
-                //console.log('6');
-                creep.moveTo(new RoomPosition(creep.memory.longDistanceMining.exitHome.x, creep.memory.longDistanceMining.exitHome.y, creep.room.name));
-
+                if(!constructionSite) {
+                    if (!creep.memory.longDistanceMining.exitHome) {
+                        //console.log('5');
+                        let exitCode = creep.room.findExitTo(creep.memory.roomOrigin);
+                        let exitPos = creep.pos.findClosestByPath(exitCode, { ignoreCreeps: true });
+                        creep.memory.longDistanceMining.exitHome = { x: exitPos.x, y: exitPos.y };
+                    }
+                    //console.log('6');
+                    creep.moveTo(new RoomPosition(creep.memory.longDistanceMining.exitHome.x, creep.memory.longDistanceMining.exitHome.y, creep.room.name));
+                }
+                else {
+                    if(creep.pos.getRangeTo(constructionSite) > 3) {
+                        creep.moveTo(constructionSite);
+                    }
+                    creep.build(constructionSite);
+                }
             }
 
         }
