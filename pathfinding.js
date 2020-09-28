@@ -332,9 +332,8 @@ var pathfinding = {
                 }
 
                 let newMatrix = this.createCostMatrix(room, matrixIndex, true);
-                let oldMatrixString = oldMatrix.serialize();
                 let newMatrixString = newMatrix.serialize();
-                if(oldMatrixString !== newMatrixString) {
+                if(oldMatrix !== newMatrixString) {
                     room.memory.costMatrixCache[matrixIndex] = newMatrixString;
                     room.memory.cachePath = [];
                 }

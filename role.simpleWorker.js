@@ -83,9 +83,12 @@ let roleSimpleWorker = {
                     //     creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
                     // }
                     if(creep.memory.upgrading) {
+                        console.log('c1');
                         if(creep.pos.getRangeTo(creep.room.controller) > 3) {
+                            console.log('c2');
                             pathfinding.modMoveTo(creep, creep.room.controller.pos, 3);
                         }
+                        console.log('c3');
                         creep.upgradeController(creep.room.controller);
                     }
 
