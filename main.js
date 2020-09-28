@@ -546,11 +546,11 @@ function RunLatest() {
                 let damagedCreeps = towers[tower].room.find(FIND_MY_CREEPS, {
                     filter : (creep) => creep.hits < creep.hitsMax
                 });
-                console.log('en ' + JSON.stringify(tower.store));
+                //console.log('en ' + JSON.stringify(tower.store));
                 if(damagedCreeps && damagedCreeps.length > 0) {
                     towers[tower].heal(damagedCreeps[0]);
                 }
-                else if(tower.energy > 500) {
+                else if(towers[tower].energy > 500) {
                     console.log('tower repair');
                     let damagedStructures = towers[tower].room.find(FIND_STRUCTURES, {
                         filter : (structure) => structure.structureType !== STRUCTURE_RAMPART
@@ -563,9 +563,9 @@ function RunLatest() {
                     console.log('structures to rep ' + damagedStructures.length);
                     console.log('other towers ' + otherTowers.length);
                     for(let currStructure in damagedStructures) {
-                        if(currStructure.pos.getRangeTo(tower.pos) <= 5) {
+                        if(currStructure.pos.getRangeTo(towers[tower].pos) <= 5) {
                             console.log('111 repair');
-                            tower.repair(currStructure);
+                            towers[tower].repair(currStructure);
                             break;
                         }
                         else {
@@ -579,7 +579,7 @@ function RunLatest() {
                             console.log('r333');
                             if(!inRangeOfOtherTower) {
                                 console.log('222 repair');
-                                tower.repair(currStructure);
+                                towers[tower].repair(currStructure);
                                 break;
                             }
                         }
