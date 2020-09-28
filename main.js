@@ -754,7 +754,7 @@ function RunLatest() {
             roleSimpleWorker.run(creep);
         }
         if (creep.memory.role === 'builder') {
-            roleCourierLvl5.run(creep);
+            roleBuilderLvl5.run(creep);
         }
         if (creep.memory.role === 'upgrader') {
             roleUpgraderLvl3.run(creep);
