@@ -12,6 +12,7 @@ var roleClaimerLvl3 = require('role.claimer.lvl3');
 var pathfinding = require('Pathfinding');
 var roleCourierLvl5 = require('role.courier.lvl5');
 var roleBuilderLvl5 = require('role.builder.lvl5');
+var roleReserverLvl5 = require('role.reserver.lvl5');
 
 module.exports.loop = function () {
     // console.log('Memory upkeep: ' + Game.cpu.getUsed());
@@ -622,6 +623,7 @@ function RunLatest() {
     let upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader');
     let couriers = _.filter(Game.creeps, (creep) => creep.memory.role === 'courier');
     let claimers = _.filter(Game.creeps, (creep) => creep.memory.role === 'claimer');
+    let reservers = _.filter(Game.creeps, (creep) => creep.memory.role === 'reserver');
     let longDistanceMiningLocations = roleLongDistanceMinerLvl3.getMiningLocations();
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
@@ -704,6 +706,12 @@ function RunLatest() {
             let newName = 'Claimer' + Game.time;
             Game.spawns['Spawn1'].spawnCreep([CLAIM, MOVE], newName,
                 { memory: { role: 'claimer' } });
+
+        }
+        else if (reservers.length < 1 &&  Game.spawns['Spawn1'].room.memory.reserving && Game.spawns['Spawn1'].room.memory.reserving.reserveRoom) {
+            let newName = 'Reserver' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CLAIM, CLAIM, MOVE, MOVE], newName,
+                { memory: { role: 'reserver' } });
 
         }
 
@@ -789,6 +797,9 @@ function RunLatest() {
         }
         if (creep.memory.role === 'claimer') {
             roleClaimerLvl3.run(creep);
+        }
+        if (creep.memory.role === 'reserver') {
+            roleReserverLvl5.run(creep);
         }
         if (creep.memory.role === 'courier') {
             roleCourierLvl5.run(creep);
