@@ -14,9 +14,14 @@ let roleReserverLvl5 = require('role.reserver.lvl5');
 
 module.exports.loop = function () {
 
-    if(Game.time % pathfinding.cachePathClearInterval) {
+    if(Game.time % pathfinding.cachePathClearInterval === 0) {
         for(let room in Game.rooms) {
             pathfinding.clearUnusedPaths(Game.rooms[room]);
+        }
+    }
+    if(Game.time % pathfinding.matrixRecalculationInterval === 0) {
+        for(let room in Game.rooms) {
+            pathfinding.recalculateMatrixes(Game.rooms[room]);
         }
     }
     // console.log('Memory upkeep: ' + Game.cpu.getUsed());
@@ -48,7 +53,7 @@ module.exports.loop = function () {
  * @return {number}
  */
 function GetRoomLevel(room) {
-    if(room.memory.roomLevel && !(Game.time % 101)) {
+    if(room.memory.roomLevel && !(Game.time % 101 === 0)) {
         return room.memory.roomLevel;
     }
 
@@ -81,7 +86,7 @@ function RunLevel1(room) {
 
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
-    if (Game.time % 250) {
+    if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
             if (Memory.creeps[name].roomOrigin === room.name && !Game.creeps[name]) {
                 delete Memory.creeps[name];
@@ -158,7 +163,7 @@ function RunLevel3(room) {
 
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
-    if (Game.time % 250) {
+    if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
             if (Memory.creeps[name].roomOrigin === room.name && !Game.creeps[name]) {
                 delete Memory.creeps[name];
@@ -167,7 +172,7 @@ function RunLevel3(room) {
         }
     }
 
-    if(Game.time % 10) {
+    if(Game.time % 10 === 0) {
         InitClearObjectsMemory();
     }
 
@@ -386,7 +391,7 @@ function RunLevel4(room) {
 
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
-    if (Game.time % 250) {
+    if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
             if (Memory.creeps[name].roomOrigin === room.name && !Game.creeps[name]) {
                 delete Memory.creeps[name];
@@ -395,7 +400,7 @@ function RunLevel4(room) {
         }
     }
 
-    if(Game.time % 10) {
+    if(Game.time % 10 === 0) {
         InitClearObjectsMemory();
     }
 
@@ -631,7 +636,7 @@ function RunLatest(room) {
 
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
-    if (Game.time % 250) {
+    if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
             if (Memory.creeps[name].roomOrigin === room.name && !Memory.creeps[name].onDeathEffect && !Game.creeps[name]) {
                 delete Memory.creeps[name];
@@ -640,11 +645,11 @@ function RunLatest(room) {
         }
     }
 
-    if(Game.time % 10) {
+    if(Game.time % 10 === 0) {
         InitClearObjectsMemory();
     }
 
-    if(Game.time % 11) {
+    if(Game.time % 11 === 0) {
         ProcessCreepsOnDeathEffects();
     }
 

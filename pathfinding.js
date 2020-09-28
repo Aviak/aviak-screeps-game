@@ -2,6 +2,7 @@ var pathfinding = {
 
     maxCachedPaths : 100,
     cachePathClearInterval : 100,
+    matrixRecalculationInterval : 449,
     /** @param {Creep} creep
      *  @param {RoomPosition} targetPos
      *  @param {number} radius
@@ -313,6 +314,25 @@ var pathfinding = {
         arrayOfPathToClear.sort((a, b) => b.used-a.used);
         for(let i = this.maxCachedPaths; i<arrayOfPathToClear.length; i++) {
             room.memory.cachePath.splice(arrayOfPathToClear[i], 1);
+        }
+    },
+
+    recalculateMatrixes : function(room) {
+        if(room.memory.costMatrixCache) {
+            for(let matrixIndex in room.memory.costMatrixCache) {
+                let oldMatrix = room.memory.costMatrixCache[matrixIndex];
+                if(!oldMatrix) {
+                    continue;
+                }
+
+                let newMatrix = this.createCostMatrix(room, matrixIndex, true);
+                let oldMatrixString = oldMatrix.serialize();
+                let newMatrixString = newMatrix.serialize();
+                if(oldMatrixString !== newMatrixString) {
+                    room.memory.costMatrixCache[matrixIndex] = newMatrixString;
+                    room.memory.cachePath = [];
+                }
+            }
         }
     }
 };
