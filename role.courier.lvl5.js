@@ -221,8 +221,8 @@ var roleCourierLvl3 = {
     },
 
     processOnDeathEffect : function(creepName) {
-        if(Memory.creeps[creepName].target) {
-            console.log(Memory.creeps[creepName].target);
+        if(Memory.creeps[creepName].target && Memory.creeps[creepName].requested > 0) {
+            // console.log(Memory.creeps[creepName].target);
             Memory.structures['id'+Memory.creeps[creepName].target].requested -= Memory.creeps[creepName].requested;
             Memory.creeps[creepName].requested = 0;
             console.log('courier OnDeath effect ' + creepName);
