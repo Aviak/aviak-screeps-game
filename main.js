@@ -562,7 +562,8 @@ function RunLatest() {
                     });
                     console.log('structures to rep ' + damagedStructures.length);
                     console.log('other towers ' + otherTowers.length);
-                    for(let currStructure in damagedStructures) {
+                    for(let currStructureId in damagedStructures) {
+                        let currStructure = damagedStructures[currStructureId];
                         if(currStructure.pos.getRangeTo(towers[tower].pos) <= 5) {
                             console.log('111 repair');
                             towers[tower].repair(currStructure);
