@@ -571,7 +571,8 @@ function RunLatest() {
                         }
                         else {
                             let inRangeOfOtherTower = false;
-                            for(let otherTower in otherTowers) {
+                            for(let otherTowerId in otherTowers) {
+                                let otherTower = otherTowers[otherTowerId];
                                 if(otherTower.pos.getRangeTo(currStructure.pos) <= 5) {
                                     inRangeOfOtherTower = true;
                                     break;
