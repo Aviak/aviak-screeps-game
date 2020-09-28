@@ -546,6 +546,7 @@ function RunLatest() {
                 let damagedCreeps = towers[tower].room.find(FIND_MY_CREEPS, {
                     filter : (creep) => creep.hits < creep.hitsMax
                 });
+                console.log('en ' + tower.energy);
                 if(damagedCreeps && damagedCreeps.length > 0) {
                     towers[tower].heal(damagedCreeps[0]);
                 }
