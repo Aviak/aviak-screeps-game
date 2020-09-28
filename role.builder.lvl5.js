@@ -132,6 +132,10 @@ var roleBuilderLvl3 = {
                 } else { console.log('no walls found wut')}
             }
         }
+    },
+
+    processOnDeathEffect : function(creepName) {
+
     }
 
 

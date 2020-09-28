@@ -1070,7 +1070,32 @@ function ProcessCreepsOnDeathEffects() {
     for(let creepName in Memory.creeps) {
         if(Memory.creeps[creepName].onDeathEffect === true && !Game.creeps[creepName]) {
             if (Memory.creeps[creepName].role === 'courier') {
-                roleCourierLvl5.processOnDeathEffect(creepName);
+                let roomName = Memory.creeps[creepName].roomOrigin;
+                let roomLevel = Memory.rooms[roomName].roomLevel;
+                if(roomLevel <= 4) {
+                    roleCourierLvl3.processOnDeathEffect(creepName);
+                }
+                else {
+                    roleCourierLvl5.processOnDeathEffect(creepName);
+                }
+                delete Memory.creeps[creepName];
+            }
+            else if (Memory.creeps[creepName].role === 'simpleWorker') {
+                roleSimpleWorker.processOnDeathEffect(creepName);
+                delete Memory.creeps[creepName];
+            }
+            else if (Memory.creeps[creepName].role === 'builder') {
+                let roomName = Memory.creeps[creepName].roomOrigin;
+                let roomLevel = Memory.rooms[roomName].roomLevel;
+                if(roomLevel <= 2) {
+                    roleBuilder.processOnDeathEffect(creepName);
+                }
+                else if(roomLevel <= 4) {
+                    roleBuilderLvl3.processOnDeathEffect(creepName);
+                }
+                else {
+                    roleBuilderLvl5.processOnDeathEffect(creepName);
+                }
                 delete Memory.creeps[creepName];
             }
         }

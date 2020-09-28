@@ -9,14 +9,38 @@ let roleSimpleWorker = {
             creep.memory.upgrading = false;
         }
         if(creep.store.getUsedCapacity(RESOURCE_ENERGY) < creep.store.getCapacity(RESOURCE_ENERGY) && creep.memory.harvesting) {
-            let source = creep.pos.findClosestByPath(FIND_SOURCES);
+            // let source = creep.pos.findClosestByPath(FIND_SOURCES);
             // if(creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
             //     creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             // }
-            if(creep.pos.getRangeTo(source) > 1) {
-                pathfinding.modMoveTo(creep, source.pos, 1);
+            let sources = Room.find(FIND_SOURCES);
+            let source = undefined;
+            if(creep.memory.sourceId) {
+                source = Game.getObjectById(creep.memory.sourceId);
             }
-            creep.harvest(source);
+            if(!source) {
+                let min = Number.MAX_VALUE;
+                for(let sourceName in sources) {
+                    let curSourceId = sources[sourceName].id;
+                    if(!Memory.structures[curSourceId]) {
+                        Memory.structures[curSourceId] = {creeps : 0};
+                    }
+                    if(Memory.structures[curSourceId].creeps < min) {
+                        min = Memory.structures[curSourceId].creeps;
+                        source = sources[sourceName];
+                    }
+                }
+            }
+            if(source) {
+                Memory.structures[source.id].creeps++;
+                creep.memory.onDeathEffect = true;
+                creep.memory.sourceId = source.id;
+                if(creep.pos.getRangeTo(source) > 1) {
+                    pathfinding.modMoveTo(creep, source.pos, 1);
+                }
+                creep.harvest(source);
+            }
+
         }
         else {
             if(creep.store.getUsedCapacity(RESOURCE_ENERGY) === 0 && !creep.memory.harvesting) {
@@ -69,8 +93,17 @@ let roleSimpleWorker = {
 
         }
 
-    }
+    },
 
+    processOnDeathEffect : function(creepName) {
+        if(Memory.creeps[creepName].sourceId) {
+            // console.log(Memory.creeps[creepName].target);
+            Memory.structures['id'+Memory.creeps[creepName].sourceId].creeps--;
+            //Memory.creeps[creepName].requested = 0;
+            console.log('Simple worker OnDeath effect ' + creepName);
+        }
+
+    }
 };
 
 module.exports = roleSimpleWorker;
