@@ -511,7 +511,7 @@ function RunLevel4() {
 function RunLatest() {
     if (Game.time % 250) {
         for (name in Memory.creeps) {
-            if (!Memory.creeps.onDeathEffect && !Game.creeps[name]) {
+            if (!Memory.creeps[name].onDeathEffect && !Game.creeps[name]) {
                 delete Memory.creeps[name];
                 //console.log('Clearing non-existing creep memory:', name);
             }
