@@ -16,7 +16,7 @@ let roleSimpleWorker = {
             if(creep.pos.getRangeTo(source) > 1) {
                 pathfinding.modMoveTo(creep, source.pos, 1);
             }
-            creep.harvest(target);
+            creep.harvest(source);
         }
         else {
             if(creep.store.getUsedCapacity(RESOURCE_ENERGY) === 0 && !creep.memory.harvesting) {
