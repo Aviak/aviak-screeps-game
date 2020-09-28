@@ -187,11 +187,11 @@ var pathfinding = {
         }
         if(cachedMatrix) {
             try {
-                let deserializedMatrix = PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
-                return deserializedMatrix;
+                return PathFinder.CostMatrix.deserialize(JSON.parse(cachedMatrix));
             }
             catch {
                 room.memory.costMatrixCache[creepMoveCoefficient] = undefined;
+                console.log('ERROR while deserializing matrix ' + creepMoveCoefficient + ' in room ' + room.name);
             }
             // console.log('matrix found in cache ' + deserializedMatrix.get(26, 17));
 
