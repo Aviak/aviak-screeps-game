@@ -119,13 +119,13 @@ function RunLevel1(room) {
 
     if(spawn) {
         //console.log('Workers: ' + workers.length)
-        if(workers.length <= 5) {
+        if(workers.length < 3) {
             //console.log("111");
             let newName = 'Worker' + Game.time;
             spawn.spawnCreep([WORK, CARRY, MOVE], newName,
                 { memory: { roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
         }
-        else if (builders.length <= 3) {
+        else if (builders.length < 3) {
             let newName = 'Builder' + Game.time;
             spawn.spawnCreep([WORK, CARRY, MOVE], newName,
                 { memory: { roomOrigin : room.name, role: 'builder', building: false } });
@@ -155,7 +155,74 @@ function RunLevel1(room) {
 
 /** @param {Room} room */
 function RunLevel2(room) {
-    RunLevel1(room);
+
+    let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
+
+    if (Game.time % 250 === 0) {
+        for (let name in Memory.creeps) {
+            if (Memory.creeps[name].roomOrigin === room.name && !Game.creeps[name]) {
+                delete Memory.creeps[name];
+                //console.log('Clearing non-existing creep memory:', name);
+            }
+        }
+    }
+
+    let workers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'simpleWorker');
+    let builders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'builder');
+
+    let spawn = undefined;
+    if(room.memory.spawnName) {
+        spawn = Game.spawns[room.memory.spawnName];
+        if(spawn.room.name !== room.name) {
+            spawn = undefined;
+        }
+    }
+    if(!spawn) {
+        for(let spawnName in Game.spawns) {
+            if(Game.spawns[spawnName].room.name === room.name) {
+                spawn = Game.spawns[spawnName];
+                break;
+            }
+        }
+        if(spawn) {
+            room.memory.spawnName = spawn.name;
+        }
+    }
+
+    if(spawn) {
+        //console.log('Workers: ' + workers.length)
+        if(workers.length < 3) {
+            //console.log("111");
+            let newName = 'Worker' + Game.time;
+            spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                { memory: { roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
+        }
+        else if (builders.length < 3) {
+            let newName = 'Builder' + Game.time;
+            spawn.spawnCreep([WORK,, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                { memory: { roomOrigin : room.name, role: 'builder', building: false } });
+
+        }
+        if (spawn.spawning) {
+            let spawningCreep = Game.creeps[spawn.spawning.name];
+            spawn.room.visual.text(
+                'oh no ' + spawningCreep.memory.role,
+                spawn.pos.x + 1,
+                spawn.pos.y,
+                { align: 'left', opacity: 0.8 });
+        }
+    }
+
+
+    for(let name in thisRoomCreeps) {
+        let creep = thisRoomCreeps[name];
+        if (creep.memory.role === 'simpleWorker') {
+            roleSimpleWorker.run(creep);
+        }
+        if (creep.memory.role === 'builder') {
+            roleBuilder.run(creep);
+        }
+    }
 }
 
 /** @param {Room} room */
