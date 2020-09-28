@@ -38,7 +38,7 @@ var roleLongDistanceMinerLvl3 = {
                 creep.moveTo(Game.flags.idleFlag)
             }
         }
-        if (!creep.memory.mining) {
+        if (creep.memory.mining === undefined) {
             creep.memory.mining = true;
         }
         //console.log('' + (creep.memory.mining == true && creep.carry[RESOURCE_ENERGY] == creep.carryCapacity));
@@ -46,7 +46,7 @@ var roleLongDistanceMinerLvl3 = {
             creep.memory.mining = false;
         }
         //console.log(creep.memory.mining);
-        if (creep.memory.mining === false && creep.store.getUsedCapacity()  === 0) {
+        if (creep.memory.mining === false && creep.store.getUsedCapacity() === 0) {
             creep.memory.mining = true;
         }
         //console.log(creep.memory.mining);
