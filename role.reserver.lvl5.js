@@ -13,7 +13,10 @@ var roleReserverLvl5 = {
         if(!creep.room.memory.reserving) {
             creep.room.memory.reserving = {};
         }
-        if(!creep.room.memory.reserving.reserveRoom) {
+        if(!creep.memory.reserveRoom && creep.room.memory.reserveRoom) {
+            creep.memory.reserveRoom = creep.room.memory.reserveRoom;
+        }
+        if(!creep.memory.reserveRoom) {
             return;
         }
 
@@ -31,7 +34,7 @@ var roleReserverLvl5 = {
             //console.log('2222');
 
         }
-        let roomName = creep.room.memory.reserving.reserveRoom;
+        let roomName = creep.memory.reserveRoom;
         if (creep.room.name !== roomName && !creep.memory.reserving.exitToRoom) {
             // console.log('1111');
             let exitCode = creep.room.findExitTo(roomName);
@@ -41,14 +44,14 @@ var roleReserverLvl5 = {
                 //wait a turn
                 //console.log('WAIT A TURN');
                 //console.log('3333');
-                creep.memory.claiming = undefined;
+                creep.memory.reserving = undefined;
                 return;
             }
             creep.memory.reserving.exitToRoom = { x: exitPos.x, y: exitPos.y};
         }
 
 
-        if (creep.room.name === creep.room.memory.claiming.claimRoom) {
+        if (creep.room.name === creep.memory.reserveRoom) {
             //console.log('claim 1');
             let res = creep.reserveController(creep.room.controller);
             //console.log(res);
@@ -56,9 +59,9 @@ var roleReserverLvl5 = {
                 //console.log('claim 2');
                 creep.moveTo(creep.room.controller);
             }
-        } else if (creep.room.name !== creep.room.memory.claiming.claimRoom) {
+        } else if (creep.room.name !== creep.memory.reserveRoom) {
             //console.log('claim 3');
-            creep.moveTo(new RoomPosition(creep.memory.claiming.exitToRoom.x, creep.memory.claiming.exitToRoom.y, creep.room.name));
+            creep.moveTo(new RoomPosition(creep.memory.reserving.exitToRoom.x, creep.memory.reserving.exitToRoom.y, creep.room.name));
         }
 
 
