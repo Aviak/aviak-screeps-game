@@ -1,4 +1,4 @@
-var pathfinding = require('Pathfinding');
+var pathfinding = require('general/aviak-screeps-game/pathfinding');
 
 var roleUpgraderLvl3 = {
 
