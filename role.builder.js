@@ -110,17 +110,17 @@ let roleBuilder = {
                 let min = Number.MAX_VALUE;
                 for(let sourceName in sources) {
                     let curSourceId = sources[sourceName].id;
-                    if(!Memory.structures[curSourceId]) {
-                        Memory.structures[curSourceId] = {creeps : 0};
+                    if(!Memory.structures['id'+curSourceId]) {
+                        Memory.structures['id'+curSourceId] = {creeps : 0};
                     }
-                    if(Memory.structures[curSourceId].creeps < min) {
-                        min = Memory.structures[curSourceId].creeps;
+                    if(Memory.structures['id'+curSourceId].creeps < min) {
+                        min = Memory.structures['id'+curSourceId].creeps;
                         source = sources[sourceName];
                     }
                 }
             }
             if(source) {
-                Memory.structures[source.id].creeps++;
+                Memory.structures['id'+source.id].creeps++;
                 creep.memory.onDeathEffect = true;
                 creep.memory.sourceId = source.id;
                 if(creep.pos.getRangeTo(source) > 1) {
