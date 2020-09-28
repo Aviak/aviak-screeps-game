@@ -101,7 +101,7 @@ let roleBuilder = {
 
         }
         else {
-            let sources = Room.find(FIND_SOURCES);
+            let sources = creep.room.find(FIND_SOURCES);
             let source = undefined;
             if(creep.memory.sourceId) {
                 source = Game.getObjectById(creep.memory.sourceId);
