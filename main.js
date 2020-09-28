@@ -549,7 +549,7 @@ function RunLatest() {
                 if(damagedCreeps && damagedCreeps.length > 0) {
                     towers[tower].heal(damagedCreeps[0]);
                 }
-                else if(tower.getUsedCapacity() > 500) {
+                else if(tower.store.getUsedCapacity() > 500) {
                     let damagedStructures = towers[tower].room.find(FIND_STRUCTURES, {
                         filter : (structure) => structure.structureType !== STRUCTURE_RAMPART
                                             && structure.structureType !== STRUCTURE_WALL
