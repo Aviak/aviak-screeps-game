@@ -1,4 +1,4 @@
-var pathfinding = require('general/aviak-screeps-game/pathfinding');
+var pathfinding = require('pathfinding');
 
 var roleLongDistanceMinerLvl3 = {
 

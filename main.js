@@ -1,15 +1,15 @@
 
 
-var roleBuilder = require('roles_lvl1/role.builder');
-var roleSimpleWorker = require('roles_lvl1/role.simpleWorker');
-var roleBuilderLvl3 = require('roles_lvl3/role.builder.lvl3');
-var roleCourierLvl3 = require('roles_lvl3/role.courier.lvl3');
-var roleHarvesterLvl3 = require('roles_lvl3/role.harvester.lvl3');
-var roleUpgraderLvl3 = require('roles_lvl3/role.upgrader.lvl3');
-var roleLongDistanceMinerLvl3 = require('roles_lvl3/role.longdistanceminer.lvl3');
-var InvasionControl = require('general/InvasionControl');
-var roleClaimerLvl3 = require('roles_lvl3/role.claimer.lvl3');
-var pathfinding = require('general/aviak-screeps-game/pathfinding');
+var roleBuilder = require('role.builder');
+var roleSimpleWorker = require('role.simpleWorker');
+var roleBuilderLvl3 = require('role.builder.lvl3');
+var roleCourierLvl3 = require('role.courier.lvl3');
+var roleHarvesterLvl3 = require('role.harvester.lvl3');
+var roleUpgraderLvl3 = require('role.upgrader.lvl3');
+var roleLongDistanceMinerLvl3 = require('role.longdistanceminer.lvl3');
+var InvasionControl = require('InvasionControl');
+var roleClaimerLvl3 = require('role.claimer.lvl3');
+var pathfinding = require('pathfinding');
 var roleCourierLvl5 = require('role.courier.lvl5');
 var roleBuilderLvl5 = require('role.builder.lvl5');
 var roleReserverLvl5 = require('role.reserver.lvl5');
