@@ -32,9 +32,11 @@ let roleSimpleWorker = {
                 }
             }
             if(source) {
-                Memory.structures['id'+source.id].creeps++;
-                creep.memory.onDeathEffect = true;
-                creep.memory.sourceId = source.id;
+                if(!creep.memory.sourceId) {
+                    Memory.structures['id'+source.id].creeps++;
+                    creep.memory.onDeathEffect = true;
+                    creep.memory.sourceId = source.id;
+                }
                 if(creep.pos.getRangeTo(source) > 1) {
                     pathfinding.modMoveTo(creep, source.pos, 1);
                 }
