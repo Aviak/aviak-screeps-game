@@ -550,6 +550,7 @@ function RunLatest() {
                     towers[tower].heal(damagedCreeps[0]);
                 }
                 else if(tower.energy > 500) {
+                    console.log('tower repair');
                     let damagedStructures = towers[tower].room.find(FIND_STRUCTURES, {
                         filter : (structure) => structure.structureType !== STRUCTURE_RAMPART
                                             && structure.structureType !== STRUCTURE_WALL
@@ -558,8 +559,11 @@ function RunLatest() {
                     let otherTowers = towers[tower].room.find(FIND_STRUCTURES, {
                         filter : (structure) => structure.structureType === STRUCTURE_TOWER && structure.id !== tower.id
                     });
+                    console.log('structures to rep ' + damagedStructures.length);
+                    console.log('other towers ' + otherTowers.length);
                     for(let currStructure in damagedStructures) {
                         if(currStructure.pos.getRangeTo(tower.pos) <= 5) {
+                            console.log('111 repair');
                             tower.repair(currStructure);
                             break;
                         }
@@ -571,8 +575,11 @@ function RunLatest() {
                                     break;
                                 }
                             }
+                            console.log('r333');
                             if(!inRangeOfOtherTower) {
+                                console.log('222 repair');
                                 tower.repair(currStructure);
+                                break;
                             }
                         }
                     }
