@@ -13,8 +13,8 @@ var roleReserverLvl5 = {
         if(!creep.room.memory.reserving) {
             creep.room.memory.reserving = {};
         }
-        if(!creep.memory.reserveRoom && creep.room.memory.reserveRoom) {
-            creep.memory.reserveRoom = creep.room.memory.reserveRoom;
+        if(!creep.memory.reserveRoom && creep.room.memory.reserving.reserveRoom) {
+            creep.memory.reserveRoom = creep.room.memory.reserving.reserveRoom;
         }
         if(!creep.memory.reserveRoom) {
             return;
