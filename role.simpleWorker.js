@@ -38,8 +38,8 @@ let roleSimpleWorker = {
                         // if(creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         //     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                         // }
-                        if(creep.pos.getRangeTo(source) > 1) {
-                            pathfinding.modMoveTo(creep, source.pos, 1);
+                        if(creep.pos.getRangeTo(targets[0]) > 1) {
+                            pathfinding.modMoveTo(creep, targets[0].pos, 1);
                         }
                         creep.transfer(targets[0]);
                     }
