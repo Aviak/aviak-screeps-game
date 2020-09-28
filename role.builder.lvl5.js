@@ -53,7 +53,7 @@ var roleBuilderLvl3 = {
                 // console.log('b3');
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: function (object) {
-                        return ((object.structureType === (object.hits / object.hitsMax) < 0.40 && object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART);
+                        return ((object.hits / object.hitsMax) < 0.40 && object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART)
                     }
                 });
                 if(!target) {
