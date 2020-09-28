@@ -838,13 +838,13 @@ function RunLatest(room) {
                     { memory: { roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
-            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom) {
+            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && (!Game.rooms[room.memory.claiming.claimRoom] || !Game.rooms[room.memory.claiming.claimRoom].controller.my)) {
                 let newName = 'Claimer' + Game.time;
                 spawn.spawnCreep([CLAIM, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'claimer' } });
 
             }
-            else if (reservers.length < 1 &&  room.memory.reserving && room.memory.reserving.reserveRoom) {
+            else if (reservers.length < 1 &&  room.memory.reserving && room.memory.reserving.reserveRoom && (!Game.rooms[room.memory.reserving.reserveRoom] || !Game.rooms[room.memory.reserving.reserveRoom].controller.my)) {
                 let newName = 'Reserver' + Game.time;
                 spawn.spawnCreep([CLAIM, CLAIM, MOVE, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'reserver' } });
