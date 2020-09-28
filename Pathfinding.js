@@ -101,6 +101,7 @@ var pathfinding = {
             if(!cachedPath || cachedPath.length === 0) {
                 // console.log('creating new path');
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
+
                 let serialisedPath = Room.serializePath(newPath);
                 // let serialisedPath = JSON.stringify(newPath.path);
                 creep.memory.currentPath = {};

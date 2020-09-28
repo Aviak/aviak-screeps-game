@@ -622,15 +622,15 @@ function RunLatest() {
             Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'longdistanceminer' } });
         }
-        else if (builders.length < 4) {
+        else if (builders.length < 2) {
             let newName = 'Builder' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'builder', building: false } });
 
         }
-        else if (upgraders.length < 4) {
+        else if (upgraders.length < 2) {
             let newName = 'Upgrader' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                 { memory: { role: 'upgrader', building: false } });
 
         }
