@@ -551,7 +551,7 @@ function RunLatest() {
                     towers[tower].heal(damagedCreeps[0]);
                 }
                 else if(towers[tower].energy > 500) {
-                    console.log('tower repair');
+                    // console.log('tower repair');
                     let damagedStructures = towers[tower].room.find(FIND_STRUCTURES, {
                         filter : (structure) => structure.structureType !== STRUCTURE_RAMPART
                                             && structure.structureType !== STRUCTURE_WALL
@@ -560,14 +560,18 @@ function RunLatest() {
                     let otherTowers = towers[tower].room.find(FIND_STRUCTURES, {
                         filter : (structure) => structure.structureType === STRUCTURE_TOWER && structure.id !== tower.id
                     });
-                    console.log('structures to rep ' + damagedStructures.length);
-                    console.log('other towers ' + otherTowers.length);
+                    // console.log('structures to rep ' + damagedStructures.length);
+                    // console.log('other towers ' + otherTowers.length);
+                    let repaired = [];
                     for(let currStructureId in damagedStructures) {
                         let currStructure = damagedStructures[currStructureId];
+                        if(repaired.includes(currStructure.id)) {
+                            continue;
+                        }
                         if(currStructure.pos.getRangeTo(towers[tower].pos) <= 5) {
-                            console.log('111 repair');
+                            // console.log('111 repair');
                             towers[tower].repair(currStructure);
-                            break;
+                            repaired.push(currStructure.id);
                         }
                         else {
                             let inRangeOfOtherTower = false;
@@ -578,11 +582,11 @@ function RunLatest() {
                                     break;
                                 }
                             }
-                            console.log('r333');
+                            // console.log('r333');
                             if(!inRangeOfOtherTower) {
-                                console.log('222 repair');
+                                // console.log('222 repair');
                                 towers[tower].repair(currStructure);
-                                break;
+                                repaired.push(currStructure.id);
                             }
                         }
                     }
