@@ -13,15 +13,16 @@ let roleBuilderLvl5 = require('role.builder.lvl5');
 let roleReserverLvl5 = require('role.reserver.lvl5');
 
 module.exports.loop = function () {
-    if(!Memory.creepsOriginFixed) {
-        for(let creepName in Game.creeps) {
-            let creep = Game.creeps[creepName];
-            if(!creep.memory.roomOrigin) {
-                creep.memory.roomOrigin = 'E13N2';
-            }
-        }
-        Memory.creepsOriginFixed = true;
-    }
+    // if(!Memory.creepsOriginFixed) {
+    //     for(let creepName in Game.creeps) {
+    //         let creep = Game.creeps[creepName];
+    //         if(!creep.memory.roomOrigin) {
+    //             creep.memory.roomOrigin = 'E13N2';
+    //         }
+    //     }
+    //     Memory.creepsOriginFixed = true;
+    // }
+    Memory.creepsOriginFixed = undefined;
     if(Game.time % pathfinding.cachePathClearInterval) {
         for(let room in Game.rooms) {
             pathfinding.clearUnusedPaths(Game.rooms[room]);
