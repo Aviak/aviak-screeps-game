@@ -14,7 +14,7 @@ var roleCourierLvl5 = require('role.courier.lvl5');
 var roleBuilderLvl5 = require('role.builder.lvl5');
 
 module.exports.loop = function () {
-
+    console.log('Memory upkeep: ' + Game.cpu.getUsed());
     let rooms = _.filter(Game.rooms, (room) => room.controller.my);
     let roomLevel = rooms[0].controller.level;
     if(roomLevel === 1) {
