@@ -95,6 +95,7 @@ function RunLevel1(room) {
             Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId]++;
         }
     }
+    console.log(JSON.stringify(Memory.structures['id5bbcadb09099fc012e637a41']));
 
     if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
