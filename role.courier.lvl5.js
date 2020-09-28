@@ -190,7 +190,7 @@ var roleCourierLvl3 = {
                 else {
                     resourceType = (target instanceof Resource) ? target.resourceType : RESOURCE_ENERGY;
                 }
-                console.log('RESOURCE: ' + resourceType);
+                // console.log('RESOURCE: ' + resourceType);
                 let result = undefined;
 
                 if(target instanceof Resource) {
