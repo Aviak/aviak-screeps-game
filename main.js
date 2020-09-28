@@ -572,7 +572,7 @@ function RunLatest() {
                                 }
                             }
                             if(!inRangeOfOtherTower) {
-                                tower.repair(structure);
+                                tower.repair(currStructure);
                             }
                         }
                     }
