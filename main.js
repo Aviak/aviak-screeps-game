@@ -91,12 +91,12 @@ function RunLevel1(room) {
         Memory.structures['id'+sources[sourceName].id] = {creeps : 0};
     }
     for(let creepName in thisRoomCreeps) {
-        console.log(JSON.stringify(thisRoomCreeps[creepName].memory.sourceId));
+        // console.log(JSON.stringify(Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId]));
         if(thisRoomCreeps[creepName].memory.sourceId) {
-            Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId]++;
+            Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId].creeps++;
         }
     }
-    console.log(JSON.stringify(Memory.structures['id5bbcadb09099fc012e637a41']));
+    // console.log(JSON.stringify(Memory.structures['id5bbcadb09099fc012e637a41']));
 
     if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
