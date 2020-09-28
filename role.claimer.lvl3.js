@@ -10,10 +10,10 @@ var roleLongDistanceMinerLvl3 = {
         //creep.memory.longDistanceMining = undefined;
         //console.log('' + creep + ' ' + creep.memory.longDistanceMining);
 
-        if(!Memory.claiming) {
+        if(!Memory.rooms[creep.memory.roomOrigin].claiming) {
             Memory.claiming = {};
         }
-        if(!Memory.claiming.claimRoom) {
+        if(!Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
             return;
         }
 
@@ -31,7 +31,7 @@ var roleLongDistanceMinerLvl3 = {
             //console.log('2222');
 
         }
-        let roomName = Memory.claiming.claimRoom;
+        let roomName = Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom;
         if (creep.room.name !== roomName && !creep.memory.claiming.exitToRoom) {
            // console.log('1111');
             let exitCode = creep.room.findExitTo(roomName);
@@ -48,7 +48,7 @@ var roleLongDistanceMinerLvl3 = {
         }
 
 
-        if (creep.room.name === Memory.claiming.claimRoom) {
+        if (creep.room.name === Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
             //console.log('claim 1');
             let res = creep.claimController(creep.room.controller);
             //console.log(res);
@@ -56,7 +56,7 @@ var roleLongDistanceMinerLvl3 = {
                 //console.log('claim 2');
                 creep.moveTo(creep.room.controller);
             }
-        } else if (creep.room.name !== Memory.claiming.claimRoom) {
+        } else if (creep.room.name !== Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
             //console.log('claim 3');
             creep.moveTo(new RoomPosition(creep.memory.claiming.exitToRoom.x, creep.memory.claiming.exitToRoom.y, creep.room.name));
         }
