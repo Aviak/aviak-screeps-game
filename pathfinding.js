@@ -239,12 +239,15 @@ var pathfinding = {
                     newMatrix.set(creep.pos.x, creep.pos.y, 255);
                 }
             }
-            // for(let flagName in Game.flags) {
-            //
-            //     if(Game.flags[flagName].pos.roomName === room.name && Game.flags[flagName].color === COLOR_PURPLE) {
-            //         newMatrix.set(Game.flags[flagName].pos.x, Game.flags[flagName].pos.y, 255);
-            //     }
-            // }
+            for(let flagName in Game.flags) {
+                if(ignoreCreeps) {
+                    break;
+                }
+
+                if(Game.flags[flagName].pos.roomName === room.name && Game.flags[flagName].color === COLOR_PURPLE) {
+                    newMatrix.set(Game.flags[flagName].pos.x, Game.flags[flagName].pos.y, 255);
+                }
+            }
             let serializedMatrix = newMatrix.serialize();
             //console.log('new matrix: ' + JSON.stringify(serializedMatrix));
             room.memory.costMatrixCache[creepMoveCoefficient] = JSON.stringify(serializedMatrix);
