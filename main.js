@@ -86,6 +86,16 @@ function RunLevel1(room) {
 
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
+    let sources = room.find(FIND_SOURCES);
+    for(let sourceName in sources) {
+        Memory.structures['id'+sources[sourceName]].creeps = 0;
+    }
+    for(let creepName in thisRoomCreeps) {
+        if(thisRoomCreeps[creepName].memory.sourceId) {
+            Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId]++;
+        }
+    }
+
     if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
             if (Memory.creeps[name].roomOrigin === room.name && !Game.creeps[name]) {
@@ -157,16 +167,6 @@ function RunLevel1(room) {
 function RunLevel2(room) {
 
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
-
-    let sources = room.find(FIND_SOURCES);
-    for(let sourceName in sources) {
-        Memory.structures['id'+sources[sourceName]].creeps = 0;
-    }
-    for(let creepName in thisRoomCreeps) {
-        if(thisRoomCreeps[creepName].memory.sourceId) {
-            Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId]++;
-        }
-    }
 
     if (Game.time % 250 === 0) {
         for (let name in Memory.creeps) {
