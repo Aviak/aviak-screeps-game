@@ -25,7 +25,9 @@ var pathfinding = {
         }
         //console.log(JSON.stringify(creep.memory.prevPosition));
         if(creep.pos.isEqualTo(new RoomPosition(creep.memory.prevPosition.x, creep.memory.prevPosition.y, creep.memory.prevPosition.roomName))) {
-            creep.memory.ticksStuck++;
+            if(creep.fatigue <= 0) {
+                creep.memory.ticksStuck++;
+            }
         }
         else {
             creep.memory.ticksStuck = 0;
