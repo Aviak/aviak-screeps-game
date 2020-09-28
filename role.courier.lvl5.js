@@ -163,7 +163,7 @@ var roleCourierLvl3 = {
                     // else {
                     // console.log('+++courier '+creep.id+' |not in range to get');
                     // creep.moveTo(target);
-                    pathfinding.modMoveTo(creep, target.pos, 1)
+                    pathfinding.modMoveTo(creep, target.pos, 1);
                     if(target instanceof Structure && !creep.memory.requested || creep.memory.requested === 0) {
                         creep.memory.requested = creep.store.getCapacity();
                         if(!Memory.structures['id'+target.id].requested) {

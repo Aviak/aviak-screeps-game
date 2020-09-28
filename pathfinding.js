@@ -232,6 +232,30 @@ var pathfinding = {
                     newMatrix.set(structure.pos.x, structure.pos.y, Math.ceil(creepMoveCoefficient / 2.0));
                 }
             }
+            let roomConstructionSites = room.find(FIND_MY_CONSTRUCTION_SITES, {
+                filter : (structure) => structure.structureType === STRUCTURE_STORAGE
+                    || structure.structureType === STRUCTURE_SPAWN
+                    || structure.structureType === STRUCTURE_TOWER
+                    || structure.structureType === STRUCTURE_SPAWN
+                    || structure.structureType === STRUCTURE_EXTENSION
+                    || structure.structureType === STRUCTURE_CONTROLLER
+                    || structure.structureType === STRUCTURE_EXTRACTOR
+                    || structure.structureType === STRUCTURE_FACTORY
+                    || structure.structureType === STRUCTURE_KEEPER_LAIR
+                    || structure.structureType === STRUCTURE_LAB
+                    || structure.structureType === STRUCTURE_LINK
+                    || structure.structureType === STRUCTURE_NUKER
+                    || structure.structureType === STRUCTURE_OBSERVER
+                    || structure.structureType === STRUCTURE_POWER_BANK
+                    || structure.structureType === STRUCTURE_POWER_SPAWN
+                    || structure.structureType === STRUCTURE_TERMINAL
+                    || structure.structureType === STRUCTURE_WALL
+            });
+            for(let constructionSiteId in roomConstructionSites) {
+                let constructionSite = roomConstructionSites[constructionSiteId];
+                newMatrix.set(constructionSite.pos.x, constructionSite.pos.y, 255);
+            }
+
             if(!ignoreCreeps) {
                 let creeps = room.find(FIND_CREEPS);
                 for(let creepName in creeps) {
