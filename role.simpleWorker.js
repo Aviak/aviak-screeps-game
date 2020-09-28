@@ -41,7 +41,7 @@ let roleSimpleWorker = {
                         if(creep.pos.getRangeTo(targets[0]) > 1) {
                             pathfinding.modMoveTo(creep, targets[0].pos, 1);
                         }
-                        creep.transfer(targets[0]);
+                        creep.transfer(targets[0], RESOURCE_ENERGY);
                     }
                     else {
                         creep.memory.upgrading = true;
