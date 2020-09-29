@@ -734,22 +734,22 @@ function RunLatest(room) {
         ProcessCreepsOnDeathEffects();
     }
 
-    // //while it's all shit with requests
-    // if(Game.time % 6) {
-    //     let couriersRequestedTotal = 0;
-    //     for(let creepName in Memory.creeps) {
-    //         if(Memory.creeps[creepName].role === 'courier') {
-    //             couriersRequestedTotal += Memory.creeps[creepName].requested;
-    //         }
-    //     }
-    //     if(couriersRequestedTotal === 0) {
-    //         for(let structureId in Memory.structures) {
-    //             if(Memory.structures[structureId].requested) {
-    //                 Memory.structures[structureId].requested = 0;
-    //             }
-    //         }
-    //     }
-    // }
+    //while it's all shit with requests
+    if(Game.time % 6) {
+        let couriersRequestedTotal = 0;
+        for(let creepName in Memory.creeps) {
+            if(Memory.creeps[creepName].role === 'courier') {
+                couriersRequestedTotal += Memory.creeps[creepName].requested;
+            }
+        }
+        if(couriersRequestedTotal === 0) {
+            for(let structureId in Memory.structures) {
+                if(Memory.structures[structureId].requested) {
+                    Memory.structures[structureId].requested = 0;
+                }
+            }
+        }
+    }
 
 
 
