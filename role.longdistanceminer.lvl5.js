@@ -192,9 +192,15 @@ var roleLongDistanceMinerLvl5 = {
         }
         //MOVING TO TARGET ROOM
         else if (creep.room.name !== creep.memory.longDistanceMining.room) {
-            let exitToMining = new RoomPosition(creep.memory.longDistanceMining.exitToMining.x, creep.memory.longDistanceMining.exitToMining.y, creep.room.name);
+            if(!creep.memory.longDistanceMining.exitToMining) {
+                creep.moveTo(Game.flags.idleFlag);
+            }
+            else {
+                let exitToMining = new RoomPosition(creep.memory.longDistanceMining.exitToMining.x, creep.memory.longDistanceMining.exitToMining.y, creep.room.name);
 
-            creep.moveTo(exitToMining);
+                creep.moveTo(exitToMining);
+            }
+
         }
     }
     ,
