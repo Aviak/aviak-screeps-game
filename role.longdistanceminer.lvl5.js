@@ -177,7 +177,10 @@ var roleLongDistanceMinerLvl5 = {
                                             }
                                             creep.transfer(container, RESOURCE_ENERGY);
                                         }
-                                        creep.harvest(source);
+                                        if(creep.store.getFreeCapacity() > 0) {
+                                            creep.harvest(source);
+                                        }
+
                                     }
                                 }
 
