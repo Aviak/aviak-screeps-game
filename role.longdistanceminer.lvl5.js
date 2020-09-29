@@ -163,10 +163,10 @@ var roleLongDistanceMinerLvl5 = {
                                         if(creep.store.getFreeCapacity() < numberOfWorkParts*2) {
                                             let container = undefined;
                                             if(!creep.memory.longDistanceMining.containerId) {
-                                                let structures = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.x-1, creep.pos.y-1, creep.pos.x+1, creep.pos.y+1, true);
-                                                console.log('s ' + structures.length);
+                                                let structures = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-1, creep.pos.x-1, creep.pos.y+1, creep.pos.x+1, true);
+                                                // console.log('s ' + structures.length);
                                                 let containers = _.filter(structures, (s)=>s.structure.structureType === STRUCTURE_CONTAINER);
-                                                console.log('c ' + containers.length);
+                                                // console.log('c ' + containers.length);
                                                 if(containers && containers.length > 0) {
                                                     container = containers[0].structure;
                                                     creep.memory.longDistanceMining.containerId = container.id;
