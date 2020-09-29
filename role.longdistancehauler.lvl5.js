@@ -82,7 +82,7 @@ let roleLongDistanceHaulerLvl5 = {
 
                 if(creep.memory.longDistanceMining.containerLocation
                     && !creep.memory.longDistanceMining.exitCheckDone
-                    && creep.pos.isEqualTo(new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name))
+                    && creep.pos.getRangeTo(new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name)) === 1
                 ) {
                     let exitCode = creep.room.findExitTo(creep.memory.longDistanceMining.room);
                     let exitPos = creep.pos.findClosestByPath(exitCode, {ignoreCreeps: true});
