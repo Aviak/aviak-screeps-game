@@ -921,7 +921,7 @@ function RunLatest(room) {
                 //console.log('required ' + longDistanceMinersRequired + 'long distance miners');
                 let newName = 'LongDistanceHaulerMk5' + Game.time;
 
-                spawn.spawnCreep([CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE], newName,
+                spawn.spawnCreep([CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'longdistancehauler5' } });
             }
             else if (builders.length < 2) {
