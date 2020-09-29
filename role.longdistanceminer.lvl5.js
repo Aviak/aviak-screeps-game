@@ -67,7 +67,7 @@ var roleLongDistanceMinerLvl5 = {
                 }
                 if(creep.memory.longDistanceMining.position) {
                     let targetPosition = undefined;
-                    if(creep.memory.longDistanceMining.position.x === -1) {
+                    if(creep.memory.longDistanceMining.positionx.x === -1) {
                         if(creep.pos.getRangeTo(source) > 1) {
                             pathfinding.modMoveTo(creep, source.pos, 1);
                         }
@@ -75,10 +75,18 @@ var roleLongDistanceMinerLvl5 = {
                             let containerPosition = undefined;
                             for(let i=-1; i<=1 && !containerPosition; i++) {
                                 for(let j=-1; j<=1 && !containerPosition; j++) {
+                                    if(i===0 && j===0) {
+                                        continue;
+                                    }
+
+                                    let roomTerrain = creep.room.getTerrain();
+                                    if(roomTerrain.get(creep.pos.x+i, creep.pos.y+j) === TERRAIN_MASK_WALL) {
+                                        continue;
+                                    }
                                     let containerPosition = new RoomPosition(creep.pos.x+i, creep.pos.y+j, creep.pos.roomName);
                                     let res = creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
-                                    if(res !== OK) {
-                                        console.log('res ' + res + ' i='+i + ' j='+j);
+                                    if(res !== OK && res !== ERR_RCL_NOT_ENOUGH) {
+                                        // console.log('res ' + res + ' i='+i + ' j='+j);
                                         containerPosition = undefined;
                                     }
                                 }
