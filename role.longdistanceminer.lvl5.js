@@ -46,12 +46,20 @@ var roleLongDistanceMinerLvl5 = {
                 source = Game.getObjectById(creep.memory.longDistanceMining.sourceId);
             }
             if(source && source instanceof Source) {
+                creep.memory.longDistanceMining.position = undefined;
                 if(!creep.memory.longDistanceMining.position) {
-                    let structuresNearSource = creep.room.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x-1, true);
+                    let structuresNearSource = creep.room.lookForAtArea(LOOK_STRUCTURES, source.pos.y-2, source.pos.x-2, source.pos.y+2, source.pos.x-2, true);
                     let containers = _.filter(structuresNearSource, (structure)=>structure.structureType === STRUCTURE_CONTAINER);
                     if(containers && containers.length > 0) {
                         let container = containers[0];
-                        creep.memory.longDistanceMining.position = {x : container.pos.x, y : container.pos.y};
+                        for(let i=-1; i<= && !creep.memory.longDistanceMining.position; i++) {
+                            for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
+                                let currentPosition = new RoomPosition(container.pos.x+i, container.pos.y+j, container.pos.roomName);
+                                if(currentPosition.getRangeTo(container.pos) === 1 && currentPosition.getRangeTo(source.pos) === 1) {
+                                    creep.memory.longDistanceMining.position = {x : currentPosition.pos.x, y : currentPosition.pos.y};
+                                }
+                            }
+                        }
                     }
                     else {
                         creep.memory.longDistanceMining.position = {x : -1, y : -1};
@@ -64,8 +72,25 @@ var roleLongDistanceMinerLvl5 = {
                             pathfinding.modMoveTo(creep, source.pos, 1);
                         }
                         else {
-                            creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-                            creep.memory.longDistanceMining.position = {x : creep.pos.x, y : creep.pos.y};
+                            let containerPosition = undefined;
+                            for(let i=-1; i<=1 && !containerPosition; i++) {
+                                for(let j=-1; j<=1 && !containerPosition; j++) {
+                                    let containerPosition = new RoomPosition(creep.pos.x+i, creep.pox.y+j, creep.pos.roomName);
+                                    let res = creep.room.createConstructionSite(, STRUCTURE_CONTAINER);
+                                    if(res !== OK) {
+                                        containerPosition = undefined;
+                                    }
+                                }
+                            }
+                            creep.memory.longDistanceMining.position = undefined;
+                            for(let i=-1; i<= && !creep.memory.longDistanceMining.position; i++) {
+                                for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
+                                    let currentPosition = new RoomPosition(containerPosition.x+i, containerPosition.y+j, containerPosition.roomName);
+                                    if(currentPosition.getRangeTo(containerPosition) === 1 && currentPosition.getRangeTo(source.pos) === 1) {
+                                        creep.memory.longDistanceMining.position = {x : currentPosition.pos.x, y : currentPosition.pos.y};
+                                    }
+                                }
+                            }
                             targetPosition = new RoomPosition(creep.memory.longDistanceMining.position.x, creep.memory.longDistanceMining.position.y, creep.room.name);
                         }
                     }
