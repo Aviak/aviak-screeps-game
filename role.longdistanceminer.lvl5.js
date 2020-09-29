@@ -86,7 +86,7 @@ var roleLongDistanceMinerLvl5 = {
                                     let containerPosition = new RoomPosition(creep.pos.x+i, creep.pos.y+j, creep.pos.roomName);
                                     let res = creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
                                     if(res !== OK && res !== ERR_RCL_NOT_ENOUGH) {
-                                        // console.log('res ' + res + ' i='+i + ' j='+j);
+                                        console.log('res ' + res + ' i='+i + ' j='+j + ' ' + (res !== ERR_RCL_NOT_ENOUGH) + ' ' + ERR_RCL_NOT_ENOUGH);
                                         containerPosition = undefined;
                                     }
                                 }
