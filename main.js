@@ -205,13 +205,13 @@ function RunLevel2(room) {
 
     if(spawn) {
         //console.log('Workers: ' + workers.length)
-        if(workers.length < 3) {
+        if(workers.length <= 3) {
             //console.log("111");
             let newName = 'Worker' + Game.time;
             spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
                 { memory: { roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
         }
-        else if (builders.length < 3) {
+        else if (builders.length <= 3) {
             let newName = 'Builder' + Game.time;
             spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
                 { memory: { roomOrigin : room.name, role: 'builder', building: false } });
