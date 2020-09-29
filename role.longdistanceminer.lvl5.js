@@ -193,7 +193,7 @@ var roleLongDistanceMinerLvl5 = {
         //MOVING TO TARGET ROOM
         else if (creep.room.name !== creep.memory.longDistanceMining.room) {
             if(!creep.memory.longDistanceMining.exitToMining) {
-                creep.moveTo(Game.flags.idleFlag);
+                creep.moveTo(Game.flags.IdleFlag);
             }
             else {
                 let exitToMining = new RoomPosition(creep.memory.longDistanceMining.exitToMining.x, creep.memory.longDistanceMining.exitToMining.y, creep.room.name);
