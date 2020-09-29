@@ -13,12 +13,12 @@ let roleSimpleWorker = {
             // if(creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
             //     creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             // }
-            let sources = creep.room.find(FIND_SOURCES);
             let source = undefined;
             if(creep.memory.sourceId) {
                 source = Game.getObjectById(creep.memory.sourceId);
             }
             if(!source) {
+                let sources = creep.room.find(FIND_SOURCES);
                 let min = Number.MAX_VALUE;
                 for(let sourceName in sources) {
                     let curSourceId = sources[sourceName].id;

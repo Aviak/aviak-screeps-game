@@ -101,12 +101,12 @@ let roleBuilder = {
 
         }
         else {
-            let sources = creep.room.find(FIND_SOURCES);
             let source = undefined;
             if(creep.memory.sourceId) {
                 source = Game.getObjectById(creep.memory.sourceId);
             }
             if(!source) {
+                let sources = creep.room.find(FIND_SOURCES);
                 let min = Number.MAX_VALUE;
                 for(let sourceName in sources) {
                     let curSourceId = sources[sourceName].id;
