@@ -62,9 +62,9 @@ var roleLongDistanceMinerLvl5 = {
                 // creep.memory.longDistanceMining.position = undefined;
                 if(!creep.memory.longDistanceMining.position) {
                     let structuresNearSource = creep.room.lookForAtArea(LOOK_STRUCTURES, source.pos.y-2, source.pos.x-2, source.pos.y+2, source.pos.x-2, true);
-                    let containers = _.filter(structuresNearSource, (structure)=>structure.structureType === STRUCTURE_CONTAINER);
+                    let containers = _.filter(structuresNearSource, (structure)=>structure.structure.structureType === STRUCTURE_CONTAINER);
                     if(containers && containers.length > 0) {
-                        let container = containers[0];
+                        let container = containers[0].structure;
                         for(let i=-1; i<=1 && !creep.memory.longDistanceMining.position; i++) {
                             for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
                                 let currentPosition = new RoomPosition(container.pos.x+i, container.pos.y+j, container.pos.roomName);
@@ -208,7 +208,7 @@ var roleLongDistanceMinerLvl5 = {
         const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', maxMiners: 1 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
-        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined && elem.role === 'longdistanceminer5' && Game.creeps[_.findKey(Memory.creeps, elem)]);
+        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined && elem.role === 'longdistanceminer5' && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined);
 
         for (let l of locations) {
 
