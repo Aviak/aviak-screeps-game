@@ -96,6 +96,7 @@ var roleLongDistanceMinerLvl5 = {
                             }
                             else {
                                 let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
+                                console.log(JSON.stringify(constructionSitesNear));
                                 if(constructionSitesNear && constructionSitesNear.length > 0) {
                                     creep.build(constructionSitesNear[0]);
                                 }
