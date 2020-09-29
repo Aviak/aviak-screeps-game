@@ -135,18 +135,35 @@ var roleLongDistanceMinerLvl5 = {
                                 creep.repair(structuresToRepair[0].structure);
                             }
                             else {
-                                let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
-                                //console.log(JSON.stringify(constructionSitesNear[0]));
-                                if(constructionSitesNear && constructionSitesNear.length > 0) {
-                                    let res = creep.build(constructionSitesNear[0].constructionSite);
-
-                                    // console.log('build res ' + res + ' ' + JSON.stringify(constructionSitesNear[0]));
+                                if(creep.store.getUsedCapacity() < numberOfWorkParts*5 && creep.store.getFreeCapacity() >= numberOfWorkParts*2) {
+                                    creep.harvest(source);
                                 }
                                 else {
-                                    if(creep.store.getFreeCapacity() < numberOfWorkParts*2) {
-                                        creep.drop(RESOURCE_ENERGY);
+                                    let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
+                                    //console.log(JSON.stringify(constructionSitesNear[0]));
+                                    if(constructionSitesNear && constructionSitesNear.length > 0) {
+                                        let res = creep.build(constructionSitesNear[0].constructionSite);
+
+                                        // console.log('build res ' + res + ' ' + JSON.stringify(constructionSitesNear[0]));
                                     }
-                                    creep.harvest(source);
+                                    else {
+                                        if(creep.store.getFreeCapacity() < numberOfWorkParts*2) {
+                                            let container = undefined;
+                                            if(!creep.memory.longDistanceMining.containerId) {
+                                                let structures = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.x-1, creep.pos.y-1, creep.pos.x+1, creep.pos.y+1, true);
+                                                let containers = _.filter(structures, (s)=>s.structure.structureType === STRUCTURE_CONTAINER);
+                                                if(containers && containers.length > 0) {
+                                                    container = containers[0].structure;
+                                                    creep.memory.longDistanceMining.containerId = container.id;
+                                                }
+                                            }
+                                            else {
+                                                container = Game.getObjectById(creep.memory.longDistanceMining.containerId);
+                                            }
+                                            creep.transfer(container, RESOURCE_ENERGY);
+                                        }
+                                        creep.harvest(source);
+                                    }
                                 }
 
                             }
