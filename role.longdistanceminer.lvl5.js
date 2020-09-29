@@ -95,10 +95,17 @@ var roleLongDistanceMinerLvl5 = {
                                 creep.repair(structuresToRepair[0]);
                             }
                             else {
-                                if(creep.store.getFreeCapacity() < numberOfWorkParts*2) {
-                                    creep.drop(RESOURCE_ENERGY);
+                                let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
+                                if(constructionSitesNear && constructionSitesNear.length > 0) {
+                                    creep.build(constructionSitesNear[0]);
                                 }
-                                creep.harvest(source);
+                                else {
+                                    if(creep.store.getFreeCapacity() < numberOfWorkParts*2) {
+                                        creep.drop(RESOURCE_ENERGY);
+                                    }
+                                    creep.harvest(source);
+                                }
+
                             }
                         }
                     }
