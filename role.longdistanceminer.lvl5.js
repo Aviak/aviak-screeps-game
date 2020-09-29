@@ -66,8 +66,8 @@ var roleLongDistanceMinerLvl5 = {
                     }
                 }
                 if(creep.memory.longDistanceMining.position) {
-                    let targetPosition = undefined;
-                    if(creep.memory.longDistanceMining.position.x === -1) {
+                    // let targetPosition = undefined;
+                    if(creep.memory.longDistanceMining.positionx.x === -1) {
                         if(creep.pos.getRangeTo(source) > 1) {
                             pathfinding.modMoveTo(creep, source.pos, 1);
                         }
