@@ -67,7 +67,7 @@ var roleLongDistanceMinerLvl5 = {
                 }
                 if(creep.memory.longDistanceMining.position) {
                     let targetPosition = undefined;
-                    if(creep.memory.longDistanceMining.position.x === -1) {
+                    if(creep.memory.longDistanceMining.positionx.x === -1) {
                         if(creep.pos.getRangeTo(source) > 1) {
                             pathfinding.modMoveTo(creep, source.pos, 1);
                         }
@@ -97,6 +97,7 @@ var roleLongDistanceMinerLvl5 = {
                                 for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
                                     let currentPosition = new RoomPosition(containerPosition.x+i, containerPosition.y+j, containerPosition.roomName);
                                     if(currentPosition.getRangeTo(containerPosition) === 1 && currentPosition.getRangeTo(source.pos) === 1) {
+                                        console.log('FOUND 1');
                                         creep.memory.longDistanceMining.position = {x : currentPosition.pos.x, y : currentPosition.pos.y};
                                     }
                                 }
