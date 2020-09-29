@@ -41,6 +41,9 @@ var roleLongDistanceMinerLvl5 = {
                 if(sources && sources.length > 0) {
                     source = sources[0];
                     creep.memory.longDistanceMining.sourceId = source.id;
+                    if(!Memory.structures['id'+source.id]) {
+                        Memory.structures['id'+source.id] = {};
+                    }
                     if(!Memory.structures['id'+source.id].miner || !Game.getObjectById(Memory.structures['id'+source.id].miner)) {
                         Memory.structures['id'+source.id].miner = creep.id;
                     }
@@ -48,6 +51,9 @@ var roleLongDistanceMinerLvl5 = {
             }
             else {
                 source = Game.getObjectById(creep.memory.longDistanceMining.sourceId);
+                if(!Memory.structures['id'+source.id]) {
+                    Memory.structures['id'+source.id] = {};
+                }
                 if(!Memory.structures['id'+source.id].miner || !Game.getObjectById(Memory.structures['id'+source.id].miner)) {
                     Memory.structures['id'+source.id].miner = creep.id;
                 }
