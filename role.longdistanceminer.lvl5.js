@@ -140,7 +140,7 @@ var roleLongDistanceMinerLvl5 = {
                                 if(constructionSitesNear && constructionSitesNear.length > 0) {
                                     let res = creep.build(constructionSitesNear[0]);
 
-                                    console.log('build res ' + res + ' ' + (constructionSitesNear[0] instanceof ConstructionSite));
+                                    console.log('build res ' + res + ' ' + JSON.stringify(constructionSitesNear[0]));
                                 }
                                 else {
                                     if(creep.store.getFreeCapacity() < numberOfWorkParts*2) {
