@@ -35,15 +35,22 @@ var roleLongDistanceMinerLvl5 = {
                 let sources = creep.room.find(FIND_SOURCES, {
                     filter : (source) => !Memory.structures['id'+source.id]
                         || !Memory.structures['id'+source.id].miner
+                        || !Game.getObjectById(Memory.structures['id'+source.id].miner)
                         || Game.getObjectById(Memory.structures['id'+source.id].miner).ticksToLive < Game.getObjectById(Memory.structures['id'+source.id].miner).memory.ticksBeforeWork
                 });
                 if(sources && sources.length > 0) {
                     source = sources[0];
                     creep.memory.longDistanceMining.sourceId = source.id;
+                    if(!Memory.structures['id'+source.id].miner || !Game.getObjectById(Memory.structures['id'+source.id].miner)) {
+                        Memory.structures['id'+source.id].miner = creep.id;
+                    }
                 }
             }
             else {
                 source = Game.getObjectById(creep.memory.longDistanceMining.sourceId);
+                if(!Memory.structures['id'+source.id].miner || !Game.getObjectById(Memory.structures['id'+source.id].miner)) {
+                    Memory.structures['id'+source.id].miner = creep.id;
+                }
             }
             if(source && source instanceof Source) {
                 // creep.memory.longDistanceMining.position = undefined;
