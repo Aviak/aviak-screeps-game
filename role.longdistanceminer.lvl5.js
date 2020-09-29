@@ -52,7 +52,7 @@ var roleLongDistanceMinerLvl5 = {
                     let containers = _.filter(structuresNearSource, (structure)=>structure.structureType === STRUCTURE_CONTAINER);
                     if(containers && containers.length > 0) {
                         let container = containers[0];
-                        for(let i=-1; i<= && !creep.memory.longDistanceMining.position; i++) {
+                        for(let i=-1; i<=1 && !creep.memory.longDistanceMining.position; i++) {
                             for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
                                 let currentPosition = new RoomPosition(container.pos.x+i, container.pos.y+j, container.pos.roomName);
                                 if(currentPosition.getRangeTo(container.pos) === 1 && currentPosition.getRangeTo(source.pos) === 1) {
@@ -83,7 +83,7 @@ var roleLongDistanceMinerLvl5 = {
                                 }
                             }
                             creep.memory.longDistanceMining.position = undefined;
-                            for(let i=-1; i<= && !creep.memory.longDistanceMining.position; i++) {
+                            for(let i=-1; i<=1 && !creep.memory.longDistanceMining.position; i++) {
                                 for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
                                     let currentPosition = new RoomPosition(containerPosition.x+i, containerPosition.y+j, containerPosition.roomName);
                                     if(currentPosition.getRangeTo(containerPosition) === 1 && currentPosition.getRangeTo(source.pos) === 1) {
