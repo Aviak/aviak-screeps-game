@@ -181,19 +181,19 @@ function RunLevel2(room) {
         }
     }
 
-    let sourcesCreeps = {};
-    for(let name in thisRoomCreeps) {
-        let creep = thisRoomCreeps[name];
-        if (creep.memory.sourceId) {
-            if (!sourcesCreeps['id'+creep.memory.sourceId]) {
-                sourcesCreeps['id'+creep.memory.sourceId] = 0;
-            }
-            sourcesCreeps['id'+creep.memory.sourceId]++;
-        }
-    }
-    for(let sourceId in sourcesCreeps) {
-        Memory.structures[sourceId].creeps = sourcesCreeps[sourceId];
-    }
+    // let sourcesCreeps = {};
+    // for(let name in thisRoomCreeps) {
+    //     let creep = thisRoomCreeps[name];
+    //     if (creep.memory.sourceId) {
+    //         if (!sourcesCreeps['id'+creep.memory.sourceId]) {
+    //             sourcesCreeps['id'+creep.memory.sourceId] = 0;
+    //         }
+    //         sourcesCreeps['id'+creep.memory.sourceId]++;
+    //     }
+    // }
+    // for(let sourceId in sourcesCreeps) {
+    //     Memory.structures[sourceId].creeps = sourcesCreeps[sourceId];
+    // }
 
     let workers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'simpleWorker');
     let builders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'builder');
