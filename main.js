@@ -11,6 +11,8 @@ let pathfinding = require('pathfinding');
 let roleCourierLvl5 = require('role.courier.lvl5');
 let roleBuilderLvl5 = require('role.builder.lvl5');
 let roleReserverLvl5 = require('role.reserver.lvl5');
+let roleLongDistanceMinerLvl5 = require('role.longdistanceminer.lvl5');
+let roleLongDistanceHaulerLvl5 = require('role.longdistancehauler.lvl5');
 
 module.exports.loop = function () {
 
@@ -86,16 +88,16 @@ function RunLevel1(room) {
 
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
-    let sources = room.find(FIND_SOURCES);
-    for(let sourceName in sources) {
-        Memory.structures['id'+sources[sourceName].id] = {creeps : 0};
-    }
-    for(let creepName in thisRoomCreeps) {
-        // console.log(JSON.stringify(Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId]));
-        if(thisRoomCreeps[creepName].memory.sourceId) {
-            Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId].creeps++;
-        }
-    }
+    // let sources = room.find(FIND_SOURCES);
+    // for(let sourceName in sources) {
+    //     Memory.structures['id'+sources[sourceName].id] = {creeps : 0};
+    // }
+    // for(let creepName in thisRoomCreeps) {
+    //     // console.log(JSON.stringify(Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId]));
+    //     if(thisRoomCreeps[creepName].memory.sourceId) {
+    //         Memory.structures['id'+thisRoomCreeps[creepName].memory.sourceId].creeps++;
+    //     }
+    // }
     // console.log(JSON.stringify(Memory.structures['id5bbcadb09099fc012e637a41']));
 
     if (Game.time % 250 === 0) {
@@ -211,7 +213,7 @@ function RunLevel2(room) {
         }
         else if (builders.length < 3) {
             let newName = 'Builder' + Game.time;
-            spawn.spawnCreep([WORK,, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+            spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
                 { memory: { roomOrigin : room.name, role: 'builder', building: false } });
 
         }
@@ -825,10 +827,15 @@ function RunLatest(room) {
     let couriers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'courier');
     let claimers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'claimer');
     let reservers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'reserver');
-    let longDistanceMiningLocations = roleLongDistanceMinerLvl3.getMiningLocations(room);
+    let longDistanceMiningLocations = roleLongDistanceMinerLvl5.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
         longDistanceMinersRequired += i.maxMiners;
+    }
+    let longDistanceHaulingLocations = roleLongDistanceHaulerLvl5.getMiningLocations(room);
+    let longDistanceHaulersRequired = 0;
+    for (let i of longDistanceHaulingLocations) {
+        longDistanceHaulersRequired += i.maxMiners;
     }
     let invasion = false;
     if(!Memory.invasionParameters) {
@@ -905,10 +912,17 @@ function RunLatest(room) {
             }
             else if (longDistanceMinersRequired > 0) {
                 //console.log('required ' + longDistanceMinersRequired + 'long distance miners');
-                let newName = 'LongDistanceMiner' + Game.time;
+                let newName = 'LongDistanceMinerMk5' + Game.time;
 
-                spawn.spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { roomOrigin : room.name, role: 'longdistanceminer' } });
+                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                    { memory: { roomOrigin : room.name, role: 'longdistanceminer5' } });
+            }
+            else if (longDistanceHaulersRequired > 0) {
+                //console.log('required ' + longDistanceMinersRequired + 'long distance miners');
+                let newName = 'LongDistanceHaulerMk5' + Game.time;
+
+                spawn.spawnCreep([CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE], newName,
+                    { memory: { roomOrigin : room.name, role: 'longdistancehauler5' } });
             }
             else if (builders.length < 2) {
                 let newName = 'Builder' + Game.time;
@@ -1014,6 +1028,12 @@ function RunLatest(room) {
         }
         if (creep.memory.role === 'longdistanceminer') {
             roleLongDistanceMinerLvl3.run(creep);
+        }
+        if (creep.memory.role === 'longdistanceminer5') {
+            roleLongDistanceMinerLvl5.run(creep);
+        }
+        if (creep.memory.role === 'longdistancehauler5') {
+            roleLongDistanceHaulerLvl5.run(creep);
         }
         if (creep.memory.role === 'claimer') {
             roleClaimerLvl3.run(creep);
