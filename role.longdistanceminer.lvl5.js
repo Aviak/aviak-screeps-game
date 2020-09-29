@@ -46,7 +46,7 @@ var roleLongDistanceMinerLvl5 = {
                 source = Game.getObjectById(creep.memory.longDistanceMining.sourceId);
             }
             if(source && source instanceof Source) {
-                creep.memory.longDistanceMining.position = undefined;
+                // creep.memory.longDistanceMining.position = undefined;
                 if(!creep.memory.longDistanceMining.position) {
                     let structuresNearSource = creep.room.lookForAtArea(LOOK_STRUCTURES, source.pos.y-2, source.pos.x-2, source.pos.y+2, source.pos.x-2, true);
                     let containers = _.filter(structuresNearSource, (structure)=>structure.structureType === STRUCTURE_CONTAINER);
@@ -67,7 +67,7 @@ var roleLongDistanceMinerLvl5 = {
                 }
                 if(creep.memory.longDistanceMining.position) {
                     let targetPosition = undefined;
-                    if(creep.memory.longDistanceMining.positionx.x === -1) {
+                    if(creep.memory.longDistanceMining.position.x === -1) {
                         if(creep.pos.getRangeTo(source) > 1) {
                             pathfinding.modMoveTo(creep, source.pos, 1);
                         }
