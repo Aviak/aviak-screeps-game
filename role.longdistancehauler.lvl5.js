@@ -147,7 +147,7 @@ let roleLongDistanceHaulerLvl5 = {
         const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', maxMiners: 1 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
-        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined && elem.role === 'longdistancehauler5' && Game.creeps[Memory.creeps.indexOf(elem)]);
+        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined && elem.role === 'longdistancehauler5' && Game.creeps[_.findKey(Memory.creeps, elem)]);
 
         for (let l of locations) {
 
