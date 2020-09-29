@@ -75,7 +75,7 @@ var roleLongDistanceMinerLvl5 = {
                             let containerPosition = undefined;
                             for(let i=-1; i<=1 && !containerPosition; i++) {
                                 for(let j=-1; j<=1 && !containerPosition; j++) {
-                                    let containerPosition = new RoomPosition(creep.pos.x+i, creep.pox.y+j, creep.pos.roomName);
+                                    let containerPosition = new RoomPosition(creep.pos.x+i, creep.pos.y+j, creep.pos.roomName);
                                     let res = creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
                                     if(res !== OK) {
                                         containerPosition = undefined;
