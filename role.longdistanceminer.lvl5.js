@@ -130,15 +130,15 @@ var roleLongDistanceMinerLvl5 = {
                         }
                         else {
                             let structuresNear = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
-                            let structuresToRepair = _.filter(structuresNear, (structure) => (numberOfWorkParts*100) < (structure.hitsMax - structure.hits));
+                            let structuresToRepair = _.filter(structuresNear, (structure) => (numberOfWorkParts*100) < (structure.structure.hitsMax - structure.structure.hits));
                             if(structuresToRepair && structuresToRepair.length > 0) {
-                                creep.repair(structuresToRepair[0]);
+                                creep.repair(structuresToRepair[0].structure);
                             }
                             else {
                                 let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
                                 //console.log(JSON.stringify(constructionSitesNear[0]));
                                 if(constructionSitesNear && constructionSitesNear.length > 0) {
-                                    let res = creep.build(constructionSitesNear[0]);
+                                    let res = creep.build(constructionSitesNear[0].constructionSite);
 
                                     console.log('build res ' + res + ' ' + JSON.stringify(constructionSitesNear[0]));
                                 }
