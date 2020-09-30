@@ -90,7 +90,7 @@ var pathfinding = {
                     // currentPath = JSON.parse(cachedPath.path);
 
                     creep.memory.currentPath = {};
-                    creep.memory.currentPath.destination = {x : cachedPath.start.x, y : cachedPath.start.y, roomName : cachedPath.start.room, radius : radius};
+                    creep.memory.currentPath.destination = {x : cachedPath.destination.x, y : cachedPath.destination.y, roomName : cachedPath.start.room, radius : radius};
                     creep.memory.currentPath.path = currentPath;
                     creep.room.memory.cachePath[index].timesUsed++;
 
