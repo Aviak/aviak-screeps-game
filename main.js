@@ -386,12 +386,12 @@ function RunLevel3(room) {
                     { memory: { roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
-            else if (claimers.length < 1) {
-                let newName = 'Claimer' + Game.time;
-                spawn.spawnCreep([CLAIM, MOVE], newName,
-                    { memory: { roomOrigin : room.name, role: 'claimer' } });
-
-            }
+            // else if (claimers.length < 1) {
+            //     let newName = 'Claimer' + Game.time;
+            //     spawn.spawnCreep([CLAIM, MOVE], newName,
+            //         { memory: { roomOrigin : room.name, role: 'claimer' } });
+            //
+            // }
 
             if (spawn.spawning) {
                 let spawningCreep = Game.creeps[spawn.spawning.name];
