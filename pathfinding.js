@@ -117,12 +117,6 @@ var pathfinding = {
                 // console.log('creating new path');
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
 
-                try {
-                    let serialisedPath = Room.serializePath(newPath);
-                }
-                catch {
-                    console.log(JSON.stringify(newPath));
-                }
                 let serialisedPath = Room.serializePath(newPath);
 
                 // let serialisedPath = JSON.stringify(newPath.path);
@@ -165,7 +159,7 @@ var pathfinding = {
                 roomName: targetPos.roomName,
                 radius: radius
             };
-            creep.memory.currentPath.path = Room.serializePath(currentPathSerialized);
+            creep.memory.currentPath.path = hcurrentPathSerialized;
             creep.moveByPath(currentPath);
         }
         creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
