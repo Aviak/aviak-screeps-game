@@ -42,6 +42,9 @@ var pathfinding = {
         // console.log('===================================================');
         // console.log(creep.memory.role + ' ' + creep.id);
         // console.log('force new path: ' + forceNewPath);
+
+        let currentPath = undefined;
+        let currentPathSerialized = undefined;
         if(!forceNewPath
             && creep.memory.currentPath
             && creep.memory.currentPath.destination.x === targetPos.x
@@ -50,16 +53,18 @@ var pathfinding = {
             && creep.memory.currentPath.destination.radius === radius
         ) {
             // console.log('found path in creep cache');
-            let currentPath = undefined;
 
             try {
                 currentPath = Room.deserializePath(creep.memory.currentPath.path);
+                currentPathSerialized = creep.memory.currentPath.path;
                 // currentPath = JSON.parse(creep.memory.currentPath.path);
-                creep.moveByPath(currentPath);
+                // creep.moveByPath(currentPath);
             }
             catch {
                 console.log('ERROR in CREEP memory path');
                 creep.memory.currentPath = undefined;
+                currentPath = undefined;
+                currentPathSerialized = undefined;
             }
 
         }
@@ -81,26 +86,30 @@ var pathfinding = {
 
             if(cachedPath && cachedPath.length > 0) {
                 // console.log('found path in ROOM cache');
-                let currentPath = undefined;
+                // let currentPath = undefined;
+                currentPath = undefined;
                 cachedPath = cachedPath[0];
                 let index = creep.room.memory.cachePath.indexOf(cachedPath);
                 try {
 
                     currentPath = Room.deserializePath(cachedPath.path);
+                    currentPathSerialized = cachedPath.path;
                     // currentPath = JSON.parse(cachedPath.path);
 
-                    creep.memory.currentPath = {};
-                    creep.memory.currentPath.destination = {x : cachedPath.destination.x, y : cachedPath.destination.y, roomName : cachedPath.start.room, radius : radius};
-                    creep.memory.currentPath.path = currentPath;
+                    // creep.memory.currentPath = {};
+                    // creep.memory.currentPath.destination = {x : cachedPath.destination.x, y : cachedPath.destination.y, roomName : cachedPath.start.room, radius : radius};
+                    // creep.memory.currentPath.path = currentPath;
                     creep.room.memory.cachePath[index].timesUsed++;
 
-                    creep.moveByPath(currentPath);
+                    // creep.moveByPath(currentPath);
                 }
                 catch {
                     console.log('ERROR in ROOM memory path');
                     creep.memory.currentPath = undefined;
                     creep.room.memory.cachePath.splice(index, 1);
                     cachedPath = undefined;
+                    currentPath = undefined;
+                    currentPathSerialized = undefined;
                 }
 
             }
@@ -109,10 +118,11 @@ var pathfinding = {
                 let newPath = this.createInnerPath(creep, creep.room, creep.pos, targetPos, radius, !forceNewPath);
 
                 let serialisedPath = Room.serializePath(newPath);
+
                 // let serialisedPath = JSON.stringify(newPath.path);
-                creep.memory.currentPath = {};
-                creep.memory.currentPath.destination = {x : targetPos.x, y : targetPos.y, roomName : targetPos.roomName, radius : radius};
-                creep.memory.currentPath.path = serialisedPath;
+                // creep.memory.currentPath = {};
+                // creep.memory.currentPath.destination = {x : targetPos.x, y : targetPos.y, roomName : targetPos.roomName, radius : radius};
+                // creep.memory.currentPath.path = serialisedPath;
 
                 if(!forceNewPath) {
                     // if(creep.room.memory.cachePath.length > this.maxCachedPaths) {
@@ -135,9 +145,22 @@ var pathfinding = {
                         timeCreated : Game.time
                     });
                 }
+                currentPath = newPath;
+                currentPathSerialized = serialisedPath;
 
-                creep.moveByPath(newPath);
+                // creep.moveByPath(newPath);
             }
+        }
+        if(currentPath) {
+            creep.memory.currentPath = {};
+            creep.memory.currentPath.destination = {
+                x: targetPos.x,
+                y: targetPos.y,
+                roomName: targetPos.roomName,
+                radius: radius
+            };
+            creep.memory.currentPath.path = Room.serializePath(currentPathSerialized);
+            creep.moveByPath(currentPath);
         }
         creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
         // console.log('===================================================');
