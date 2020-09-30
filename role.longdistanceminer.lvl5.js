@@ -165,7 +165,7 @@ var roleLongDistanceMinerLvl5 = {
                             else {
                                 container = Game.getObjectById(creep.memory.longDistanceMining.containerId);
                             }
-                            if(container && (numberOfWorkParts*100) < (container.structure.hitsMax - container.structure.hits)) {
+                            if(container && ((numberOfWorkParts*100) < (container.hitsMax - container.hits))) {
                                 creep.repair(container);
                             }
                             else {
