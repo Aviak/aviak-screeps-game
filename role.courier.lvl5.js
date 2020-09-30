@@ -92,7 +92,22 @@ var roleCourierLvl3 = {
             }
             else {
                 // creep.moveTo(Game.flags.IdleFlag);
-                pathfinding.modMoveTo(creep, Game.flags.IdleFlag.pos, 0);
+                let IdleFlag = undefined;
+                if(creep.room.memory.IdleFlag) {
+                    IdleFlag = Game.getObjectById(creep.room.memory.IdleFlag);
+                }
+                if(!IdleFlag) {
+                    let flags = creep.room.find(FIND_FLAGS, {
+                        filter : (flag) => flag.color === COLOR_YELLOW
+                    });
+                    if(flags && flags.length > 0) {
+                        IdleFlag = flags[0];
+                        creep.room.memory.IdleFlag = IdleFlag.id;
+                    }
+                }
+                if(IdleFlag) {
+                    pathfinding.modMoveTo(creep, IdleFlag.pos, 0);
+                }
                 creep.memory.target = undefined;
             }
         }
@@ -214,7 +229,22 @@ var roleCourierLvl3 = {
             }
             else {
                 // creep.moveTo(Game.flags.IdleFlag);
-                pathfinding.modMoveTo(creep, Game.flags.IdleFlag.pos, 0);
+                let IdleFlag = undefined;
+                if(creep.room.memory.IdleFlag) {
+                    IdleFlag = Game.getObjectById(creep.room.memory.IdleFlag);
+                }
+                if(!IdleFlag) {
+                    let flags = creep.room.find(FIND_FLAGS, {
+                        filter : (flag) => flag.color === COLOR_YELLOW
+                    });
+                    if(flags && flags.length > 0) {
+                        IdleFlag = flags[0];
+                        creep.room.memory.IdleFlag = IdleFlag.id;
+                    }
+                }
+                if(IdleFlag) {
+                    pathfinding.modMoveTo(creep, IdleFlag.pos, 0);
+                }
                 creep.memory.target = undefined;
             }
         }

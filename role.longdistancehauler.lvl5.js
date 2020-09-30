@@ -26,7 +26,22 @@ let roleLongDistanceHaulerLvl5 = {
                     creep.memory.longDistanceMining.exitToMining = { x: exitPos.x, y: exitPos.y};
                 }
             } else {
-                creep.moveTo(Game.flags.idleFlag)
+                let IdleFlag = undefined;
+                if(creep.room.memory.IdleFlag) {
+                    IdleFlag = Game.getObjectById(creep.room.memory.IdleFlag);
+                }
+                if(!IdleFlag) {
+                    let flags = creep.room.find(FIND_FLAGS, {
+                        filter : (flag) => flag.color === COLOR_YELLOW
+                    });
+                    if(flags && flags.length > 0) {
+                        IdleFlag = flags[0];
+                        creep.room.memory.IdleFlag = IdleFlag.id;
+                    }
+                }
+                if(IdleFlag) {
+                    pathfinding.modMoveTo(creep, IdleFlag.pos, 0);
+                }
             }
         }
 
