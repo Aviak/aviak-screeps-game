@@ -123,7 +123,7 @@ var roleLongDistanceMinerLvl5 = {
                                     }
                                 }
                             }
-                            creep.memory.longDistanceMining.position = undefined
+                            creep.memory.longDistanceMining.position = undefined;
                             // console.log('---'+JSON.stringify(containerPosition)+' ---- \n'+JSON.stringify(source.pos));
                             for(let i=-1; i<=1 && !creep.memory.longDistanceMining.position; i++) {
                                 for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
