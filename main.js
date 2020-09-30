@@ -339,7 +339,7 @@ function RunLevel3(room) {
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                spawn.spawnCreep([CARRY, CARRY, MOVE, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'courier', building: false } });
 
             }
@@ -575,7 +575,7 @@ function RunLevel4(room) {
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, MOVE, MOVE, CARRY, MOVE], newName,
+                spawn.spawnCreep([CARRY, CARRY, MOVE, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'courier', building: false } });
 
             }
@@ -890,7 +890,7 @@ function RunLatest(room) {
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, MOVE, MOVE, CARRY, MOVE], newName,
+                spawn.spawnCreep([CARRY, CARRY, MOVE, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'courier', building: false } });
 
             }
