@@ -159,7 +159,7 @@ var pathfinding = {
                 roomName: targetPos.roomName,
                 radius: radius
             };
-            creep.memory.currentPath.path = hcurrentPathSerialized;
+            creep.memory.currentPath.path = currentPathSerialized;
             creep.moveByPath(currentPath);
         }
         creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};
