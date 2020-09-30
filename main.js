@@ -374,13 +374,13 @@ function RunLevel3(room) {
                 spawn.spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'longdistanceminer' } });
             }
-            else if (builders.length < 4) {
+            else if (builders.length < 3) {
                 let newName = 'Builder' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'builder', building: false } });
 
             }
-            else if (upgraders.length < 4) {
+            else if (upgraders.length < 3) {
                 let newName = 'Upgrader' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { roomOrigin : room.name, role: 'upgrader', building: false } });
