@@ -13,6 +13,9 @@ var pathfinding = {
         // if(targetPos.pos) {
         //     targetPos = targetPos.pos;
         // }
+        if(creep.pos.getRangeTo(targetPos) <= radius) {
+            return;
+        }
         let forceNewPath = false;
         if(!creep.memory.prevPosition) {
             creep.memory.prevPosition = {x : creep.pos.x, y : creep.pos.y, roomName : creep.room.name};

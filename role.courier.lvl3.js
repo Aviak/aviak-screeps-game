@@ -104,7 +104,7 @@ var roleCourierLvl3 = {
                     }
                 }
                 if(IdleFlag) {
-                    pathfinding.modMoveTo(creep, IdleFlag.pos, 0);
+                    pathfinding.modMoveTo(creep, IdleFlag.pos, 1);
                 }
                 creep.memory.target = undefined;
             }
@@ -241,7 +241,7 @@ var roleCourierLvl3 = {
                     }
                 }
                 if(IdleFlag) {
-                    pathfinding.modMoveTo(creep, IdleFlag.pos, 0);
+                    pathfinding.modMoveTo(creep, IdleFlag.pos, 1);
                 }
                 creep.memory.target = undefined;
             }

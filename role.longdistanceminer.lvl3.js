@@ -49,7 +49,7 @@ var roleLongDistanceMinerLvl3 = {
                     }
                 }
                 if(IdleFlag) {
-                    pathfinding.modMoveTo(creep, IdleFlag.pos, 0);
+                    pathfinding.modMoveTo(creep, IdleFlag.pos, 1);
                 }
             }
         }
