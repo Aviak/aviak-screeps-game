@@ -393,7 +393,7 @@ function RunLevel3(room) {
 
             }
 
-            if (Gspawn.spawning) {
+            if (spawn.spawning) {
                 let spawningCreep = Game.creeps[spawn.spawning.name];
                 spawn.room.visual.text(
                     'oh no ' + spawningCreep.memory.role,
