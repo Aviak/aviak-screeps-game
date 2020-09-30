@@ -58,7 +58,7 @@ var pathfinding = {
                 creep.moveByPath(currentPath);
             }
             catch {
-                // console.log('ERROR in CREEP memory path');
+                console.log('ERROR in CREEP memory path');
                 creep.memory.currentPath = undefined;
             }
 
@@ -97,7 +97,7 @@ var pathfinding = {
                     creep.moveByPath(currentPath);
                 }
                 catch {
-                    // console.log('ERROR in ROOM memory path');
+                    console.log('ERROR in ROOM memory path');
                     creep.memory.currentPath = undefined;
                     creep.room.memory.cachePath.splice(index, 1);
                     cachedPath = undefined;
