@@ -11,7 +11,7 @@ var roleLongDistanceMinerLvl3 = {
         //console.log('' + creep + ' ' + creep.memory.longDistanceMining);
 
         if(!Memory.rooms[creep.memory.roomOrigin].claiming) {
-            Memory.claiming = {};
+            Memory.rooms[creep.memory.roomOrigin].claiming = {};
         }
         if(!Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
             return;
