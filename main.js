@@ -15,10 +15,10 @@ let roleLongDistanceMinerLvl5 = require('role.longdistanceminer.lvl5');
 let roleLongDistanceHaulerLvl5 = require('role.longdistancehauler.lvl5');
 
 let cpuLog = false;
-let currCpu = 0;
 
 module.exports.loop = function () {
 
+    let currCpu = 0;
     if(Game.time % 5 === 0) {
         cpuLog = true;
         currCpu = Game.cpu.getUsed();
@@ -54,7 +54,12 @@ module.exports.loop = function () {
         let room = rooms[roomName]
         if(cpuLog) {
             if(!Memory.cpuUsage.rooms[room.name]) {
-                Memory.cpuUsage.rooms[room.name] = {total: {v:0, n:0}};
+                Memory.cpuUsage.rooms[room.name] = {
+                    total: {v:0, n:0},
+                    tower : {v:0, n:0},
+                    creepCount : {v:0, n:0},
+                    spawning : {v:0, n:0}
+                };
             }
             currCpu = Game.cpu.getUsed();
         }
@@ -288,6 +293,10 @@ function RunLevel2(room) {
 /** @param {Room} room */
 function RunLevel3(room) {
 
+    let currCpu = 0;
+    if(cpuLog) {
+        currCpu = Game.cpu.getUsed();
+    }
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
     if (Game.time % 250 === 0) {
@@ -301,6 +310,10 @@ function RunLevel3(room) {
 
     if(Game.time % 10 === 0) {
         InitClearObjectsMemory();
+    }
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].init = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].init, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
     }
 
     let towers = room.find(FIND_STRUCTURES, {
@@ -320,6 +333,10 @@ function RunLevel3(room) {
             }
         }
     }
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].tower = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].tower, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
+    }
 
     let harvesters = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'harvester');
     let builders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'builder');
@@ -330,6 +347,10 @@ function RunLevel3(room) {
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
         longDistanceMinersRequired += i.maxMiners;
+    }
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].creepCount = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creepCount, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
     }
     let invasion = false;
     if(!Memory.invasionParameters) {
@@ -484,33 +505,80 @@ function RunLevel3(room) {
             InvasionControl.run();
         }
     }
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].spawning = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].spawning, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
+    }
 
 
 
     for(let name in thisRoomCreeps) {
+        if(cpuLog) {
+            currCpu = Game.cpu.getUsed();
+            if(!Memory.cpuUsage.rooms[room.name].creeps) {
+                Memory.cpuUsage.rooms[room.name].creeps = {
+                    simpleWorker : {v:0, n:0},
+                    builder : {v:0, n:0},
+                    upgrader : {v:0, n:0},
+                    courier : {v:0, n:0},
+                    harvester : {v:0, n:0},
+                    longdistanceminer : {v:0, n:0},
+                    claimer : {v:0, n:0}
+                }
+            }
+        }
         let creep = thisRoomCreeps[name];
         if (creep.memory.role === 'simpleWorker') {
             roleSimpleWorker.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].simpleWorker = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].simpleWorker, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'builder') {
             roleBuilderLvl3.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].builder = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].builder, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'upgrader') {
             roleUpgraderLvl3.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].upgrader = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].upgrader, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'courier') {
             roleCourierLvl3.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].courier, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'harvester') {
             roleHarvesterLvl3.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].harvester = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].harvester, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'longdistanceminer') {
             roleLongDistanceMinerLvl3.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].longdistanceminer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistanceminer, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'claimer') {
             roleClaimerLvl3.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].claimer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].claimer, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
     }
+
 }
 
 /** @param {Room} room */
@@ -761,6 +829,11 @@ function RunLevel4(room) {
 /** @param {Room} room */
 function RunLatest(room) {
 
+    let currCpu = 0;
+    if(cpuLog) {
+        currCpu = Game.cpu.getUsed();
+    }
+
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
     if (Game.time % 250 === 0) {
@@ -797,7 +870,10 @@ function RunLatest(room) {
         }
     }
 
-
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].init = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].init, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
+    }
 
     let towers = room.find(FIND_STRUCTURES, {
         filter: (structure) => structure.structureType === STRUCTURE_TOWER
@@ -867,6 +943,11 @@ function RunLatest(room) {
         }
     }
 
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].tower = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].tower, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
+    }
+
     let harvesters = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'harvester');
     let builders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'builder');
     let upgraders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'upgrader');
@@ -888,6 +969,10 @@ function RunLatest(room) {
     }
     if(longDistanceHaulersRequired > 0) {
         longDistanceHaulersRequired -= roleLongDistanceHaulerLvl5.countUnassignedHaulers(room);
+    }
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].creepCount = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creepCount, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
     }
     let invasion = false;
     if(!Memory.invasionParameters) {
@@ -1067,8 +1152,29 @@ function RunLatest(room) {
             InvasionControl.run();
         }
     }
+    if(cpuLog) {
+        Memory.cpuUsage.rooms[room.name].spawning = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].spawning, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
+    }
 
     for(let name in thisRoomCreeps) {
+        if(cpuLog) {
+            currCpu = Game.cpu.getUsed();
+            if(!Memory.cpuUsage.rooms[room.name].creeps) {
+                Memory.cpuUsage.rooms[room.name].creeps = {
+                    simpleWorker : {v:0, n:0},
+                    builder : {v:0, n:0},
+                    upgrader : {v:0, n:0},
+                    courier : {v:0, n:0},
+                    harvester : {v:0, n:0},
+                    longdistanceminer : {v:0, n:0},
+                    longdistanceminer5 : {v:0, n:0},
+                    longdistancehauler5 : {v:0, n:0},
+                    claimer : {v:0, n:0},
+                    reserver : {v:0, n:0}
+                }
+            }
+        }
         let creep = thisRoomCreeps[name];
         if(!Game.getObjectById(creep.id)) {
             continue;
@@ -1076,32 +1182,72 @@ function RunLatest(room) {
         if (creep.memory.role === 'simpleWorker') {
             roleSimpleWorker.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].simpleWorker = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].simpleWorker, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'builder') {
             roleBuilderLvl5.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].builder = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].builder, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'upgrader') {
             roleUpgraderLvl3.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].upgrader = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].upgrader, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'harvester') {
             roleHarvesterLvl3.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].harvester = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].harvester, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'longdistanceminer') {
             roleLongDistanceMinerLvl3.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].longdistanceminer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistanceminer, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'longdistanceminer5') {
             roleLongDistanceMinerLvl5.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].longdistanceminer5 = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistanceminer5, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'longdistancehauler5') {
             roleLongDistanceHaulerLvl5.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].longdistancehauler5 = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistancehauler5, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'claimer') {
             roleClaimerLvl3.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].claimer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].claimer, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'reserver') {
             roleReserverLvl5.run(creep);
         }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].reserver = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].reserver, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
+        }
         if (creep.memory.role === 'courier') {
             roleCourierLvl5.run(creep);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[room.name].courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].courier, Game.cpu.getUsed()-currCpu);
+            currCpu = Game.cpu.getUsed();
         }
     }
 }
