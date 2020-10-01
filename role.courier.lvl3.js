@@ -23,7 +23,7 @@ var roleCourierLvl3 = {
                     filter: (structure) => {
                         return (structure.structureType === STRUCTURE_EXTENSION ||
                             structure.structureType === STRUCTURE_SPAWN ||
-                            structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                            (structure.structureType === STRUCTURE_TOWER && ((structure.energyCapacity-structure.energy) >= 100) && (structure.room.energyAvailable >= 600))) && structure.energyCapacity > structure.energy;
                     }
                 });
             }
