@@ -61,6 +61,11 @@ var roleCourierLvl3 = {
                             }
                         }
                     }
+                    else {
+                        if(creep.room.storage && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY) < 100000) {
+                            target = creep.room.storage;
+                        }
+                    }
                 }
             }
             if(target) {
