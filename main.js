@@ -25,7 +25,7 @@ module.exports.loop = function () {
         if(!Memory.cpuUsage) {
             Memory.cpuUsage = {memoryRead : {v:0, n:0},
                 pathingRecalculations : {v:0, n:0},
-                rooms : []};
+                rooms : {}};
         }
         Memory.cpuUsage.memoryRead = adjustAvgCpuUsage(Memory.cpuUsage.memoryRead, currCpu);
     }
