@@ -11,10 +11,11 @@ let roomDefenseControl = {
         }
         else {
             let defenseRegionMatrix = Array(50);
+            let roomTerrain = room.getTerrain();
             for(let i=0; i<50; i++) {
                 defenseRegionMatrix[i] = Array(50);
                 for(let j=0; j<50; j++) {
-                    defenseRegionMatrix[i][j] = (room.getTerrain(i,j) === TERRAIN_MASK_WALL) ? 255 : 1;
+                    defenseRegionMatrix[i][j] = (roomTerrain.get(i,j) === TERRAIN_MASK_WALL) ? 255 : 1;
                 }
             }
             let rampartsAndWalls = room.find(FIND_STRUCTURES, {
