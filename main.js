@@ -75,7 +75,7 @@ module.exports.loop = function () {
             RunLatest(room);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[roomName].total = adjustAvgCpuUsage(Memory.cpuUsage.rooms[roomName].total, Game.cpu.getUsed() - currCpu);
+            Memory.cpuUsage.rooms[room.name].total = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].total, Game.cpu.getUsed() - currCpu);
             currCpu = Game.cpu.getUsed();
         }
     }
