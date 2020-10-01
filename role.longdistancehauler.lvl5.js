@@ -92,26 +92,46 @@ let roleLongDistanceHaulerLvl5 = {
                 }
             }
             //MOVING TO TARGET ROOM
-            else if (creep.room.name !== creep.memory.longDistanceMining.room) {
-                let exitToMining = new RoomPosition(creep.memory.longDistanceMining.exitToMining.x, creep.memory.longDistanceMining.exitToMining.y, creep.room.name);
-
-                if(creep.memory.longDistanceMining.containerLocation
-                    && !creep.memory.longDistanceMining.exitCheckDone
-                    && creep.pos.getRangeTo(new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name)) === 1
-                ) {
-                    let exitCode = creep.room.findExitTo(creep.memory.longDistanceMining.room);
-                    let exitPos = creep.pos.findClosestByPath(exitCode, {ignoreCreeps: true});
-
-                    if (exitPos) {
-                        creep.memory.longDistanceMining.exitCheckDone = true;
-                        if(!exitPos.isEqualTo(exitToMining)) {
-                            exitToMining = exitPos;
-                            creep.memory.longDistanceMining.exitToMining.x = exitPos.x;
-                            creep.memory.longDistanceMining.exitToMining.y = exitPos.y;
+            else {
+                if(!creep.memory.longDistanceMining || !creep.memory.longDistanceMining.exitToMining) {
+                    let IdleFlag = undefined;
+                    if(creep.room.memory.IdleFlag) {
+                        IdleFlag = Game.getObjectById(creep.room.memory.IdleFlag);
+                    }
+                    if(!IdleFlag) {
+                        let flags = creep.room.find(FIND_FLAGS, {
+                            filter : (flag) => flag.color === COLOR_YELLOW
+                        });
+                        if(flags && flags.length > 0) {
+                            IdleFlag = flags[0];
+                            creep.room.memory.IdleFlag = IdleFlag.id;
                         }
                     }
+                    if(IdleFlag) {
+                        pathfinding.modMoveTo(creep, IdleFlag.pos, 1);
+                    }
                 }
-                pathfinding.modMoveTo(creep, exitToMining, 0);
+                else if (creep.room.name !== creep.memory.longDistanceMining.room) {
+                    let exitToMining = new RoomPosition(creep.memory.longDistanceMining.exitToMining.x, creep.memory.longDistanceMining.exitToMining.y, creep.room.name);
+
+                    if(creep.memory.longDistanceMining.containerLocation
+                        && !creep.memory.longDistanceMining.exitCheckDone
+                        && creep.pos.getRangeTo(new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name)) === 1
+                    ) {
+                        let exitCode = creep.room.findExitTo(creep.memory.longDistanceMining.room);
+                        let exitPos = creep.pos.findClosestByPath(exitCode, {ignoreCreeps: true});
+
+                        if (exitPos) {
+                            creep.memory.longDistanceMining.exitCheckDone = true;
+                            if(!exitPos.isEqualTo(exitToMining)) {
+                                exitToMining = exitPos;
+                                creep.memory.longDistanceMining.exitToMining.x = exitPos.x;
+                                creep.memory.longDistanceMining.exitToMining.y = exitPos.y;
+                            }
+                        }
+                    }
+                    pathfinding.modMoveTo(creep, exitToMining, 0);
+                }
             }
         }
         else {
