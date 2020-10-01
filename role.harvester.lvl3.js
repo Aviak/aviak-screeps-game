@@ -15,7 +15,8 @@ let roleHarvesterLvl3 = {
                 filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
                                             && Memory.structures['id'+structure.id]
                                             && Memory.structures['id'+structure.id].containerType === 'Harvest'
-                                            && !Memory.structures['id'+structure.id].harvester
+                                            && (!Memory.structures['id'+structure.id].harvester
+                                                || (Game.getObjectById(Memory.structures['id'+source.id].miner).ticksToLive < Game.getObjectById(Memory.structures['id'+source.id].miner).memory.ticksBeforeWork))
             });
             if(harvestContainers && harvestContainers.length > 0) {
                 targetPosition = harvestContainers[0].pos;
@@ -50,7 +51,12 @@ let roleHarvesterLvl3 = {
                     }
                 }
                 if(creep.store.getFreeCapacity() !== 0 || transferredThisTurn) {
-                    creep.harvest(source);
+                    let res = creep.harvest(source);
+                    if(res === OK) {
+                        if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                            creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                        }
+                    }
                 }
 
             }

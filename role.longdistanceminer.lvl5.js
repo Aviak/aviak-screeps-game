@@ -158,7 +158,12 @@ var roleLongDistanceMinerLvl5 = {
                             numberOfWorkParts = creep.memory.numberOfWorkParts;
                         }
                         if(creep.store.getUsedCapacity() < numberOfWorkParts) {
-                            creep.harvest(source);
+                            let res = creep.harvest(source);
+                            if(res === OK) {
+                                if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                                    creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                                }
+                            }
                         }
                         else {
                             // let structuresNear = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
@@ -185,7 +190,12 @@ var roleLongDistanceMinerLvl5 = {
                             }
                             else {
                                 if(creep.store.getUsedCapacity() < numberOfWorkParts*5 && creep.store.getFreeCapacity() >= numberOfWorkParts*2) {
-                                    creep.harvest(source);
+                                    let res =creep.harvest(source);
+                                    if(res === OK) {
+                                        if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                                            creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                                        }
+                                    }
                                 }
                                 else {
                                     let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
@@ -214,7 +224,12 @@ var roleLongDistanceMinerLvl5 = {
                                             creep.transfer(container, RESOURCE_ENERGY);
                                         }
                                         if(creep.store.getFreeCapacity() > 0) {
-                                            creep.harvest(source);
+                                            let res = creep.harvest(source);
+                                            if(res === OK) {
+                                                if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                                                    creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                                                }
+                                            }
                                         }
 
                                     }
@@ -260,7 +275,7 @@ var roleLongDistanceMinerLvl5 = {
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         // let cpu = Game.cpu.getUsed();
-        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined);
+        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined && (!elem.ticksBeforeWork || Game.creeps[_.findKey(Memory.creeps, elem)].ticksToLive >= elem.ticksBeforeWork));
         // console.log('used cpu: ' + (Game.cpu.getUsed() - cpu));
 
         for (let l of locations) {

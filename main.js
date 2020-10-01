@@ -672,7 +672,7 @@ function RunLevel4(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, CARRY, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
@@ -684,7 +684,7 @@ function RunLevel4(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (couriers.length < 2) {
                 let newName = 'Courier' + Game.time;
@@ -715,7 +715,7 @@ function RunLevel4(room) {
                 let newName = 'LongDistanceMiner' + Game.time;
 
                 spawn.spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'longdistanceminer' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'longdistanceminer', timeBorn : Game.time } });
             }
             else if (builders.length < 4) {
                 let newName = 'Builder' + Game.time;
@@ -751,7 +751,7 @@ function RunLevel4(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
@@ -763,7 +763,7 @@ function RunLevel4(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (builders.length < 1) {
                 let newName = 'Builder' + Game.time;
@@ -949,7 +949,7 @@ function RunLatest(room) {
         currCpu = Game.cpu.getUsed();
     }
 
-    let harvesters = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'harvester');
+    let harvesters = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'harvester' && (!creep.memory.ticksBeforeWork || creep.ticksToLive >= creep.memory.ticksBeforeWork));
     let builders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'builder');
     let upgraders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'upgrader');
     let couriers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'courier');
@@ -1010,7 +1010,7 @@ function RunLatest(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, CARRY, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time} });
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
@@ -1022,7 +1022,7 @@ function RunLatest(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (couriers.length < 2) {
                 let newName = 'Courier' + Game.time;
@@ -1053,7 +1053,7 @@ function RunLatest(room) {
                 let newName = 'LongDistanceMinerMk5' + Game.time;
 
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'longdistanceminer5' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'longdistanceminer5', timeBorn : Game.time } });
             }
             else if (longDistanceHaulersRequired > 0) {
                 //console.log('required ' + longDistanceMinersRequired + 'long distance miners');
@@ -1109,7 +1109,7 @@ function RunLatest(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
@@ -1121,7 +1121,7 @@ function RunLatest(room) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester' } });
+                    { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (builders.length < 1) {
                 let newName = 'Builder' + Game.time;
