@@ -14,7 +14,22 @@ let roleReserverLvl5 = require('role.reserver.lvl5');
 let roleLongDistanceMinerLvl5 = require('role.longdistanceminer.lvl5');
 let roleLongDistanceHaulerLvl5 = require('role.longdistancehauler.lvl5');
 
+let cpuLog = false;
+let currCpu = 0;
+
 module.exports.loop = function () {
+
+    if(Game.time % 5) {
+        cpuLog = true;
+        currCpu = Game.cpu.getUsed();
+        if(!Memory.cpuUsage) {
+            Memory.cpuUsage = {memoryRead : {v:0, n:0},
+                pathingRecalculations : {v:0, n:0},
+                rooms : []};
+        }
+        Memory.cpuUsage.memoryRead = adjustAvgCpuUsage(Memory.cpuUsage.memoryRead, currCpu);
+    }
+
 
     if(Game.time % pathfinding.cachePathClearInterval === 0) {
         for(let room in Game.rooms) {
@@ -26,9 +41,19 @@ module.exports.loop = function () {
             pathfinding.recalculateMatrixes(Game.rooms[room]);
         }
     }
+    if(cpuLog) {
+        Memory.cpuUsage.pathingRecalculations = adjustAvgCpuUsage(Memory.cpuUsage.pathingRecalculations, Game.cpu.getUsed()-currCpu);
+        currCpu = Game.cpu.getUsed();
+    }
     // console.log('Memory upkeep: ' + Game.cpu.getUsed());
     let rooms = _.filter(Game.rooms, (room) => room.controller.my);
     for(let roomName in rooms) {
+        if(cpuLog) {
+            if(!Memory.cpuUsage.rooms[roomName]) {
+                Memory.cpuUsage.rooms[roomName] = {total: {v:0, n:0}};
+            }
+            currCpu = Game.cpu.getUsed();
+        }
         let room = rooms[roomName];
         let roomLevel = GetRoomLevel(room);
         if(roomLevel === 1) {
@@ -45,6 +70,10 @@ module.exports.loop = function () {
         }
         else {
             RunLatest(room);
+        }
+        if(cpuLog) {
+            Memory.cpuUsage.rooms[roomName].total = adjustAvgCpuUsage(Memory.cpuUsage.rooms[roomName].total, Game.cpu.getUsed() - currCpu);
+            currCpu = Game.cpu.getUsed();
         }
     }
 
@@ -1160,4 +1189,8 @@ function ProcessCreepsOnDeathEffects() {
         }
 
     }
+}
+
+function adjustAvgCpuUsage(currAvgObj, cpuUsage) {
+    return {v: (currAvgObj.n*currAvgObj.v+cpuUsage)/(currAvgObj.n+1), n: currAvgObj.n+1};
 }
