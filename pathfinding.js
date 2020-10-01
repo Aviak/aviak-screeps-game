@@ -295,7 +295,7 @@ var pathfinding = {
             }
         }
         for(let flagName in Game.flags) {
-            if(ignoreCreeps) {
+            if(!ignoreCreeps) {
                 break;
             }
 
