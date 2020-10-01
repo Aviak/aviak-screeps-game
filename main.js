@@ -56,6 +56,7 @@ module.exports.loop = function () {
             if(!Memory.cpuUsage.rooms[room.name]) {
                 Memory.cpuUsage.rooms[room.name] = {
                     total: {v:0, n:0},
+                    init: {v:0, n:0},
                     tower : {v:0, n:0},
                     creepCount : {v:0, n:0},
                     spawning : {v:0, n:0}
