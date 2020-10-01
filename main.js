@@ -22,7 +22,7 @@ module.exports.loop = function () {
     if(Game.time % 5 === 0) {
         cpuLog = true;
         currCpu = Game.cpu.getUsed();
-        if(!Memory.cpuUsage) {
+        if(!Memory.cpuUsage || Game.time % 150 === 0) {
             Memory.cpuUsage = {memoryRead : {v:0, n:0},
                 pathingRecalculations : {v:0, n:0},
                 rooms : {}};
