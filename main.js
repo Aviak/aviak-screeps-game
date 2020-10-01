@@ -29,6 +29,9 @@ module.exports.loop = function () {
         }
         Memory.cpuUsage.memoryRead = adjustAvgCpuUsage(Memory.cpuUsage.memoryRead, currCpu);
     }
+    else {
+        cpuLog = false;
+    }
 
 
     if(Game.time % pathfinding.cachePathClearInterval === 0) {
