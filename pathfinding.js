@@ -311,7 +311,7 @@ var pathfinding = {
                 for(let j=0; j<50; j++) {
                     let el = newMatrix.get(i,j);
                     if(el !== 255 && roomDefenseMatrix[i][j] !== 255) {
-                        newMatrix.set(el*roomDefenseMatrix[i][j]);
+                        newMatrix.set(i,j,el*roomDefenseMatrix[i][j]);
                     }
                 }
             }
