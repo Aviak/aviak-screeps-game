@@ -193,6 +193,12 @@ let roleLongDistanceHaulerLvl5 = {
 
         return locations;
     }
+    ,
+    countUnassignedHaulers: function (room) {
+        let unassignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistancehauler5' && elem.longDistanceMining === undefined && elem.originRoom === room.name && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined);
+        return unassignedMiners.length;
+    }
+
 };
 
 

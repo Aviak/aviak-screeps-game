@@ -846,10 +846,16 @@ function RunLatest(room) {
     for (let i of longDistanceMiningLocations) {
         longDistanceMinersRequired += i.maxMiners;
     }
+    if(longDistanceMinersRequired > 0) {
+        longDistanceMinersRequired -= roleLongDistanceMinerLvl5.countUnassignedMiners(room);
+    }
     let longDistanceHaulingLocations = roleLongDistanceHaulerLvl5.getMiningLocations(room);
     let longDistanceHaulersRequired = 0;
     for (let i of longDistanceHaulingLocations) {
         longDistanceHaulersRequired += i.maxMiners;
+    }
+    if(longDistanceHaulersRequired > 0) {
+        longDistanceHaulersRequired -= roleLongDistanceHaulerLvl5.countUnassignedHaulers(room);
     }
     let invasion = false;
     if(!Memory.invasionParameters) {
