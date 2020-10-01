@@ -706,7 +706,7 @@ function RunLevel4(room) {
             }
             else if (couriers.length < 3) {
                 let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'courier', building: false } });
 
             }
