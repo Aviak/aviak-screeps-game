@@ -1,9 +1,9 @@
 let roomDefenseControl = {
     getRoomDefenseRegionMatrix: function(room) {
-        if(!room.memory.defenceControl) {
-            room.memory.defenceControl = {defenceControlActive : false};
+        if(!room.memory.defenseControl) {
+            room.memory.defenseControl = {defenseControlActive : false};
         }
-        if(!room.memory.defenceControlActive) {
+        if(!room.memory.defenseControlActive) {
             return undefined;
         }
         if(room.memory.defenseRegionMatrixCache) {
