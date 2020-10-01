@@ -50,6 +50,7 @@ var roleCourierLvl3 = {
                             && Memory.structures['id'+structure.id]
                             && Memory.structures['id'+structure.id].containerType !== 'Harvest'
                             && Memory.structures['id'+structure.id].containerType !== 'Provider'
+                            && structure.store.getFreeCapacity() > 0
                     });
                     if(targets && targets.length > 0) {
                         //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
