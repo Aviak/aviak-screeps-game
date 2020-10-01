@@ -1195,5 +1195,11 @@ function ProcessCreepsOnDeathEffects() {
 }
 
 function adjustAvgCpuUsage(currAvgObj, cpuUsage) {
+    if(currAvgObj.n<0) {
+        currAvgObj = {v:0, n:0};
+    }
+    if(cpuUsage < 0) {
+        return currAvgObj;
+    }
     return {v: (currAvgObj.n*currAvgObj.v+cpuUsage)/(currAvgObj.n+1), n: currAvgObj.n+1};
 }
