@@ -19,7 +19,7 @@ let currCpu = 0;
 
 module.exports.loop = function () {
 
-    if(Game.time % 5) {
+    if(Game.time % 5 === 0) {
         cpuLog = true;
         currCpu = Game.cpu.getUsed();
         if(!Memory.cpuUsage) {
