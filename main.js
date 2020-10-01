@@ -533,49 +533,49 @@ function RunLevel3(room) {
             roleSimpleWorker.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].simpleWorker = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].simpleWorker, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.simpleWorker = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.simpleWorker, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'builder') {
             roleBuilderLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].builder = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].builder, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.builder = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.builder, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'upgrader') {
             roleUpgraderLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].upgrader = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].upgrader, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.upgrader = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.upgrader, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'courier') {
             roleCourierLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].courier, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.courier, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'harvester') {
             roleHarvesterLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].harvester = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].harvester, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.harvester = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.harvester, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'longdistanceminer') {
             roleLongDistanceMinerLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].longdistanceminer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistanceminer, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.longdistanceminer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.longdistanceminer, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'claimer') {
             roleClaimerLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].claimer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].claimer, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.claimer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.claimer, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
     }
@@ -1184,70 +1184,70 @@ function RunLatest(room) {
             roleSimpleWorker.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].simpleWorker = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].simpleWorker, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.simpleWorker = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.simpleWorker, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'builder') {
             roleBuilderLvl5.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].builder = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].builder, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.builder = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.builder, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'upgrader') {
             roleUpgraderLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].upgrader = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].upgrader, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.upgrader = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.upgrader, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'harvester') {
             roleHarvesterLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].harvester = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].harvester, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.harvester = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.harvester, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'longdistanceminer') {
             roleLongDistanceMinerLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].longdistanceminer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistanceminer, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.longdistanceminer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.longdistanceminer, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'longdistanceminer5') {
             roleLongDistanceMinerLvl5.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].longdistanceminer5 = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistanceminer5, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.longdistanceminer5 = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.longdistanceminer5, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'longdistancehauler5') {
             roleLongDistanceHaulerLvl5.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].longdistancehauler5 = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].longdistancehauler5, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.longdistancehauler5 = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.longdistancehauler5, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'claimer') {
             roleClaimerLvl3.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].claimer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].claimer, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.claimer = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.claimer, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'reserver') {
             roleReserverLvl5.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].reserver = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].reserver, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.reserver = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.reserver, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'courier') {
             roleCourierLvl5.run(creep);
         }
         if(cpuLog) {
-            Memory.cpuUsage.rooms[room.name].courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].courier, Game.cpu.getUsed()-currCpu);
+            Memory.cpuUsage.rooms[room.name].creeps.courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.courier, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
     }
