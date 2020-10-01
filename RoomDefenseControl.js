@@ -3,11 +3,11 @@ let roomDefenseControl = {
         if(!room.memory.defenseControl) {
             room.memory.defenseControl = {defenseControlActive : false};
         }
-        if(!room.memory.defenseControlActive) {
+        if(!room.memory.defenseControl.defenseControlActive) {
             return undefined;
         }
-        if(room.memory.defenseRegionMatrixCache) {
-            return JSON.parse(room.memory.defenseRegionMatrixCache);
+        if(room.memory.defenseControl.defenseRegionMatrixCache) {
+            return JSON.parse(room.memory.defenseControl.defenseRegionMatrixCache);
         }
         else {
             let defenseRegionMatrix = Array(50);
@@ -38,7 +38,7 @@ let roomDefenseControl = {
                     this.recFillOuterRegion(defenseRegionMatrix, i, 49);
                 }
             }
-            room.memory.defenseRegionMatrixCache = JSON.stringify(defenseRegionMatrix);
+            room.memory.defenseControl.defenseRegionMatrixCache = JSON.stringify(defenseRegionMatrix);
             return defenseRegionMatrix;
         }
     }
