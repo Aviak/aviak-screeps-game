@@ -704,7 +704,7 @@ function RunLevel4(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
-            else if (couriers.length < 4) {
+            else if (couriers.length < 3) {
                 let newName = 'Courier' + Game.time;
                 spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'courier', building: false } });
@@ -717,13 +717,13 @@ function RunLevel4(room) {
                 spawn.spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'longdistanceminer', timeBorn : Game.time } });
             }
-            else if (builders.length < 4) {
+            else if (builders.length < 3) {
                 let newName = 'Builder' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'builder', building: false } });
 
             }
-            else if (upgraders.length < 4) {
+            else if (upgraders.length < 3) {
                 let newName = 'Upgrader' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
