@@ -51,13 +51,13 @@ module.exports.loop = function () {
     // console.log('Memory upkeep: ' + Game.cpu.getUsed());
     let rooms = _.filter(Game.rooms, (room) => room.controller.my);
     for(let roomName in rooms) {
+        let room = rooms[roomName]
         if(cpuLog) {
-            if(!Memory.cpuUsage.rooms[roomName]) {
-                Memory.cpuUsage.rooms[roomName] = {total: {v:0, n:0}};
+            if(!Memory.cpuUsage.rooms[room.name]) {
+                Memory.cpuUsage.rooms[room.name] = {total: {v:0, n:0}};
             }
             currCpu = Game.cpu.getUsed();
         }
-        let room = rooms[roomName];
         let roomLevel = GetRoomLevel(room);
         if(roomLevel === 1) {
             RunLevel1(room);
