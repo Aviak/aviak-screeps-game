@@ -259,7 +259,9 @@ var roleLongDistanceMinerLvl5 = {
         const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', maxMiners: 1 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
+        let cpu = Game.cpu.getUsed();
         let assignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined);
+        console.log('used cpu: ' + (Game.cpu.getUsed() - cpu));
 
         for (let l of locations) {
 
