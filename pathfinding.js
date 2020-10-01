@@ -1,3 +1,5 @@
+let roomDefenseControl = require('RoomDefenseControl');
+
 var pathfinding = {
 
     maxCachedPaths : 100,
@@ -301,6 +303,17 @@ var pathfinding = {
 
             if(Game.flags[flagName].pos.roomName === room.name && Game.flags[flagName].color === COLOR_PURPLE) {
                 newMatrix.set(Game.flags[flagName].pos.x, Game.flags[flagName].pos.y, 255);
+            }
+        }
+        let roomDefenseMatrix = roomDefenseControl.getRoomDefenseRegionMatrix(room);
+        if(roomDefenseMatrix) {
+            for(let i=0; i<50; i++) {
+                for(let j=0; j<50; j++) {
+                    let el = newMatrix.get(i,j);
+                    if(el !== 255 && roomDefenseMatrix[i][j] !== 255) {
+                        newMatrix.set(el*roomDefenseMatrix[i][j]);
+                    }
+                }
             }
         }
         let serializedMatrix = newMatrix.serialize();
