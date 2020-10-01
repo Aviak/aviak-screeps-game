@@ -51,7 +51,7 @@ var roleLongDistanceMinerLvl5 = {
                     filter : (source) => !Memory.structures['id'+source.id]
                         || !Memory.structures['id'+source.id].miner
                         || !Game.getObjectById(Memory.structures['id'+source.id].miner)
-                        || Game.getObjectById(Memory.structures['id'+source.id].miner).ticksToLive < (Game.getObjectById(Memory.structures['id'+source.id].miner).memory.ticksBeforeWork-5)
+                        || Game.getObjectById(Memory.structures['id'+source.id].miner).ticksToLive < (Game.getObjectById(Memory.structures['id'+source.id].miner).memory.ticksBeforeWork)
                 });
                 if(sources && sources.length > 0) {
                     source = sources[0];
@@ -275,7 +275,7 @@ var roleLongDistanceMinerLvl5 = {
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         // let cpu = Game.cpu.getUsed();
-        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined && (!elem.ticksBeforeWork || Game.creeps[_.findKey(Memory.creeps, elem)].ticksToLive >= (elem.ticksBeforeWork-5)));
+        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined && (!elem.ticksBeforeWork || Game.creeps[_.findKey(Memory.creeps, elem)].ticksToLive >= (elem.ticksBeforeWork)));
         // console.log('used cpu: ' + (Game.cpu.getUsed() - cpu));
 
         for (let l of locations) {
