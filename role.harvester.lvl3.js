@@ -16,6 +16,7 @@ let roleHarvesterLvl3 = {
                                             && Memory.structures['id'+structure.id]
                                             && Memory.structures['id'+structure.id].containerType === 'Harvest'
                                             && (!Memory.structures['id'+structure.id].harvester
+                                                || !Game.getObjectById(Memory.structures['id'+structure.id].harvester)
                                                 || (Game.getObjectById(Memory.structures['id'+structure.id].harvester).ticksToLive < (Game.getObjectById(Memory.structures['id'+structure.id].harvester).memory.ticksBeforeWork)))
             });
             if(harvestContainers && harvestContainers.length > 0) {

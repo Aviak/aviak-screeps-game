@@ -1083,7 +1083,7 @@ function RunLatest(room) {
             else if (reservers.length < 1 &&  room.memory.reserving && room.memory.reserving.reserveRoom && (!Game.rooms[room.memory.reserving.reserveRoom] || !Game.rooms[room.memory.reserving.reserveRoom].controller.my)) {
                 let newName = 'Reserver' + Game.time;
                 let body = [];
-                if(!Game.rooms[room.memory.reserving.reserveRoom] || !Game.rooms[room.memory.reserving.reserveRoom].controller.reservation || Game.rooms[room.memory.reserving.reserveRoom].controller.reservation < 1000) {
+                if(!Game.rooms[room.memory.reserving.reserveRoom] || !Game.rooms[room.memory.reserving.reserveRoom].controller.reservation || Game.rooms[room.memory.reserving.reserveRoom].controller.reservation.ticksToEnd < 1000) {
                     body = [CLAIM, CLAIM, MOVE, MOVE];
                 }
                 else {
