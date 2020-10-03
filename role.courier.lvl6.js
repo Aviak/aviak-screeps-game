@@ -154,6 +154,11 @@ let roleCourierLvl6 = {
                         if(targets && targets.length > 0) {
                             target = targets[0];
                         }
+                        else {
+                            if(creep.room.storage && creep.room.energyAvailable < creep.room.energyCapacityAvailable && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY)) {
+                                target = creep.room.storage;
+                            }
+                        }
                     }
                 }
 
