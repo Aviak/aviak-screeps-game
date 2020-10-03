@@ -861,7 +861,7 @@ function RunLevel5(room) {
     }
 
     //while it's all shit with requests
-    if(Game.time % 6) {
+    if(Game.time % 6 === 0) {
         let couriersRequestedTotal = 0;
         for(let creepName in Memory.creeps) {
             if(Memory.creeps[creepName].role === 'courier') {
@@ -1287,7 +1287,7 @@ function RunLatest(room) {
     }
 
     //while it's all shit with requests
-    if(Game.time % 6) {
+    if(Game.time % 6 === 0) {
         let couriersRequestedTotal = 0;
         for(let creepName in Memory.creeps) {
             if(Memory.creeps[creepName].role === 'courier') {
@@ -1299,6 +1299,18 @@ function RunLatest(room) {
                 if(Memory.structures[structureId].requested) {
                     Memory.structures[structureId].requested = 0;
                 }
+            }
+        }
+    }
+
+    if(Game.time % 10 === 0) {
+        let links = room.find(FIND_STRUCTURES, {
+            filter : (structure) => structure.structureType === STRUCTURE_LINK
+        });
+
+        for(let linkIndex in links) {
+            if(!Memory.structures['id'+links[linkIndex].id]) {
+                Memory.structures['id'+links[linkIndex].id] = {};
             }
         }
     }
