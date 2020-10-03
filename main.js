@@ -1620,7 +1620,7 @@ function RunLatest(room) {
         let harvestLinkEnergy = harvestLink.store.getUsedCapacity(RESOURCE_ENERGY);
         let harvestLinkCapacity = harvestLink.store.getCapacity(RESOURCE_ENERGY);
 
-        if(harvestLink.cooldown === 0 && ((harvestLinkEnergy >= requestLinkFreeCapacity) || (harvestLinkEnergy === harvestLinkCapacity))) {
+        if(harvestLink.cooldown === 0 && (requestLinkFreeCapacity) >= 100 && ((harvestLinkEnergy >= requestLinkFreeCapacity) || (harvestLinkEnergy === harvestLinkCapacity))) {
             harvestLink.transferEnergy(requestLink);
             break;
         }
