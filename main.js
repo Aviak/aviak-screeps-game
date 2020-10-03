@@ -13,6 +13,8 @@ let roleBuilderLvl5 = require('role.builder.lvl5');
 let roleReserverLvl5 = require('role.reserver.lvl5');
 let roleLongDistanceMinerLvl5 = require('role.longdistanceminer.lvl5');
 let roleLongDistanceHaulerLvl5 = require('role.longdistancehauler.lvl5');
+let roleCourierLvl6 = require('role.courier.lvl6');
+let roleOperatorLvl6 = require('role.operator.lvl6');
 
 let cpuLog = false;
 
@@ -1399,6 +1401,7 @@ function RunLatest(room) {
     let builders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'builder');
     let upgraders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'upgrader');
     let couriers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'courier');
+    let operators = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'operator');
     let claimers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'claimer');
     let reservers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'reserver');
     let longDistanceMiningLocations = roleLongDistanceMinerLvl5.getMiningLocations(room);
@@ -1458,10 +1461,16 @@ function RunLatest(room) {
                 spawn.spawnCreep([WORK, WORK, CARRY, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time} });
             }
+            else if (operators.length < 1) {
+                let newName = 'Courier' + Game.time;
+                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'operator' } });
+
+            }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'courier', building: false } });
+                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'courier' } });
 
             }
             else if(harvesters.length < 2) {
@@ -1469,12 +1478,6 @@ function RunLatest(room) {
                 let newName = 'Harvester' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
-            }
-            else if (couriers.length < 2) {
-                let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'courier', building: false } });
-
             }
             else if (builders.length < 1) {
                 let newName = 'Builder' + Game.time;
@@ -1486,12 +1489,6 @@ function RunLatest(room) {
                 let newName = 'Upgrader' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
-
-            }
-            else if (couriers.length < 3) {
-                let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'courier', building: false } });
 
             }
             else if (longDistanceMinersRequired > 0) {
@@ -1557,10 +1554,16 @@ function RunLatest(room) {
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
+            else if (operators.length < 1) {
+                let newName = 'Courier' + Game.time;
+                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'operator' } });
+
+            }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'courier', building: false } });
+                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'courier' } });
 
             }
             else if(harvesters.length < 2) {
@@ -1581,12 +1584,6 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
-            else if (couriers.length < 2) {
-                let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'courier', building: false } });
-
-            }
             else {
                 let invader = InvasionControl.createNextInvader();
                 if(invader) {
@@ -1602,6 +1599,33 @@ function RunLatest(room) {
     if(cpuLog) {
         Memory.cpuUsage.rooms[room.name].spawning = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].spawning, Game.cpu.getUsed()-currCpu);
         currCpu = Game.cpu.getUsed();
+    }
+
+    let harvestLinks = room.find(FIND_STRUCTURES, {
+        filter : (structure) => structure.structureType === STRUCTURE_LINK
+                            && Memory.structures['id'+structure.id]
+                            && Memory.structures['id'+structure.id].linkType === 'Harvest'
+    });
+    let requestLink = room.find(FIND_STRUCTURES, {
+        filter : (structure) => structure.structureType === STRUCTURE_LINK
+            && Memory.structures['id'+structure.id]
+            && Memory.structures['id'+structure.id].linkType === 'Request'
+    });
+    if(requestLink && requestLink.length > 0) {
+        requestLink = requestLink[0];
+    }
+    let requestLinkFreeCapacity = requestLink.store.getFreeCapacity();
+    for(let linkIndex in harvestLinks) {
+        if(requestLinkFreeCapacity === 0) {
+            break;
+        }
+        let harvestLink = harvestLinks[linkIndex];
+        let harvestLinkEnergy = harvestLink.store.getUsedCapacity();
+
+        if(harvestLink.cooldown === 0 && (harvestLinkEnergy > requestLinkFreeCapacity || harvestLinkEnergy === harvestLink.store.getCapacity())) {
+            harvestLink.transferEnergy(requestLink);
+            break;
+        }
     }
 
     for(let name in thisRoomCreeps) {
@@ -1689,8 +1713,11 @@ function RunLatest(room) {
             Memory.cpuUsage.rooms[room.name].creeps.reserver = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.reserver, Game.cpu.getUsed()-currCpu);
             currCpu = Game.cpu.getUsed();
         }
+        if (creep.memory.role === 'operator') {
+            roleOperatorLvl6.run(creep);
+        }
         if (creep.memory.role === 'courier') {
-            roleCourierLvl5.run(creep);
+            roleCourierLvl6.run(creep);
         }
         if(cpuLog) {
             Memory.cpuUsage.rooms[room.name].creeps.courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.courier, Game.cpu.getUsed()-currCpu);
@@ -1759,8 +1786,11 @@ function ProcessCreepsOnDeathEffects() {
                 if(roomLevel <= 4) {
                     roleCourierLvl3.processOnDeathEffect(creepName);
                 }
-                else {
+                else if(roomLevel <= 5) {
                     roleCourierLvl5.processOnDeathEffect(creepName);
+                }
+                else {
+                    roleCourierLvl6.processOnDeathEffect(creepName);
                 }
                 delete Memory.creeps[creepName];
             }
