@@ -228,7 +228,7 @@ let roleCourierLvl6 = {
 
                 }
                 else {
-                    // console.log('+++courier '+creep.id+' |get error ' + result);
+                    console.log('+++courier '+creep.id+' |get error ' + result);
                 }
             }
             else {
