@@ -114,6 +114,7 @@ let roleOperatorLvl6 = {
             }
             addMove = !addMove;
         }
+        // console.log(JSON.stringify(body));
         return body;
     }
 

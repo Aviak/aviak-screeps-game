@@ -273,7 +273,7 @@ let roleCourierLvl6 = {
             }
             addMove = !addMove;
         }
-        console.log(JSON.stringify(body));
+        // console.log(JSON.stringify(body));
         return body;
     }
 
