@@ -15,6 +15,7 @@ let roleLongDistanceMinerLvl5 = require('role.longdistanceminer.lvl5');
 let roleLongDistanceHaulerLvl5 = require('role.longdistancehauler.lvl5');
 let roleCourierLvl6 = require('role.courier.lvl6');
 let roleOperatorLvl6 = require('role.operator.lvl6');
+let roleHarvesterLvl6 = require('role.harvester.lvl6');
 
 let cpuLog = false;
 
@@ -1672,7 +1673,7 @@ function RunLatest(room) {
             currCpu = Game.cpu.getUsed();
         }
         if (creep.memory.role === 'harvester') {
-            roleHarvesterLvl3.run(creep);
+            roleHarvesterLvl6.run(creep);
         }
         if(cpuLog) {
             Memory.cpuUsage.rooms[room.name].creeps.harvester = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.harvester, Game.cpu.getUsed()-currCpu);

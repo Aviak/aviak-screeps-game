@@ -50,7 +50,7 @@ let roleHarvesterLvl6 = {
                     link = Game.getObjectById(creep.memory.linkId)
                 }
                 else {
-                    let links = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-1, creep.pos.x-1, creep.pox.y+1, creep.pos.x+1, true);
+                    let links = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-1, creep.pos.x-1, creep.pos.y+1, creep.pos.x+1, true);
                     for(let linkIndex in links) {
                         if(links[linkIndex].structure.structureType === STRUCTURE_LINK && Memory.structures['id'+links[linkIndex].structure.id].linkType === 'Harvest') {
                             link = links[linkIndex].structure;
