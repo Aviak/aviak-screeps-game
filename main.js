@@ -1464,13 +1464,15 @@ function RunLatest(room) {
             }
             else if (operators.length < 1) {
                 let newName = 'Operator' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                let body = roleOperatorLvl6.getBody(room.energyAvailable);
+                spawn.spawnCreep(body, newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'operator' } });
 
             }
             else if (couriers.length < 1) {
                 let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                let body = roleCourierLvl6.getBody(room.energyAvailable);
+                spawn.spawnCreep(body, newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'courier' } });
 
             }
@@ -1550,14 +1552,14 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (operators.length < 1) {
-                let newName = 'Operator' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                let body = roleOperatorLvl6.getBody(room.energyAvailable);
+                spawn.spawnCreep(body, newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'operator' } });
 
             }
             else if (couriers.length < 1) {
-                let newName = 'Courier' + Game.time;
-                spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                let body = roleCourierLvl6.getBody(room.energyAvailable);
+                spawn.spawnCreep(body, newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'courier' } });
 
             }
@@ -1806,6 +1808,10 @@ function ProcessCreepsOnDeathEffects() {
                 else {
                     roleBuilderLvl5.processOnDeathEffect(creepName);
                 }
+                delete Memory.creeps[creepName];
+            }
+            if (Memory.creeps[creepName].role === 'operator') {
+                roleOperatorLvl6.processOnDeathEffect(creepName);
                 delete Memory.creeps[creepName];
             }
         }

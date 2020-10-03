@@ -258,6 +258,23 @@ let roleCourierLvl6 = {
         }
 
     }
+    ,
+
+    getBody : function (energyAvailable) {
+        let cost = 0;
+        let body = [];
+        let addMove = true;
+        while(cost+100<energyAvailable && cost < 1000) {
+            body.push(WORK);
+            cost+=50;
+            if(addMove) {
+                body.push(MOVE);
+                cost+=50;
+            }
+            addMove = !addMove;
+        }
+        return body;
+    }
 
 };
 
