@@ -1622,8 +1622,9 @@ function RunLatest(room) {
         }
         let harvestLink = harvestLinks[linkIndex];
         let harvestLinkEnergy = harvestLink.store.getUsedCapacity();
+        let harvestLinkCapacity = harvestLink.store.getCapacity();
 
-        if(harvestLink.cooldown === 0 && (harvestLinkEnergy > requestLinkFreeCapacity || harvestLinkEnergy === harvestLink.store.getCapacity())) {
+        if(harvestLink.cooldown === 0 && ((harvestLinkEnergy >= requestLinkFreeCapacity) || (harvestLinkEnergy === harvestLinkCapacity))) {
             harvestLink.transferEnergy(requestLink);
             break;
         }
