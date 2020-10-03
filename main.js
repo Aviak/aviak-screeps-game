@@ -100,7 +100,7 @@ function GetRoomLevel(room) {
         return room.memory.roomLevel;
     }
 
-    console.log('calc room level ' + room.name);
+    // console.log('calc room level ' + room.name);
     let roomControllerLevel = room.controller.level;
     let storages = room.find(FIND_STRUCTURES, {filter : (s) => s.structureType === STRUCTURE_STORAGE});
     let containers = room.find(FIND_STRUCTURES, {filter : (s) => s.structureType === STRUCTURE_CONTAINER});
