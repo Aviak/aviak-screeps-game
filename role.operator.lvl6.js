@@ -105,7 +105,7 @@ let roleOperatorLvl6 = {
         let cost = 0;
         let body = [];
         let addMove = true;
-        while(cost+100<energyAvailable && cost < 1000) {
+        while(cost+100<energyAvailable && cost < 500) {
             body.push(CARRY);
             cost+=50;
             if(addMove) {
