@@ -271,7 +271,8 @@ var roleLongDistanceMinerLvl5 = {
     }
     ,
     getMiningLocations: function (room) {
-        const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', maxMiners: 1 }];
+        const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', maxMiners: 1 },
+                                    { originRoom : 'E13N1', room: 'E12N1', maxMiners: 1 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         // let cpu = Game.cpu.getUsed();
