@@ -1463,7 +1463,7 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time} });
             }
             else if (operators.length < 1) {
-                let newName = 'Courier' + Game.time;
+                let newName = 'Operator' + Game.time;
                 spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'operator' } });
 
@@ -1556,7 +1556,7 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (operators.length < 1) {
-                let newName = 'Courier' + Game.time;
+                let newName = 'Operator' + Game.time;
                 spawn.spawnCreep([CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'operator' } });
 
