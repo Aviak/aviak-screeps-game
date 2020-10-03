@@ -58,9 +58,9 @@ let roleHarvesterLvl6 = {
                         }
                     }
                 }
-                if(link && link.store.getFreeCapacity() !== 0) {
-                    if(link.store.getFreeCapacity() > creep.store.getUsedCapacity()) {
-                        creep.withdraw(container, RESOURCE_ENERGY, Math.min(container.store.getUsedCapacity(), creep.store.getFreeCapacity(), (link.store.getFreeCapacity()-creep.store.getUsedCapacity())));
+                if(link && link.store.getFreeCapacity(RESOURCE_ENERGY) !== 0) {
+                    if(link.store.getFreeCapacity(RESOURCE_ENERGY) > creep.store.getUsedCapacity(RESOURCE_ENERGY)) {
+                        creep.withdraw(container, RESOURCE_ENERGY, Math.min(container.store.getUsedCapacity(), creep.store.getFreeCapacity(), (link.store.getFreeCapacity(RESOURCE_ENERGY)-creep.store.getUsedCapacity())));
                     }
                     creep.transfer(link, RESOURCE_ENERGY);
                     transferredThisTurn = true;

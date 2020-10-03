@@ -1615,14 +1615,14 @@ function RunLatest(room) {
     if(requestLink && requestLink.length > 0) {
         requestLink = requestLink[0];
     }
-    let requestLinkFreeCapacity = requestLink.store.getFreeCapacity();
+    let requestLinkFreeCapacity = requestLink.store.getFreeCapacity(RESOURCE_ENERGY);
     for(let linkIndex in harvestLinks) {
         if(requestLinkFreeCapacity === 0) {
             break;
         }
         let harvestLink = harvestLinks[linkIndex];
-        let harvestLinkEnergy = harvestLink.store.getUsedCapacity();
-        let harvestLinkCapacity = harvestLink.store.getCapacity();
+        let harvestLinkEnergy = harvestLink.store.getUsedCapacity(RESOURCE_ENERGY);
+        let harvestLinkCapacity = harvestLink.store.getCapacity(RESOURCE_ENERGY;
 
         if(harvestLink.cooldown === 0 && ((harvestLinkEnergy >= requestLinkFreeCapacity) || (harvestLinkEnergy === harvestLinkCapacity))) {
             harvestLink.transferEnergy(requestLink);
