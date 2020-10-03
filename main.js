@@ -1772,6 +1772,9 @@ function InitClearObjectsMemory() {
                 }
             }
         }
+        if(Game.rooms[room].storage && !Memory.structures['id'+Game.rooms[room].storage.id]) {
+            Memory.structures['id'+Game.rooms[room].storage.id] = {};
+        }
     }
 }
 
