@@ -1488,7 +1488,7 @@ function RunLatest(room) {
             }
             else if (upgraders.length < 1) {
                 let newName = 'Upgrader' + Game.time;
-                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
@@ -1510,12 +1510,6 @@ function RunLatest(room) {
                 let newName = 'Builder' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'builder', building: false } });
-
-            }
-            else if (upgraders.length < 2) {
-                let newName = 'Upgrader' + Game.time;
-                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
-                    { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
             else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && (!Game.rooms[room.memory.claiming.claimRoom] || !Game.rooms[room.memory.claiming.claimRoom].controller.my)) {
