@@ -58,8 +58,7 @@ let roleOperatorLvl6 = {
                     filter : (structure) => structure.structureType === STRUCTURE_LINK
                         && Memory.structures['id'+structure.id]
                         && Memory.structures['id'+structure.id].linkType === 'Request'
-                        && (structure.store.getUsedCapacity(RESOURCE_ENERGY) >= creep.store.getCapacity()
-                            || structure.store.getUsedCapacity(RESOURCE_ENERGY) === structure.store.getCapacity())
+                        && structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0
 
                 });
                 if(links && links.length > 0) {
