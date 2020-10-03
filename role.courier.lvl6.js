@@ -180,7 +180,7 @@ let roleCourierLvl6 = {
 
                 //console.log('2222 ' + JSON.stringify(target.store));
                 if(target instanceof Tombstone) {
-                    let resourceType = RESOURCE_ENERGY;
+                    resourceType = RESOURCE_ENERGY;
                     for(let res in target.store) {
                         console.log('TOMBSTONE ' + res);
                         if(res !== RESOURCE_ENERGY) {
@@ -192,7 +192,7 @@ let roleCourierLvl6 = {
                 else {
                     resourceType = (target instanceof Resource) ? target.resourceType : RESOURCE_ENERGY;
                 }
-                // console.log('RESOURCE: ' + resourceType);
+                console.log('RESOURCE: ' + resourceType);
                 let result = undefined;
 
                 if(target instanceof Resource) {
