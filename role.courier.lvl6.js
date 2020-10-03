@@ -219,7 +219,7 @@ let roleCourierLvl6 = {
                     result = creep.withdraw(target, resourceType);
                 }
                 //console.log('4444 ' + result);
-                if(result === OK) {
+                if(result === OK || result === ERR_NOT_ENOUGH_RESOURCES) {
                     // console.log('+++courier '+creep.id+' |get success ' + result);
 
                     Memory.structures['id'+target.id].requested -= creep.memory.requested;
