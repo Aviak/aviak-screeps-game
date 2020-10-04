@@ -80,6 +80,7 @@ let roleUpgraderLvl3 = {
                     body.push(MOVE);
                     moveParts++;
                     cost+=50;
+
                 }
             }
         }
