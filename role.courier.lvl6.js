@@ -269,7 +269,7 @@ let roleCourierLvl6 = {
         let cost = 0;
         let body = [];
         let addMove = true;
-        while(cost+100<energyAvailable && cost < 1000) {
+        while(cost+100<energyAvailable && cost < 1400) {
             body.push(CARRY);
             cost+=50;
             if(addMove) {
