@@ -1815,7 +1815,7 @@ function ProcessCreepsOnDeathEffects() {
                 }
                 delete Memory.creeps[creepName];
             }
-            if (Memory.creeps[creepName].role === 'operator') {
+            else if (Memory.creeps[creepName].role === 'operator') {
                 roleOperatorLvl6.processOnDeathEffect(creepName);
                 delete Memory.creeps[creepName];
             }
