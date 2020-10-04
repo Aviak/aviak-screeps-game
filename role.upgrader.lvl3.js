@@ -44,6 +44,48 @@ let roleUpgraderLvl3 = {
             creep.upgradeController(creep.room.controller);
         }
     }
+    ,
+
+    getBody : function (energyAvailable) {
+        let cost = 0;
+        let body = [];
+        let workParts = 0;
+        let carryParts = 0;
+        let moveParts = 0;
+        let partsAdded = true;
+        while(cost<energyAvailable && partsAdded) {
+            partsAdded = false;
+            if(workParts / carryParts > 5 || carryParts === 0) {
+                let nextCarryAddCost = 50 + ((workParts+carryParts+1) < moveParts*2) ? 50 : 0;
+                if(cost+nextCarryAddCost <= energyAvailable) {
+                    partsAdded = true;
+                    body.push(CARRY);
+                    carryParts++;
+                    cost+=50;
+                    if(workParts+carryParts < moveParts*2) {
+                        body.push(MOVE);
+                        moveParts++;
+                        cost+=50;
+                    }
+                }
+            }
+
+            let nextWorkAddCost = 100 + ((workParts+carryParts+1) < moveParts*2) ? 50 : 0;
+            if(cost+nextWorkAddCost <= energyAvailable) {
+                partsAdded = true;
+                body.push(WORK);
+                workParts++;
+                cost+=100;
+                if(workParts+carryParts < moveParts*2) {
+                    body.push(MOVE);
+                    moveParts++;
+                    cost+=50;
+                }
+            }
+        }
+        // console.log(JSON.stringify(body));
+        return body;
+    }
 };
 
 module.exports = roleUpgraderLvl3;

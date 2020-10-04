@@ -1490,7 +1490,8 @@ function RunLatest(room) {
             }
             else if (upgraders.length < 1) {
                 let newName = 'Upgrader' + Game.time;
-                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                let body = roleUpgraderLvl3.getBody(room.energyAvailable);
+                spawn.spawnCreep(body, newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
@@ -1552,6 +1553,7 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester', timeBorn : Game.time } });
             }
             else if (operators.length < 1) {
+                let newName = 'Operator' + Game.time;
                 let body = roleOperatorLvl6.getBody(room.energyAvailable);
                 spawn.spawnCreep(body, newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'operator' } });
@@ -1577,7 +1579,7 @@ function RunLatest(room) {
             }
             else if (upgraders.length < 1) {
                 let newName = 'Upgrader' + Game.time;
-                spawn.spawnCreep([WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                spawn.spawnCreep([WORK, CARRY, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
