@@ -56,13 +56,13 @@ let roleUpgraderLvl3 = {
         while(cost<energyAvailable && partsAdded) {
             partsAdded = false;
             if(workParts / carryParts > 5 || carryParts === 0) {
-                let nextCarryAddCost = 50 + ((workParts+carryParts+1) < moveParts*2) ? 50 : 0;
+                let nextCarryAddCost = 50 + ((workParts+carryParts+1) > moveParts*2) ? 50 : 0;
                 if(cost+nextCarryAddCost <= energyAvailable) {
                     partsAdded = true;
                     body.push(CARRY);
                     carryParts++;
                     cost+=50;
-                    if(workParts+carryParts < moveParts*2) {
+                    if(workParts+carryParts > moveParts*2) {
                         body.push(MOVE);
                         moveParts++;
                         cost+=50;
@@ -70,13 +70,13 @@ let roleUpgraderLvl3 = {
                 }
             }
 
-            let nextWorkAddCost = 100 + ((workParts+carryParts+1) < moveParts*2) ? 50 : 0;
+            let nextWorkAddCost = 100 + ((workParts+carryParts+1) > moveParts*2) ? 50 : 0;
             if(cost+nextWorkAddCost <= energyAvailable) {
                 partsAdded = true;
                 body.push(WORK);
                 workParts++;
                 cost+=100;
-                if(workParts+carryParts < moveParts*2) {
+                if(workParts+carryParts > moveParts*2) {
                     body.push(MOVE);
                     moveParts++;
                     cost+=50;
