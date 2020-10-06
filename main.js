@@ -36,6 +36,9 @@ module.exports.loop = function () {
         cpuLog = false;
     }
 
+    if(Game.cpu.bucket >= 9980) {
+        Game.cpu.generatePixel();
+    }
 
     if(Game.time % pathfinding.cachePathClearInterval === 0) {
         for(let room in Game.rooms) {
