@@ -102,7 +102,7 @@ let roleOperatorLvl6 = {
                         continue;
                     }
                     let result = creep.withdraw(target, resource);
-                    if (result === OK) {
+                    if (result === OK || result === ERR_FULL || result === ERR_NOT_ENOUGH_RESOURCES) {
                         creep.memory.target = undefined;
                     }
                 }
