@@ -1409,7 +1409,7 @@ function RunLatest(room) {
     let operators = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'operator');
     let claimers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'claimer');
     let reservers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'reserver');
-    let miners = [];
+    let miners = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'miner' && (!creep.memory.ticksBeforeWork || creep.ticksToLive >= creep.memory.ticksBeforeWork));;
     let mineral = undefined;
     if(!room.memory.mineralId) {
         let minerals = room.find(FIND_MINERALS);
@@ -1419,9 +1419,7 @@ function RunLatest(room) {
     else {
         mineral = Game.getObjectById(room.memory.mineralId);
     }
-    if(mineral.mineralAmount > 0) {
-        miners = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'miner' && (!creep.memory.ticksBeforeWork || creep.ticksToLive >= creep.memory.ticksBeforeWork));
-    }
+    let minersRequers = (mineral.mineralAmount > 0);
 
     let longDistanceMiningLocations = roleLongDistanceMinerLvl5.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
@@ -1578,7 +1576,7 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'reserver' } });
 
             }
-            else if(miners.length < 1) {
+            else if(minersRequers && miners.length < 1) {
                 //console.log("111");
                 let newName = 'Miner' + Game.time;
                 spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE], newName,
