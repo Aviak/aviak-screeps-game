@@ -41,7 +41,7 @@ let roleMinerLvl6 = {
                 creep.memory.mineralId = mineral.id;
             }
             else {
-                mineral = Game.getObjectById(creep.memory.extractorId);
+                mineral = Game.getObjectById(creep.memory.mineralId);
             }
             // let resourceType = undefined;
             // if(!creep.memory.resourceType) {
