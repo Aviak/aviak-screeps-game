@@ -144,7 +144,7 @@ let roleCourierLvl6 = {
                             filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                                 && Memory.structures['id' + structure.id]
                                 && (Memory.structures['id' + structure.id].containerType === 'Harvest'
-                                    || (Memory.structures['id' + structure.id].containerType === 'Provider' && creep.room.energyAvailable < creep.room.energyCapacityAvailable))
+                                    || Memory.structures['id' + structure.id].containerType === 'Provider')
                                 && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
                         });
                         if (targets && targets.length > 0) {
