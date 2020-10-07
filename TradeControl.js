@@ -45,7 +45,7 @@ let tradeControl = {
                 let orderAmount = Math.min(amountToSell, order.amount);
                 let energyRequired = Game.market.calcTransactionCost(orderAmount, room.name, order.roomName);
                 console.log('energy required: ' + energyRequired);
-                let orderPrice = order.price - energyPrice.avgPrice * energyRequired;
+                let orderPrice = order.price*order.amount - energyPrice.avgPrice * energyRequired;
                 console.log('order price: ' + orderPrice);
                 let orderPriceForUnit = orderPrice / orderAmount;
                 console.log('order price for unit: ' + orderPriceForUnit);
