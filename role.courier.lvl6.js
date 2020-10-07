@@ -171,6 +171,7 @@ let roleCourierLvl6 = {
                                         && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
                                 });
                                 if (targets && targets.length > 0) {
+                                    console.log('c41');
                                     target = targets[0];
                                 }
                             }
