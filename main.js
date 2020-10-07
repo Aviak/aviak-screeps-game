@@ -67,6 +67,7 @@ module.exports.loop = function () {
                     init: {v:0, n:0},
                     tower : {v:0, n:0},
                     creepCount : {v:0, n:0},
+                    trade : {v:0, n:0},
                     spawning : {v:0, n:0}
                 };
             }
