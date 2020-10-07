@@ -33,7 +33,7 @@ let roleMinerLvl6 = {
         if(targetPosition) {
             if(!targetPosition.isEqualTo(creep.pos)) {
                 // creep.moveTo(targetPosition);
-                pathfinding.modMoveTo(creep, targetPosition, 1);
+                pathfinding.modMoveTo(creep, targetPosition, 0);
             }
             if(targetPosition.isEqualTo(creep.pos)) {
                 let mineral = undefined;
