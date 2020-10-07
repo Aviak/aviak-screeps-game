@@ -51,7 +51,7 @@ let tradeControl = {
                 // console.log('order price for unit: ' + orderPriceForUnit);
                 // console.log('target price: '+JSON.stringify(targetPrice));
                 if(order.price >= targetPrice.minPrice) {
-                    acceptableBuyOrders.push({buyOrderId : order.id, amount : orderAmount, energyRequired : energyRequired, resourceType : resourceType});
+                    acceptableBuyOrders.push(order);
                 }
             }
             acceptableBuyOrders.sort((a,b) => b.price - a.price);
