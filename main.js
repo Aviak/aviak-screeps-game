@@ -16,6 +16,7 @@ let roleLongDistanceHaulerLvl5 = require('role.longdistancehauler.lvl5');
 let roleCourierLvl6 = require('role.courier.lvl6');
 let roleOperatorLvl6 = require('role.operator.lvl6');
 let roleHarvesterLvl6 = require('role.harvester.lvl6');
+let roleMinerLvl6 = require('role.miner.lvl6');
 
 let cpuLog = false;
 
@@ -1408,6 +1409,20 @@ function RunLatest(room) {
     let operators = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'operator');
     let claimers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'claimer');
     let reservers = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'reserver');
+    let miners = [];
+    let mineral = undefined;
+    if(!room.memory.mineralId) {
+        let minerals = room.find(FIND_MINERALS);
+        mineral = minerals[0];
+        room.memory.mineralId = mineral.id;
+    }
+    else {
+        mineral = Game.getObjectById(room.memory.mineralId);
+    }
+    if(mineral.mineralAmount > 0) {
+        miners = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'miner' && (!creep.memory.ticksBeforeWork || creep.ticksToLive >= creep.memory.ticksBeforeWork));
+    }
+
     let longDistanceMiningLocations = roleLongDistanceMinerLvl5.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
@@ -1424,7 +1439,7 @@ function RunLatest(room) {
     if(longDistanceHaulersRequired > 0) {
         longDistanceHaulersRequired -= roleLongDistanceHaulerLvl5.countUnassignedHaulers(room);
     }
-    let maxCostCourierExists = false;
+    let maxCostCourierExists;
     for(let creepName in couriers) {
         let creep = couriers[creepName];
         if(creep.memory.maxCost === undefined) {
@@ -1563,6 +1578,12 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'reserver' } });
 
             }
+            else if(miners.length < 1) {
+                //console.log("111");
+                let newName = 'Miner' + Game.time;
+                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'miner', timeBorn : Game.time } });
+            }
 
             if (spawn.spawning) {
                 let spawningCreep = Game.creeps[spawn.spawning.name];
@@ -1671,6 +1692,8 @@ function RunLatest(room) {
                     longdistanceminer5 : {v:0, n:0},
                     longdistancehauler5 : {v:0, n:0},
                     claimer : {v:0, n:0},
+                    operator : {v:0, n:0},
+                    miner : {v:0, n:0},
                     reserver : {v:0, n:0}
                 }
             }
@@ -1747,6 +1770,9 @@ function RunLatest(room) {
         }
         if (creep.memory.role === 'courier') {
             roleCourierLvl6.run(creep);
+        }
+        if (creep.memory.role === 'miner') {
+            roleMinerLvl6.run(creep);
         }
         if(cpuLog) {
             Memory.cpuUsage.rooms[room.name].creeps.courier = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creeps.courier, Game.cpu.getUsed()-currCpu);
