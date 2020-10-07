@@ -103,9 +103,9 @@ module.exports.loop = function () {
  * @return {number}
  */
 function GetRoomLevel(room) {
-    // if(room.memory.roomLevel && !(Game.time % 101 === 0)) {
-    //     return room.memory.roomLevel;
-    // }
+    if(room.memory.roomLevel && !(Game.time % 101 === 0)) {
+        return room.memory.roomLevel;
+    }
 
     // console.log('calc room level ' + room.name);
     let roomControllerLevel = room.controller.level;
