@@ -2,6 +2,7 @@ let pathfinding = require('pathfinding');
 
 let roleCourierLvl6 = {
 
+    maxCost : 1350,
     /** @param {Creep} creep **/
     run: function(creep) {
         if(!creep.memory.onDeathEffect) {
@@ -265,11 +266,11 @@ let roleCourierLvl6 = {
     }
     ,
 
-    getBody : function (energyAvailable) {
+    getBody : function (energyAvailable, maxCostOnly) {
         let cost = 0;
         let body = [];
         let addMove = true;
-        while(cost+100<energyAvailable && cost < 1350) {
+        while((cost+50+(addMove ? 50 : 0))<energyAvailable && cost < this.maxCost) {
             body.push(CARRY);
             cost+=50;
             if(addMove) {
@@ -277,6 +278,9 @@ let roleCourierLvl6 = {
                 cost+=50;
             }
             addMove = !addMove;
+        }
+        if(maxCostOnly && cost < this.maxCost) {
+            return [];
         }
         // console.log(JSON.stringify(body));
         return body;

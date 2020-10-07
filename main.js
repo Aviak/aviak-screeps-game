@@ -1424,6 +1424,26 @@ function RunLatest(room) {
     if(longDistanceHaulersRequired > 0) {
         longDistanceHaulersRequired -= roleLongDistanceHaulerLvl5.countUnassignedHaulers(room);
     }
+    let maxCostCourierExists = false;
+    for(let creepName in couriers) {
+        let creep = couriers[creepName];
+        if(creep.memory.maxCost === undefined) {
+            let cost = 0;
+            for(let bodyPartIndex in creep.body) {
+                if(creep.body[bodyPartIndex] === WORK) {
+                    cost+=100;
+                }
+                else {
+                    cost+=50;
+                }
+            }
+            creep.memory.maxCost = (cost >= roleCourierLvl6.maxCost);
+        }
+        maxCostCourierExists = creep.memory.maxCost;
+        if(maxCostCourierExists) {
+            break;
+        }
+    }
     if(cpuLog) {
         Memory.cpuUsage.rooms[room.name].creepCount = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creepCount, Game.cpu.getUsed()-currCpu);
         currCpu = Game.cpu.getUsed();
@@ -1497,6 +1517,12 @@ function RunLatest(room) {
                 spawn.spawnCreep(body, newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
+            }
+            else if(!maxCostCourierExists) {
+                let newName = 'Courier' + Game.time;
+                let body = roleCourierLvl6.getBody(room.energyAvailable, true);
+                spawn.spawnCreep(body, newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'courier' } });
             }
             else if (longDistanceMinersRequired > 0) {
                 //console.log('required ' + longDistanceMinersRequired + 'long distance miners');
