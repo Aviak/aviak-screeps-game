@@ -97,6 +97,9 @@ let roleOperatorLvl6 = {
                     //     Memory.structures['id' + target.id].requested += creep.store.getCapacity();
                     // }
                 }
+                if(target.store.length === 0 || (target.store.getUsedCapacity(RESOURCE_ENERGY) === target.store.getUsedCapacity())) {
+                    creep.memory.target = undefined;
+                }
                 for(let resource in target.store) {
                     if(target instanceof Structure && target.structureType === STRUCTURE_STORAGE && resource === RESOURCE_ENERGY) {
                         continue;
