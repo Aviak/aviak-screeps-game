@@ -127,17 +127,19 @@ let roleCourierLvl6 = {
                 }
                 if(!target) {
 
-                    targets = creep.room.find(FIND_STRUCTURES, {
-                        filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
-                            && Memory.structures['id' + structure.id]
-                            && (Memory.structures['id' + structure.id].containerType === 'Request'
-                                && (creep.room.energyCapacityAvailable > creep.room.energyAvailable))
-                            && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
-                    });
-                    if (targets && targets.length > 0) {
-                        target = targets[0];
+                    if(creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
+                        targets = creep.room.find(FIND_STRUCTURES, {
+                            filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+                                && Memory.structures['id' + structure.id]
+                                && (Memory.structures['id' + structure.id].containerType === 'Request'
+                                    && (creep.room.energyCapacityAvailable > creep.room.energyAvailable))
+                                && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
+                        });
+                        if (targets && targets.length > 0) {
+                            target = targets[0];
+                        }
                     }
-                    else {
+                    if(!target) {
                         targets = creep.room.find(FIND_STRUCTURES, {
                             filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                                 && Memory.structures['id' + structure.id]
@@ -157,7 +159,19 @@ let roleCourierLvl6 = {
                             }
                         }
                         else {
-                            if (creep.room.storage && creep.room.energyAvailable < creep.room.energyCapacityAvailable && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY)) {
+                            if(creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
+                                targets = creep.room.find(FIND_STRUCTURES, {
+                                    filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+                                        && Memory.structures['id' + structure.id]
+                                        && (Memory.structures['id' + structure.id].containerType === 'Request'
+                                            && (creep.room.energyCapacityAvailable > creep.room.energyAvailable))
+                                        && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
+                                });
+                                if (targets && targets.length > 0) {
+                                    target = targets[0];
+                                }
+                            }
+                            if (!target && creep.room.storage && creep.room.energyAvailable < creep.room.energyCapacityAvailable && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY)) {
                                 target = creep.room.storage;
                             }
                         }
