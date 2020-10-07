@@ -91,6 +91,9 @@ let tradeControl = {
         return Memory.trade.resourcePrices[resourceType];
     },
     sellResources : function(room) {
+        if(room.terminal.cooldown > 0) {
+            return;
+        }
         let terminalEnergy = room.terminal.store.getUsedCapacity(RESOURCE_ENERGY);
         let terminalMemory = Memory.structures['id'+room.terminal.id];
         for(let i in terminalMemory.pendingOrders) {
