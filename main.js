@@ -1581,7 +1581,7 @@ function RunLatest(room) {
             else if(miners.length < 1) {
                 //console.log("111");
                 let newName = 'Miner' + Game.time;
-                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], newName,
+                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'miner', timeBorn : Game.time } });
             }
 
