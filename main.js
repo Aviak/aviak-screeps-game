@@ -114,7 +114,7 @@ function GetRoomLevel(room) {
     let towers = room.find(FIND_STRUCTURES, {filter : (s) => s.structureType === STRUCTURE_TOWER});
     let links = room.find(FIND_STRUCTURES, {filter : (s) => s.structureType === STRUCTURE_LINK});
     let roomLevel = 1;
-    if(roomControllerLevel >= 6 && room.energyCapacityAvailable >= 2300 && storages.length >= 1 && containers.length >= 4 && links.length >= 3 && room.terminal) {
+    if(roomControllerLevel >= 6 && room.energyCapacityAvailable >= 2300 && containers.length >= 4 && links.length >= 3 && room.terminal) {
         roomLevel = 6;
     }
     else if(roomControllerLevel >= 5 && room.energyCapacityAvailable >= 1800 && storages.length >= 1 && containers.length >= 4) {
