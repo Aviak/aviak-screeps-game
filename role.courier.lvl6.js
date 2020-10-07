@@ -31,25 +31,26 @@ let roleCourierLvl6 = {
                 });
             }
             if(!target) {
-                let targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
-                        && Memory.structures['id'+structure.id]
-                        && Memory.structures['id'+structure.id].containerType === 'Request'
-                        && structure.store.getFreeCapacity() !== 0
-                });
-                if(targets && targets.length > 0) {
-                    //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
-                    let min = 99999;
-                    for(let i in targets) {
-                        if (targets[i].store.getUsedCapacity() < min) {
-                            min = targets[i].store.getUsedCapacity();
-                            target = targets[i];
-                        }
-                    }
+
+                if (creep.room.storage && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY) < 100000) {
+                    target = creep.room.storage;
                 }
                 else {
-                    if(creep.room.storage && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY) < 100000) {
-                        target = creep.room.storage;
+                    let targets = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+                            && Memory.structures['id' + structure.id]
+                            && Memory.structures['id' + structure.id].containerType === 'Request'
+                            && structure.store.getFreeCapacity() !== 0
+                    });
+                    if (targets && targets.length > 0) {
+                        //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                        let min = 99999;
+                        for (let i in targets) {
+                            if (targets[i].store.getUsedCapacity() < min) {
+                                min = targets[i].store.getUsedCapacity();
+                                target = targets[i];
+                            }
+                        }
                     }
                 }
             }
