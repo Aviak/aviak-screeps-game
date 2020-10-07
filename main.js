@@ -1422,7 +1422,7 @@ function RunLatest(room) {
         mineral = Game.getObjectById(room.memory.mineralId);
     }
     let minersRequered = (mineral.mineralAmount > 0);
-    minersRequered = false;/////////////////////////////////////////////////////////////////////
+    // minersRequered = false;/////////////////////////////////////////////////////////////////////
 
     let longDistanceMiningLocations = roleLongDistanceMinerLvl5.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
