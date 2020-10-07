@@ -59,7 +59,7 @@ let roleLongDistanceHaulerLvl5 = {
                     let max = -1;
                     for(let containerIter in containers) {
                         let containerId = containers[containerIter].id;
-                        let requestedAmount = (Memory.structures['id'+containerId].requested) ? Memory.structures['id'+containerId].requested : 0;
+                        let requestedAmount = (Memory.structures['id'+containerId] && Memory.structures['id'+containerId].requested) ? Memory.structures['id'+containerId].requested : 0;
                         if((containers[containerIter].store.getUsedCapacity(RESOURCE_ENERGY) - requestedAmount) > max) {
                             max = containers[containerIter].store.getUsedCapacity(RESOURCE_ENERGY) - requestedAmount;
                             container = containers[containerIter];
