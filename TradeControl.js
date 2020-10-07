@@ -39,6 +39,7 @@ let tradeControl = {
             let targetPrice = this.getResourcePrice(resourceType);
             let buyOrders = Game.market.getAllOrders({type : ORDER_BUY, resourceType : resourceType});
             let energyPrice = this.getResourcePrice(RESOURCE_ENERGY);
+            console.log('orders for '+resourceType+': ' + buyOrders.length);
             for(let i in buyOrders) {
                 let order = buyOrders[i];
                 let orderAmount = Math.min(amountToSell, order.amount);
