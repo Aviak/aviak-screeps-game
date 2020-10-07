@@ -102,6 +102,9 @@ let roleOperatorLvl6 = {
                         continue;
                     }
                     let result = creep.withdraw(target, resource);
+                    if (result === OK) {
+                        creep.memory.target = undefined;
+                    }
                 }
                 // if (result === OK) {
                 //
