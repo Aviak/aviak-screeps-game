@@ -99,7 +99,7 @@ let tradeControl = {
                 terminalEnergy -= order.energyRequired;
                 let buyOrder = Game.market.getOrderById(order.buyOrderId);
                 if(buyOrder && buyOrder.amount >= order.amount) {
-                    let res = Game.market.deal(order.buyOrderId, order.amount);
+                    let res = Game.market.deal(order.buyOrderId, order.amount, room.name);
                     console.log('DEAL ' + order.amount + ' ' + order.resourceType + ' ' + buyOrder.price + ' each ' + res);
                 }
                 terminalMemory.pendingOrders.splice(i,1);
