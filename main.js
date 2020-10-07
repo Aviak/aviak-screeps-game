@@ -1677,7 +1677,9 @@ function RunLatest(room) {
             break;
         }
     }
-    tradeControl.run(room);
+    if(Game.time % 5 === 0) {
+        tradeControl.run(room);
+    }
 
     for(let name in thisRoomCreeps) {
         if(cpuLog) {
