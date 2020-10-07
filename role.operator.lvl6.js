@@ -78,13 +78,23 @@ let roleOperatorLvl6 = {
                 }
             }
             if(!target && creep.ticksToLive > 150) {
-                for(let storedRes in creep.room.storage.store) {
-                    if(creep.room.storage.store.getUsedCapacity(storedRes) > 0) {
-                        target = creep.room.storage;
-                        break;
-                    }
+                // for(let storedRes in creep.room.storage.store) {
+                //     if(creep.room.storage.store.getUsedCapacity(storedRes) > 0) {
+                //         target = creep.room.storage;
+                //         break;
+                //     }
+                // }
+                let containers = creep.room.find(FIND_STRUCTURES, {
+                    filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
+                        && Memory.structures['id'+structure.id]
+                        && Memory.structures['id'+structure.id].containerType === 'Minerals'
+                        && structure.store.getUsedCapacity() >= creep.store.getFreeCapacity()
+                });
+                if(containers && containers.length > 0) {
+                    target = containers[0];
                 }
             }
+
             if(target) {
                 creep.memory.target = target.id;
                 if (creep.pos.getRangeTo(target) > 1) {
