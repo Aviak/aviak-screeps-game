@@ -73,6 +73,9 @@ let roleLongDistanceHaulerLvl5 = {
                     if(!creep.memory.requested) {
                         creep.memory.requested = 0;
                     }
+                    if(!Memory.structures['id'+container.id]) {
+                        Memory.structures['id'+container.id] = {};
+                    }
                     if(creep.memory.requested === 0) {
                         creep.memory.requested = creep.store.getCapacity();
                         if(!Memory.structures['id'+container.id].requested) {
