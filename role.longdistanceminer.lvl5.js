@@ -45,6 +45,9 @@ var roleLongDistanceMinerLvl5 = {
 
         //MOVING TO SOURCE IN TARGET ROOM
         if(creep.room.name === creep.memory.longDistanceMining.room) {
+            if(!creep.memory.longDistanceMining.enterPos) {
+                creep.memory.longDistanceMining.enterPos = { x : creep.pos.x, y : creep.pos.y};
+            }
             let source = undefined;
             if(creep.memory.longDistanceMining.sourceId === undefined) {
                 let sources = creep.room.find(FIND_SOURCES, {
@@ -105,6 +108,8 @@ var roleLongDistanceMinerLvl5 = {
                         }
                         else {
                             let containerPosition = undefined;
+                            let minRange = Number.MAX_VALUE;
+                            let enterPos = new RoomPosition(creep.memory.enterPos.x, creep.memory.enterPos.y, creep.room.name);
                             for(let i=-1; i<=1 && !containerPosition; i++) {
                                 for(let j=-1; j<=1 && !containerPosition; j++) {
                                     if(i===0 && j===0) {
@@ -115,14 +120,20 @@ var roleLongDistanceMinerLvl5 = {
                                     if(roomTerrain.get(creep.pos.x+i, creep.pos.y+j) === TERRAIN_MASK_WALL) {
                                         continue;
                                     }
-                                    containerPosition = new RoomPosition(creep.pos.x+i, creep.pos.y+j, creep.pos.roomName);
-                                    let res = creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
-                                    if(res !== OK && res !== ERR_RCL_NOT_ENOUGH) {
-                                        // console.log('res ' + res + ' i='+i + ' j='+j + ' ' + (res !== ERR_RCL_NOT_ENOUGH) + ' ' + ERR_RCL_NOT_ENOUGH);
-                                        containerPosition = undefined;
+                                    let newContainerPosition = new RoomPosition(creep.pos.x+i, creep.pos.y+j, creep.pos.roomName);
+                                    let range = newContainerPosition.getRangeTo(enterPos);
+                                    if(range < minRange ) {
+                                        containerPosition = newContainerPosition;
+                                        minRange = range;
                                     }
+                                    // let res = creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
+                                    // if(res !== OK && res !== ERR_RCL_NOT_ENOUGH) {
+                                    //     // console.log('res ' + res + ' i='+i + ' j='+j + ' ' + (res !== ERR_RCL_NOT_ENOUGH) + ' ' + ERR_RCL_NOT_ENOUGH);
+                                    //     containerPosition = undefined;
+                                    // }
                                 }
                             }
+                            creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
                             creep.memory.longDistanceMining.position = undefined;
                             // console.log('---'+JSON.stringify(containerPosition)+' ---- \n'+JSON.stringify(source.pos));
                             for(let i=-1; i<=1 && !creep.memory.longDistanceMining.position; i++) {
@@ -276,7 +287,7 @@ var roleLongDistanceMinerLvl5 = {
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         // let cpu = Game.cpu.getUsed();
-        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined && (!elem.ticksBeforeWork || Game.creeps[_.findKey(Memory.creeps, elem)].ticksToLive >= (elem.ticksBeforeWork)));
+        let assignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined && (!elem.ticksBeforeWork || Game.creeps[elem.name].ticksToLive >= (elem.ticksBeforeWork)));
         // console.log('used cpu: ' + (Game.cpu.getUsed() - cpu));
 
         for (let l of locations) {
@@ -290,7 +301,7 @@ var roleLongDistanceMinerLvl5 = {
     }
     ,
     countUnassignedMiners: function (room) {
-        let unassignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining === undefined && elem.originRoom === room.name && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined);
+        let unassignedMiners = _.filter(Memory.creeps, (elem) => elem.role === 'longdistanceminer5' && elem.longDistanceMining === undefined && elem.originRoom === room.name && Game.creeps[elem.name]!==undefined);
         return unassignedMiners.length;
     }
 };
