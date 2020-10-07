@@ -7,6 +7,9 @@ let tradeControl = {
         if(!Memory.structures['id'+room.terminal.id]) {
             Memory.structures['id'+room.terminal.id] = {};
         }
+        if(!Memory.trade) {
+            Memory.trade = {resourcePrices : {}};
+        }
         // this.buyOrders = undefined;
 
         let energyAvailable = 0;
