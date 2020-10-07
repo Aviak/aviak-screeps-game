@@ -126,37 +126,38 @@ let roleCourierLvl6 = {
                     }
                 }
                 if(!target) {
+
                     targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
-                            && Memory.structures['id'+structure.id]
-                            && (Memory.structures['id'+structure.id].containerType === 'Harvest'
-                                || (Memory.structures['id'+structure.id].containerType === 'Provider' && creep.room.energyAvailable < creep.room.energyCapacityAvailable))
-                            && (structure.store.getUsedCapacity() - ((Memory.structures['id'+structure.id].requested) ? Memory.structures['id'+structure.id].requested : 0)) >= creep.store.getFreeCapacity()
+                            && Memory.structures['id' + structure.id]
+                            && (Memory.structures['id' + structure.id].containerType === 'Request'
+                                && (creep.room.energyCapacityAvailable > creep.room.energyAvailable))
+                            && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
                     });
-                    if(targets && targets.length > 0) {
-                        //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
-                        let max = -1;
-                        for(let i in targets) {
-                            let requested = (Memory.structures['id'+targets[i].id].requested) ? Memory.structures['id'+targets[i].id].requested : 0;
-                            if ((targets[i].store.getUsedCapacity() - requested) > max) {
-                                max = targets[i].store.getUsedCapacity();
-                                target = targets[i];
-                            }
-                        }
+                    if (targets && targets.length > 0) {
+                        target = targets[0];
                     }
                     else {
                         targets = creep.room.find(FIND_STRUCTURES, {
                             filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
-                                && Memory.structures['id'+structure.id]
-                                && (Memory.structures['id'+structure.id].containerType === 'Request'
-                                    && (creep.room.energyCapacityAvailable > creep.room.energyAvailable))
-                                && (structure.store.getUsedCapacity() - ((Memory.structures['id'+structure.id].requested) ? Memory.structures['id'+structure.id].requested : 0)) >= creep.store.getFreeCapacity()
+                                && Memory.structures['id' + structure.id]
+                                && (Memory.structures['id' + structure.id].containerType === 'Harvest'
+                                    || (Memory.structures['id' + structure.id].containerType === 'Provider' && creep.room.energyAvailable < creep.room.energyCapacityAvailable))
+                                && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
                         });
-                        if(targets && targets.length > 0) {
-                            target = targets[0];
+                        if (targets && targets.length > 0) {
+                            //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                            let max = -1;
+                            for (let i in targets) {
+                                let requested = (Memory.structures['id' + targets[i].id].requested) ? Memory.structures['id' + targets[i].id].requested : 0;
+                                if ((targets[i].store.getUsedCapacity() - requested) > max) {
+                                    max = targets[i].store.getUsedCapacity();
+                                    target = targets[i];
+                                }
+                            }
                         }
                         else {
-                            if(creep.room.storage && creep.room.energyAvailable < creep.room.energyCapacityAvailable && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY)) {
+                            if (creep.room.storage && creep.room.energyAvailable < creep.room.energyCapacityAvailable && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY)) {
                                 target = creep.room.storage;
                             }
                         }
