@@ -35,42 +35,39 @@ let roleMinerLvl6 = {
                 // creep.moveTo(targetPosition);
                 pathfinding.modMoveTo(creep, targetPosition, 0);
             }
-            if(targetPosition.isEqualTo(creep.pos)) {
-                let mineral = undefined;
-                if(!creep.memory.mineralId) {
-                    mineral = creep.pos.findClosestByRange(FIND_MINERALS);
-                    creep.memory.mineralId = mineral.id;
-                }
-                else {
-                    mineral = Game.getObjectById(creep.memory.extractorId);
-                }
-                // let resourceType = undefined;
-                // if(!creep.memory.resourceType) {
-                //     let mineral = undefined;
-                //     if(!creep.room.memory.mineralId) {
-                //         let minerals = creep.room.find(FIND_MINERALS);
-                //         mineral = minerals[0];
-                //         creep.room.memory.mineralId = mineral.id;
-                //     }
-                //     resourceType = mineral.mineralType;
-                //     creep.memory.resourceType = resourceType;
-                // }
-                // if(container.store.getFreeCapacity() !== 0) {
-                //     if(creep.store.getFreeCapacity() === 0) {
-                //         creep.transfer(container, resourceType);
-                //         transferredThisTurn = true;
-                //     }
-                // }
-                // if(creep.store.getFreeCapacity() !== 0 || transferredThisTurn) {
-                let res = creep.harvest(mineral);
-                if(res === OK) {
-                    if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
-                        creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
-                    }
-                }
-                // }
-
+            let mineral = undefined;
+            if(!creep.memory.mineralId) {
+                mineral = creep.pos.findClosestByRange(FIND_MINERALS);
+                creep.memory.mineralId = mineral.id;
             }
+            else {
+                mineral = Game.getObjectById(creep.memory.extractorId);
+            }
+            // let resourceType = undefined;
+            // if(!creep.memory.resourceType) {
+            //     let mineral = undefined;
+            //     if(!creep.room.memory.mineralId) {
+            //         let minerals = creep.room.find(FIND_MINERALS);
+            //         mineral = minerals[0];
+            //         creep.room.memory.mineralId = mineral.id;
+            //     }
+            //     resourceType = mineral.mineralType;
+            //     creep.memory.resourceType = resourceType;
+            // }
+            // if(container.store.getFreeCapacity() !== 0) {
+            //     if(creep.store.getFreeCapacity() === 0) {
+            //         creep.transfer(container, resourceType);
+            //         transferredThisTurn = true;
+            //     }
+            // }
+            // if(creep.store.getFreeCapacity() !== 0 || transferredThisTurn) {
+            let res = creep.harvest(mineral);
+            if(res === OK) {
+                if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                    creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                }
+            }
+            // }
         }
     }
 };
