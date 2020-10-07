@@ -47,10 +47,10 @@ let tradeControl = {
                 console.log('energy required: ' + energyRequired);
                 let orderPrice = order.price*order.amount - energyPrice.avgPrice * energyRequired;
                 console.log('order price: ' + orderPrice);
-                let orderPriceForUnit = orderPrice / orderAmount;
+                let orderPriceForUnit = orderPrice / order.amount;
                 console.log('order price for unit: ' + orderPriceForUnit);
                 console.log('target price: '+JSON.stringify(targetPrice));
-                if(orderPriceForUnit >= targetPrice.minPrice && orderPriceForUnit <= targetPrice.maxPrice) {
+                if(orderPriceForUnit >= targetPrice.minPrice) {
                     terminalMemory.processedData[resourceType] += orderAmount;
                     amountToSell -= orderAmount;
                     terminalMemory.pendingOrders.push({buyOrderId : order.id, amount : orderAmount, energyRequired : energyRequired, resourceType : resourceType});
