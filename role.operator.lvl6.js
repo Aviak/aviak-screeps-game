@@ -32,6 +32,11 @@ let roleOperatorLvl6 = {
                         }
                     }
                 }
+                else {
+                    if(creep.room.terminal) {
+                        target = creep.room.terminal;
+                    }
+                }
             }
             if(target) {
                 creep.memory.target = target.id;
@@ -41,9 +46,16 @@ let roleOperatorLvl6 = {
                     pathfinding.modMoveTo(creep, target.pos, 1)
                     //console.log('---courier|not in range to put');
                 }
-                let result = creep.transfer(target, RESOURCE_ENERGY);
-                if (result !== ERR_NOT_IN_RANGE) {
-                    // console.log('---courier '+creep.id+' |put success ' + result);
+                let clearTarget = false;
+                for(let resourceType in creep.store) {
+                    let result = creep.transfer(target, RESOURCE_ENERGY);
+                    if (result !== ERR_NOT_IN_RANGE) {
+                        // console.log('---courier '+creep.id+' |put success ' + result);
+                        // creep.memory.target = undefined;
+                        clearTarget = true;
+                    }
+                }
+                if(clearTarget) {
                     creep.memory.target = undefined;
                 }
             }
@@ -65,27 +77,39 @@ let roleOperatorLvl6 = {
                     target = links[0];
                 }
             }
+            if(!target) {
+                for(let storedRes in creep.room.storage.store) {
+                    if(creep.room.storage.store.getUsedCapacity(storedRes) > 0) {
+                        target = creep.room.storage;
+                        break;
+                    }
+                }
+            }
             if(target) {
                 creep.memory.target = target.id;
                 if (creep.pos.getRangeTo(target) > 1) {
                     pathfinding.modMoveTo(creep, target.pos, 1);
-                    if (target instanceof Structure && (!creep.memory.requested || creep.memory.requested === 0)) {
-                        creep.memory.requested = creep.store.getCapacity();
-                        if (!Memory.structures['id' + target.id].requested) {
-                            Memory.structures['id' + target.id].requested = 0;
-                        }
-                        Memory.structures['id' + target.id].requested += creep.store.getCapacity();
+                    // if (target instanceof Structure && (!creep.memory.requested || creep.memory.requested === 0)) {
+                    //     creep.memory.requested = creep.store.getCapacity();
+                    //     if (!Memory.structures['id' + target.id].requested) {
+                    //         Memory.structures['id' + target.id].requested = 0;
+                    //     }
+                    //     Memory.structures['id' + target.id].requested += creep.store.getCapacity();
+                    // }
+                }
+                for(let resource in target.store) {
+                    if(target instanceof Structure && target.structureType === STRUCTURE_STORAGE && resource === RESOURCE_ENERGY) {
+                        continue;
                     }
+                    let result = creep.withdraw(target, resource);
                 }
-
-                let result = creep.withdraw(target, RESOURCE_ENERGY);
-                if (result === OK) {
-
-                    Memory.structures['id' + target.id].requested -= creep.memory.requested;
-                    creep.memory.requested = 0;
-                    creep.memory.target = undefined;
-
-                }
+                // if (result === OK) {
+                //
+                //     Memory.structures['id' + target.id].requested -= creep.memory.requested;
+                //     creep.memory.requested = 0;
+                //     creep.memory.target = undefined;
+                //
+                // }
             }
         }
     },
