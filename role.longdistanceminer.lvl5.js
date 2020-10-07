@@ -109,7 +109,7 @@ var roleLongDistanceMinerLvl5 = {
                         else {
                             let containerPosition = undefined;
                             let minRange = Number.MAX_VALUE;
-                            let enterPos = new RoomPosition(creep.memory.enterPos.x, creep.memory.enterPos.y, creep.room.name);
+                            let enterPos = new RoomPosition(creep.memory.longDistanceMining.enterPos.x, creep.memory.longDistanceMining.enterPos.y, creep.room.name);
                             for(let i=-1; i<=1 && !containerPosition; i++) {
                                 for(let j=-1; j<=1 && !containerPosition; j++) {
                                     if(i===0 && j===0) {
