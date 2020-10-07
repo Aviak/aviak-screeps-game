@@ -77,7 +77,7 @@ let roleOperatorLvl6 = {
                     target = links[0];
                 }
             }
-            if(!target) {
+            if(!target && creep.ticksToLive > 150) {
                 for(let storedRes in creep.room.storage.store) {
                     if(creep.room.storage.store.getUsedCapacity(storedRes) > 0) {
                         target = creep.room.storage;
