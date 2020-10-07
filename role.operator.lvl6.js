@@ -15,22 +15,29 @@ let roleOperatorLvl6 = {
             }
             else {
                 if(creep.store.getUsedCapacity(RESOURCE_ENERGY) === creep.store.getUsedCapacity()) {
-                    let containers = creep.room.find(FIND_STRUCTURES, {
-                        filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
-                            && Memory.structures['id'+structure.id]
-                            && Memory.structures['id'+structure.id].containerType === 'Request'
-                            && structure.store.getFreeCapacity() !== 0
-                    });
-                    if(containers && containers.length > 0) {
-                        //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
-                        let min = 99999;
-                        for(let i in containers) {
-                            if (containers[i].store.getUsedCapacity() < min) {
-                                min = containers[i].store.getUsedCapacity();
-                                target = containers[i];
+                    let terminalMemory = Memory.structures['id'+creep.room.terminal.id];
+                    if(terminalMemory.totalEnergyRequired && terminalMemory.totalEnergyRequired > creep.room.terminal.store.getUsedCapacity(RESOURCE_ENERGY)) {
+                        target = creep.room.terminal;
+                    }
+                    if(!target) {
+                        let containers = creep.room.find(FIND_STRUCTURES, {
+                            filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
+                                && Memory.structures['id'+structure.id]
+                                && Memory.structures['id'+structure.id].containerType === 'Request'
+                                && structure.store.getFreeCapacity() !== 0
+                        });
+                        if(containers && containers.length > 0) {
+                            //target = _.minBy(targets, (e) => e.store.getUsedCapacity())
+                            let min = 99999;
+                            for(let i in containers) {
+                                if (containers[i].store.getUsedCapacity() < min) {
+                                    min = containers[i].store.getUsedCapacity();
+                                    target = containers[i];
+                                }
                             }
                         }
                     }
+
                 }
                 else {
                     if(creep.room.terminal) {
@@ -78,12 +85,6 @@ let roleOperatorLvl6 = {
                 }
             }
             if(!target && creep.ticksToLive > 150) {
-                // for(let storedRes in creep.room.storage.store) {
-                //     if(creep.room.storage.store.getUsedCapacity(storedRes) > 0) {
-                //         target = creep.room.storage;
-                //         break;
-                //     }
-                // }
                 let containers = creep.room.find(FIND_STRUCTURES, {
                     filter : (structure) => structure.structureType === STRUCTURE_CONTAINER
                         && Memory.structures['id'+structure.id]
@@ -92,6 +93,14 @@ let roleOperatorLvl6 = {
                 });
                 if(containers && containers.length > 0) {
                     target = containers[0];
+                }
+            }
+            if(!target) {
+                let terminalMemory = Memory.structures['id'+creep.room.terminal.id];
+                if(terminalMemory.totalEnergyRequired && terminalMemory.totalEnergyRequired > creep.room.terminal.store.getUsedCapacity(RESOURCE_ENERGY)) {
+                    if(creep.room.storage && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY) >= creep.store.getCapacity()) {
+                        target = creep.room.storage;
+                    }
                 }
             }
 
@@ -111,7 +120,7 @@ let roleOperatorLvl6 = {
                     creep.memory.target = undefined;
                 }
                 for(let resource in target.store) {
-                    if(target instanceof Structure && target.structureType === STRUCTURE_STORAGE && resource === RESOURCE_ENERGY) {
+                    if(target instanceof Structure && target.structureType === STRUCTURE_STORAGE && resource !== RESOURCE_ENERGY) {
                         continue;
                     }
                     let result = creep.withdraw(target, resource);
