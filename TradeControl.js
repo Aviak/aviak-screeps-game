@@ -38,26 +38,35 @@ let tradeControl = {
             let amountToSell = amount - terminalMemory.processedData[resourceType];
             let targetPrice = this.getResourcePrice(resourceType);
             let buyOrders = Game.market.getAllOrders({type : ORDER_BUY, resourceType : resourceType});
+            let acceptableBuyOrders = [];
             let energyPrice = this.getResourcePrice(RESOURCE_ENERGY);
             console.log('orders for '+resourceType+': ' + buyOrders.length);
             for(let i in buyOrders) {
                 let order = buyOrders[i];
-                let orderAmount = Math.min(amountToSell, order.amount);
-                let energyRequired = Game.market.calcTransactionCost(orderAmount, room.name, order.roomName);
-                console.log('energy required: ' + energyRequired);
+                let energyRequired = Game.market.calcTransactionCost(order.amount, room.name, order.roomName);
+                // console.log('energy required: ' + energyRequired);
                 let orderPrice = order.price*order.amount - energyPrice.avgPrice * energyRequired;
-                console.log('order price: ' + orderPrice);
-                let orderPriceForUnit = orderPrice / order.amount;
-                console.log('order price for unit: ' + orderPriceForUnit);
-                console.log('target price: '+JSON.stringify(targetPrice));
-                if(orderPriceForUnit >= targetPrice.minPrice) {
-                    terminalMemory.processedData[resourceType] += orderAmount;
-                    amountToSell -= orderAmount;
-                    terminalMemory.pendingOrders.push({buyOrderId : order.id, amount : orderAmount, energyRequired : energyRequired, resourceType : resourceType});
+                // console.log('order price: ' + orderPrice);
+                order.price = orderPrice / order.amount;
+                // console.log('order price for unit: ' + orderPriceForUnit);
+                // console.log('target price: '+JSON.stringify(targetPrice));
+                if(order.price >= targetPrice.minPrice) {
+                    acceptableBuyOrders.push({buyOrderId : order.id, amount : orderAmount, energyRequired : energyRequired, resourceType : resourceType});
                 }
+            }
+            acceptableBuyOrders.sort((a,b) => b.price - a.price);
+            for(let i in acceptableBuyOrders) {
+                let order = acceptableBuyOrders[i];
+                let orderAmount = Math.min(amountToSell, order.amount);
+
+                let energyRequired = Game.market.calcTransactionCost(orderAmount, room.name, order.roomName);
+                terminalMemory.processedData[resourceType] += orderAmount;
+                amountToSell -= orderAmount;
+                terminalMemory.pendingOrders.push({buyOrderId : order.id, amount : orderAmount, energyRequired : energyRequired, resourceType : resourceType});
                 if(amountToSell === 0) {
                     break;
                 }
+
             }
         }
         let totalEnergyRequired = 0;
