@@ -48,7 +48,7 @@ let roleOperatorLvl6 = {
                 }
                 let clearTarget = false;
                 for(let resourceType in creep.store) {
-                    let result = creep.transfer(target, RESOURCE_ENERGY);
+                    let result = creep.transfer(target, resourceType);
                     if (result !== ERR_NOT_IN_RANGE) {
                         // console.log('---courier '+creep.id+' |put success ' + result);
                         // creep.memory.target = undefined;
