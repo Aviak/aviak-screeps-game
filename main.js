@@ -17,6 +17,7 @@ let roleCourierLvl6 = require('role.courier.lvl6');
 let roleOperatorLvl6 = require('role.operator.lvl6');
 let roleHarvesterLvl6 = require('role.harvester.lvl6');
 let roleMinerLvl6 = require('role.miner.lvl6');
+let tradeControl = require('TradeControl');
 
 let cpuLog = false;
 
@@ -1676,6 +1677,7 @@ function RunLatest(room) {
             break;
         }
     }
+    tradeControl.run(room);
 
     for(let name in thisRoomCreeps) {
         if(cpuLog) {
