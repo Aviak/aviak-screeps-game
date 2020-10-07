@@ -99,11 +99,11 @@ let tradeControl = {
                 terminalEnergy -= order.energyRequired;
                 let buyOrder = Game.market.getOrderById(order.buyOrderId);
                 if(buyOrder && buyOrder.amount >= order.amount) {
-                    // Game.market.deal(order.buyOrderId, order.amount);
+                    Game.market.deal(order.buyOrderId, order.amount);
                     console.log('DEAL ' + order.amount + ' ' + order.resourceType + ' ' + buyOrder.price + ' each');
                 }
-                // terminalMemory.pendingOrders.splice(i,1);
-                // terminalMemory.processedData[order.resourceType]-=order.amount;
+                terminalMemory.pendingOrders.splice(i,1);
+                terminalMemory.processedData[order.resourceType]-=order.amount;
             }
         }
     }
