@@ -126,9 +126,7 @@ let roleCourierLvl6 = {
                     }
                 }
                 if(!target) {
-                    console.log('c1');
                     if(creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
-                        console.log('c2');
                         targets = creep.room.find(FIND_STRUCTURES, {
                             filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                                 && Memory.structures['id' + structure.id]
@@ -141,7 +139,6 @@ let roleCourierLvl6 = {
                         }
                     }
                     if(!target) {
-                        console.log('c3');
                         targets = creep.room.find(FIND_STRUCTURES, {
                             filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                                 && Memory.structures['id' + structure.id]
@@ -162,21 +159,17 @@ let roleCourierLvl6 = {
                         }
                         else {
                             if(creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
-                                console.log('c4');
                                 targets = creep.room.find(FIND_STRUCTURES, {
                                     filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                                         && Memory.structures['id' + structure.id]
-                                        && (Memory.structures['id' + structure.id].containerType === 'Request'
-                                            && (creep.room.energyCapacityAvailable > creep.room.energyAvailable))
+                                        && (Memory.structures['id' + structure.id].containerType === 'Request')
                                         && (structure.store.getUsedCapacity() - ((Memory.structures['id' + structure.id].requested) ? Memory.structures['id' + structure.id].requested : 0)) >= creep.store.getFreeCapacity()
                                 });
                                 if (targets && targets.length > 0) {
-                                    console.log('c41');
                                     target = targets[0];
                                 }
                             }
                             if (!target && creep.room.storage && creep.room.energyAvailable < creep.room.energyCapacityAvailable && creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY)) {
-                                console.log('c5');
                                 target = creep.room.storage;
                             }
                         }
