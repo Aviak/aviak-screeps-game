@@ -194,7 +194,7 @@ function RunLevel1(room) {
             spawn.spawnCreep([WORK, CARRY, MOVE], newName,
                 { memory: { name : newName, roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
         }
-        else if (builders.length < 3) {
+        else if (builders.length < 0) {
             let newName = 'Builder' + Game.time;
             spawn.spawnCreep([WORK, CARRY, MOVE], newName,
                 { memory: { name : newName, roomOrigin : room.name, role: 'builder', building: false } });
