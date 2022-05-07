@@ -82,7 +82,7 @@ let roleSimpleWorker = {
                     // if(creep.memory.upgrading && creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
                     //     creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
                     // }
-                    if(creep.memory.upgrading) {
+                    if(creep.memory.upgrading)  {
                         // console.log(creep.name + ' c1');
                         if(creep.pos.getRangeTo(creep.room.controller) > 3) {
                             // console.log(creep.name + ' c2');
