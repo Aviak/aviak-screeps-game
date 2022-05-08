@@ -57,7 +57,7 @@ let roleSimpleWorker = {
                         filter: (structure) => {
                             return (structure.structureType === STRUCTURE_EXTENSION ||
                                 structure.structureType === STRUCTURE_SPAWN ||
-                                structure.structureType === STRUCTURE_TOWER) && (structure.energyCapacity - structure.energy < creep.store.getUsedCapacity(RESOURCE_ENERGY));
+                                structure.structureType === STRUCTURE_TOWER) && (structure.energyCapacity - structure.energy >= creep.store.getUsedCapacity(RESOURCE_ENERGY));
                         }
                     });
                     if(targets.length > 0) {

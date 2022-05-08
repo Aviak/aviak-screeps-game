@@ -128,7 +128,7 @@ function GetRoomLevel(room) {
     else if(roomControllerLevel >= 3 && room.energyCapacityAvailable >= 800 && containers.length >= 3) {
         roomLevel = 3;
     }
-    else if(roomControllerLevel >= 2 && room.energyCapacityAvailable >= 550) {
+    else if(roomControllerLevel >= 2) {
         roomLevel = 2;
     }
     else {
