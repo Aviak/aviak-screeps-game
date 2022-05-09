@@ -56,6 +56,17 @@ module.exports.loop = function () {
         Memory.cpuUsage.pathingRecalculations = adjustAvgCpuUsage(Memory.cpuUsage.pathingRecalculations, Game.cpu.getUsed()-currCpu);
         currCpu = Game.cpu.getUsed();
     }
+    if(Game.time%371===0) {
+        let arrayStructuresToClear = [];
+        for(let structureId in Memory.structures) {
+            if(Game.getObjectById(structureId.slice(2))===null) {
+                arrayStructuresToClear.push(structureId.slice(2));
+            }
+        }
+        for(let structureId in arrayStructuresToClear) {
+            delete Memory.structures[structureId];
+        }
+    }
     // console.log('Memory upkeep: ' + Game.cpu.getUsed());
     let rooms = _.filter(Game.rooms, (room) => room.controller.my);
     for(let roomName in rooms) {
@@ -274,16 +285,32 @@ function RunLevel2(room) {
 
     if(spawn) {
         //console.log('Workers: ' + workers.length)
-        if(workers.length <= 3) {
+        if(workers.length <= (room.energyCapacityAvailable >= 550 ? 4 : 3)) {
             //console.log("111");
             let newName = 'Worker' + Game.time;
-            spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
-                { memory: { name : newName, roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
+            if(room.energyCapacityAvailable < 350) {
+                spawn.spawnCreep([WORK, CARRY, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
+            }
+            else if(room.energyCapacityAvailable < 500){
+                spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
+            }
+            else {
+                spawn.spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
+            }
         }
-        else if (builders.length <= 3) {
+        else if (builders.length <= (room.energyCapacityAvailable >= 550 ? 2 : 3)) {
             let newName = 'Builder' + Game.time;
-            spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
-                { memory: { name : newName, roomOrigin : room.name, role: 'builder', building: false } });
+            if(room.energyCapacityAvailable < 350) {
+                spawn.spawnCreep([WORK, CARRY, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'builder', building: false } });
+            }
+            else {
+                spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'builder', building: false } });
+            }
 
         }
         if (spawn.spawning) {
