@@ -44,7 +44,12 @@ let roleLongDistanceHaulerLvl5 = {
                 }
             }
         }
-
+        if(creep.hits<creep.hitsMax && creep.hits>0 && creep.room.name !== creep.memory.roomOrigin) {
+            if(!Memory.dangerRooms) {
+                Memory.dangerRooms = {};
+            }
+            Memory.dangerRooms[creep.room.name] = Game.time;
+        }
         if(creep.store.getUsedCapacity(RESOURCE_ENERGY) === 0) {
             //MOVING TO CONTAINER IN TARGET ROOM
             if(creep.room.name === creep.memory.longDistanceMining.room) {

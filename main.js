@@ -56,17 +56,20 @@ module.exports.loop = function () {
         Memory.cpuUsage.pathingRecalculations = adjustAvgCpuUsage(Memory.cpuUsage.pathingRecalculations, Game.cpu.getUsed()-currCpu);
         currCpu = Game.cpu.getUsed();
     }
-    if(Game.time%371===0) {
-        let arrayStructuresToClear = [];
-        for(let structureId in Memory.structures) {
-            if(Game.getObjectById(structureId.slice(2))===null) {
-                arrayStructuresToClear.push(structureId.slice(2));
-            }
-        }
-        for(let structureId in arrayStructuresToClear) {
-            delete Memory.structures[structureId];
-        }
-    }
+    // if(Game.time%371===0) {
+    //     let arrayStructuresToClear = [];
+    //     for(let structureId in Memory.structures) {
+    //         if(!Game.structures[structureId.slice(2)]) {
+    //             arrayStructuresToClear.push(structureId);
+    //         }
+    //     }
+    //     for(let structureId in arrayStructuresToClear) {
+    //         //console.log(structureId);
+    //         //console.log(Memory.structures[structureId]);
+    //         delete Memory.structures[arrayStructuresToClear[structureId]];
+    //         //console.log(Memory.structures[structureId]);
+    //     }
+    // }
     // console.log('Memory upkeep: ' + Game.cpu.getUsed());
     let rooms = _.filter(Game.rooms, (room) => room.controller.my);
     for(let roomName in rooms) {
@@ -357,7 +360,7 @@ function RunLevel3(room) {
         InitClearObjectsMemory();
     }
     if(cpuLog) {
-        Memory.cpuUsage.rooms[room.name].init = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].init, Game.cpu.getUsed()-currCpu);
+        Memory.cpuUsage.rooms[room.name].init = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].init, Game.cpu.getUsed() - currCpu);
         currCpu = Game.cpu.getUsed();
     }
 
@@ -382,6 +385,17 @@ function RunLevel3(room) {
         Memory.cpuUsage.rooms[room.name].tower = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].tower, Game.cpu.getUsed()-currCpu);
         currCpu = Game.cpu.getUsed();
     }
+    let dangerRooms = [];
+    if(Memory.dangerRooms) {
+        for(let dangerRoom in Memory.dangerRooms) {
+            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+                dangerRooms.push(dangerRoom);
+            }
+            else {
+                delete Memory.dangerRooms[dangerRoom];
+            }
+        }
+    }
 
     let harvesters = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'harvester');
     let builders = _.filter(thisRoomCreeps, (creep) => creep.memory.role === 'builder');
@@ -391,7 +405,9 @@ function RunLevel3(room) {
     let longDistanceMiningLocations = roleLongDistanceMinerLvl3.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
-        longDistanceMinersRequired += i.maxMiners;
+        if(!dangerRooms.includes(i.room)) {
+            longDistanceMinersRequired += i.maxMiners;
+        }
     }
     if(cpuLog) {
         Memory.cpuUsage.rooms[room.name].creepCount = adjustAvgCpuUsage(Memory.cpuUsage.rooms[room.name].creepCount, Game.cpu.getUsed()-currCpu);
@@ -484,12 +500,12 @@ function RunLevel3(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
-            // else if (claimers.length < 1) {
-            //     let newName = 'Claimer' + Game.time;
-            //     spawn.spawnCreep([CLAIM, MOVE], newName,
-            //         { memory: { roomOrigin : room.name, role: 'claimer' } });
-            //
-            // }
+            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && !dangerRooms.includes(room.memory.claiming.claimRoom)) {
+                let newName = 'Claimer' + Game.time;
+                spawn.spawnCreep([CLAIM, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'claimer' } });
+
+            }
 
             if (spawn.spawning) {
                 let spawningCreep = Game.creeps[spawn.spawning.name];
@@ -643,10 +659,22 @@ function RunLevel4(room) {
     if(Game.time % 10 === 0) {
         InitClearObjectsMemory();
     }
+    let dangerRooms = [];
+    if(Memory.dangerRooms) {
+        for(let dangerRoom in Memory.dangerRooms) {
+            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+                dangerRooms.push(dangerRoom);
+            }
+            else {
+                delete Memory.dangerRooms[dangerRoom];
+            }
+        }
+    }
 
     let towers = room.find(FIND_STRUCTURES, {
         filter: (structure) => structure.structureType === STRUCTURE_TOWER
     });
+
     for(let tower in towers) {
         let closestHostile = towers[tower].pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(closestHostile) {
@@ -678,7 +706,9 @@ function RunLevel4(room) {
     let longDistanceMiningLocations = roleLongDistanceMinerLvl3.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
-        longDistanceMinersRequired += i.maxMiners;
+        if(!dangerRooms.includes(i.room)) {
+            longDistanceMinersRequired += i.maxMiners;
+        }
     }
     let invasion = false;
     if(!Memory.invasionParameters) {
@@ -773,7 +803,7 @@ function RunLevel4(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
-            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom) {
+            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && !dangerRooms.includes(room.memory.claiming.claimRoom)) {
                 let newName = 'Claimer' + Game.time;
                 spawn.spawnCreep([CLAIM, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'claimer' } });
@@ -879,6 +909,7 @@ function RunLevel5(room) {
         currCpu = Game.cpu.getUsed();
     }
 
+
     let thisRoomCreeps = _.filter(Game.creeps, (creep) => creep.memory.roomOrigin === room.name);
 
     if (Game.time % 250 === 0) {
@@ -896,6 +927,17 @@ function RunLevel5(room) {
 
     if(Game.time % 11 === 0) {
         ProcessCreepsOnDeathEffects();
+    }
+    let dangerRooms = [];
+    if(Memory.dangerRooms) {
+        for(let dangerRoom in Memory.dangerRooms) {
+            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+                dangerRooms.push(dangerRoom);
+            }
+            else {
+                delete Memory.dangerRooms[dangerRoom];
+            }
+        }
     }
 
     //while it's all shit with requests
@@ -1002,7 +1044,9 @@ function RunLevel5(room) {
     let longDistanceMiningLocations = roleLongDistanceMinerLvl5.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
-        longDistanceMinersRequired += i.maxMiners;
+        if(!dangerRooms.includes(i.room)) {
+            longDistanceMinersRequired += i.maxMiners;
+        }
     }
     if(longDistanceMinersRequired > 0) {
         longDistanceMinersRequired -= roleLongDistanceMinerLvl5.countUnassignedMiners(room);
@@ -1118,7 +1162,7 @@ function RunLevel5(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
 
             }
-            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && (!Game.rooms[room.memory.claiming.claimRoom] || !Game.rooms[room.memory.claiming.claimRoom].controller.my)) {
+            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && (!Game.rooms[room.memory.claiming.claimRoom] || !Game.rooms[room.memory.claiming.claimRoom].controller.my && !dangerRooms.includes(room.memory.claiming.claimRoom))) {
                 let newName = 'Claimer' + Game.time;
                 spawn.spawnCreep([CLAIM, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'claimer' } });
@@ -1323,6 +1367,17 @@ function RunLatest(room) {
     if(Game.time % 11 === 0) {
         ProcessCreepsOnDeathEffects();
     }
+    let dangerRooms = [];
+    if(Memory.dangerRooms) {
+        for(let dangerRoom in Memory.dangerRooms) {
+            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+                dangerRooms.push(dangerRoom);
+            }
+            else {
+                delete Memory.dangerRooms[dangerRoom];
+            }
+        }
+    }
 
     //while it's all shit with requests
     if(Game.time % 6 === 0) {
@@ -1454,7 +1509,9 @@ function RunLatest(room) {
     let longDistanceMiningLocations = roleLongDistanceMinerLvl5.getMiningLocations(room);
     let longDistanceMinersRequired = 0;
     for (let i of longDistanceMiningLocations) {
-        longDistanceMinersRequired += i.maxMiners;
+        if(!dangerRooms.includes(i.room)) {
+            longDistanceMinersRequired += i.maxMiners;
+        }
     }
     if(longDistanceMinersRequired > 0) {
         longDistanceMinersRequired -= roleLongDistanceMinerLvl5.countUnassignedMiners(room);
@@ -1587,7 +1644,7 @@ function RunLatest(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'builder', building: false } });
 
             }
-            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && (!Game.rooms[room.memory.claiming.claimRoom] || !Game.rooms[room.memory.claiming.claimRoom].controller.my)) {
+            else if (claimers.length < 1 && room.memory.claiming && room.memory.claiming.claimRoom && (!Game.rooms[room.memory.claiming.claimRoom] || !Game.rooms[room.memory.claiming.claimRoom].controller.my && !dangerRooms.includes(room.memory.claiming.claimRoom))) {
                 let newName = 'Claimer' + Game.time;
                 spawn.spawnCreep([CLAIM, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'claimer' } });

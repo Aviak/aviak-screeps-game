@@ -49,7 +49,12 @@ var roleReserverLvl5 = {
             }
             creep.memory.reserving.exitToRoom = { x: exitPos.x, y: exitPos.y};
         }
-
+        if(creep.hits<creep.hitsMax && creep.hits>0 && creep.room.name !== creep.memory.roomOrigin) {
+            if(!Memory.dangerRooms) {
+                Memory.dangerRooms = {};
+            }
+            Memory.dangerRooms[creep.room.name] = Game.time;
+        }
 
         if (creep.room.name === creep.memory.reserveRoom) {
             //console.log('claim 1');

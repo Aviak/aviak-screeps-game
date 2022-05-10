@@ -13,6 +13,12 @@ var roleLongDistanceMinerLvl3 = {
         if(!Memory.rooms[creep.memory.roomOrigin].claiming) {
             Memory.rooms[creep.memory.roomOrigin].claiming = {};
         }
+        if(creep.hits<creep.hitsMax && creep.hits>0 && creep.room.name !== creep.memory.roomOrigin) {
+            if(!Memory.dangerRooms) {
+                Memory.dangerRooms = {};
+            }
+            Memory.dangerRooms[creep.room.name] = Game.time;
+        }
         if(!Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
             return;
         }
@@ -32,6 +38,11 @@ var roleLongDistanceMinerLvl3 = {
 
         }
         let roomName = Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom;
+
+        if(Game.rooms[roomName] && Game.rooms[roomName].controller.my) {
+            delete Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom;
+            return;
+        }
         if (creep.room.name !== roomName && !creep.memory.claiming.exitToRoom) {
            // console.log('1111');
             let exitCode = creep.room.findExitTo(roomName);

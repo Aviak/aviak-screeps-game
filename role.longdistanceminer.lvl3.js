@@ -64,6 +64,12 @@ var roleLongDistanceMinerLvl3 = {
         if (creep.memory.mining === false && creep.store.getUsedCapacity() === 0) {
             creep.memory.mining = true;
         }
+        if(creep.hits<creep.hitsMax && creep.hits>0 && creep.room.name !== creep.memory.roomOrigin) {
+            if(!Memory.dangerRooms) {
+                Memory.dangerRooms = {};
+            }
+            Memory.dangerRooms[creep.room.name] = Game.time;
+        }
         //console.log(creep.memory.mining);
 
         if (creep.memory.mining === true) {
@@ -73,7 +79,9 @@ var roleLongDistanceMinerLvl3 = {
                     creep.memory.longDistanceMining.sourceId = creep.pos.findClosestByRange(FIND_SOURCES).id;
                 }
                 let source = Game.getObjectById(creep.memory.longDistanceMining.sourceId);
-                creep.harvest(source);
+                //console.log('harvesting ' + source.id);
+                //console.log(creep.harvest(source));
+                creep.harvest(source)
             } else if (creep.room.name !== creep.memory.longDistanceMining.room) {
                 let exitToMining = new RoomPosition(creep.memory.longDistanceMining.exitToMining.x, creep.memory.longDistanceMining.exitToMining.y, creep.room.name);
 
@@ -110,6 +118,13 @@ var roleLongDistanceMinerLvl3 = {
                             && Memory.structures['id'+s.id]
                             && Memory.structures['id'+s.id].containerType === 'Provider'
                     });
+                    if(!container) {
+                        container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                            filter: (s) => s.structureType === STRUCTURE_CONTAINER
+                                && Memory.structures['id'+s.id]
+                                && Memory.structures['id'+s.id].containerType === 'Request'
+                        });
+                    }
 
                     creep.memory.longDistanceMining.containerLocation = { x: container.pos.x, y: container.pos.y, room: container.room.name };
                     creep.memory.longDistanceMining.containerId = container.id;
@@ -161,7 +176,8 @@ var roleLongDistanceMinerLvl3 = {
     }
     ,
     getMiningLocations: function (room) {
-        const MiningLocations = [   { originRoom : 'E7S53', room: 'E7S54', x: 42, y: 11, maxMiners: 2 }];
+        const MiningLocations = [   { originRoom : 'E7S53', room: 'E7S54', x: 42, y: 11, maxMiners: 0 },
+                                    { originRoom : 'E7S53', room: 'E8S53', x: 11, y: 21, maxMiners: 3 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined);
