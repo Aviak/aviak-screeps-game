@@ -51,7 +51,7 @@ let roleHarvesterLvl3 = {
                         transferredThisTurn = true;
                     }
                 }
-                if(creep.store.getFreeCapacity() !== 0 || transferredThisTurn) {
+                if(creep.store.getFreeCapacity() !== 0 || transferredThisTurn || creep.store.getCapacity() === 0) {
                     let res = creep.harvest(source);
                     if(res === OK) {
                         if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {

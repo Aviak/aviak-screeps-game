@@ -10,18 +10,22 @@ var roleLongDistanceMinerLvl3 = {
         //creep.memory.longDistanceMining = undefined;
         //console.log('' + creep + ' ' + creep.memory.longDistanceMining);
 
+
         if(!Memory.rooms[creep.memory.roomOrigin].claiming) {
             Memory.rooms[creep.memory.roomOrigin].claiming = {};
         }
+        //console.log('claiming 01');
         if(creep.hits<creep.hitsMax && creep.hits>0 && creep.room.name !== creep.memory.roomOrigin) {
             if(!Memory.dangerRooms) {
                 Memory.dangerRooms = {};
             }
             Memory.dangerRooms[creep.room.name] = Game.time;
         }
+        //console.log('claiming 02 ' + creep.memory.roomOrigin);
         if(!Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
             return;
         }
+        //console.log('claiming 03');
 
         if (!creep.memory.claiming) {
             //console.log('INIT CLAIMER');
@@ -39,7 +43,7 @@ var roleLongDistanceMinerLvl3 = {
         }
         let roomName = Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom;
 
-        if(Game.rooms[roomName] && Game.rooms[roomName].controller.my) {
+        if(Game.rooms[roomName] && Game.rooms[roomName].controller.my && Game.rooms[roomName].controller.owner.username === 'Aviack') {
             delete Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom;
             return;
         }
@@ -58,14 +62,17 @@ var roleLongDistanceMinerLvl3 = {
             creep.memory.claiming.exitToRoom = { x: exitPos.x, y: exitPos.y};
         }
 
-
+        console.log(creep.room.name === Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom);
         if (creep.room.name === Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
-            //console.log('claim 1');
+            console.log('claim 1');
             let res = creep.claimController(creep.room.controller);
-            //console.log(res);
+            console.log(res);
             if(res === ERR_NOT_IN_RANGE) {
                 //console.log('claim 2');
                 creep.moveTo(creep.room.controller);
+            }
+            else if(res !== OK) {
+                console.log('ERROR WHILE CLAIMING ' + res);
             }
         } else if (creep.room.name !== Memory.rooms[creep.memory.roomOrigin].claiming.claimRoom) {
             //console.log('claim 3');
