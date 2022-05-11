@@ -32,7 +32,8 @@ let roleHarvesterLvl3 = {
         }
         if(targetPosition) {
             if(!targetPosition.isEqualTo(creep.pos)) {
-                creep.moveTo(targetPosition);
+                //creep.moveTo(targetPosition);
+                pathfinding.modMoveTo(creep, targetPosition, 0);
             }
             if(targetPosition.isEqualTo(creep.pos)) {
                 let source;

@@ -4,10 +4,13 @@ var invasionControl = {
         if(!Memory.invasionParameters) {
             Memory.invasionParameters = {gangNumerator : 0, gangs: [], invadeRoom : ''};
         }
-        if(Game.rooms[Memory.invasionParameters.invadeRoom] && (Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === ''
+        if(Game.rooms[Memory.invasionParameters.invadeRoom] && ((Game.rooms[Memory.invasionParameters.invadeRoom].controller.owner === ''
                                                                 || Game.rooms[Memory.invasionParameters.invadeRoom].find(FIND_HOSTILE_STRUCTURES, {
                                                                     filter: (structure) => structure.structureType === STRUCTURE_SPAWN
-                                                             }).length === 0))
+                                                                }).length === 0))
+                                                            && Game.rooms[Memory.invasionParameters.invadeRoom].find(FIND_HOSTILE_STRUCTURES, {
+                                                                filter: (structure) => structure.structureType === STRUCTURE_INVADER_CORE
+                                                            }).length === 0)
         {
             Memory.invasionParameters.invasionDone = true;
         }
@@ -93,7 +96,7 @@ var invasionControl = {
                                 }
                             }
                             if(target) {
-                                console.log('target : ' + JSON.stringify(target));
+                                //console.log('target : ' + JSON.stringify(target));
                                 if(creep.pos.getRangeTo(target) > 1) {
                                     creep.moveTo(target);
                                 }

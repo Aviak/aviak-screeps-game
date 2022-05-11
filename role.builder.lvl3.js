@@ -17,13 +17,18 @@ var roleBuilderLvl3 = {
                 filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                     && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
                     && Memory.structures['id'+structure.id]
-                    && Memory.structures['id'+structure.id].containerType === 'Request'
+                    && (Memory.structures['id'+structure.id].containerType === 'Request'
+                        || (Memory.structures['id'+structure.id].containerType === 'Harvest' && structure.store[RESOURCE_ENERGY] >= 1000)
+                        || (Memory.structures['id'+structure.id].containerType === 'Provider' && structure.store[RESOURCE_ENERGY] >= 1000))
             });
             if(!targetContainer) {
+
                 targetContainer =  creep.pos.findClosestByPath(FIND_STRUCTURES,{
-                    filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
-                        && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
+                    filter: (structure) => (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE)
+                            && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
                 });
+
+
             }
             if(targetContainer) {
                 // if(creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
@@ -82,9 +87,16 @@ var roleBuilderLvl3 = {
                     // if(creep.repair(target) === ERR_NOT_IN_RANGE) {
                     //     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                     // }
-                    if(creep.pos.getRangeTo(target) > 3) {
+                    let rangeToTarget = creep.pos.getRangeTo(target);
+                    if(rangeToTarget > 3) {
                         pathfinding.modMoveTo(creep, target.pos, 3);
                     }
+                    else if(rangeToTarget > 2) {
+                        pathfinding.modMoveTo(creep, target.pos, 2);
+                    }
+                    // else if(rangeToTarget > 1) {
+                    //     pathfinding.modMoveTo(creep, target.pos, 1);
+                    // }
                     creep.repair(target);
                 }
             }

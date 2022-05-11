@@ -291,7 +291,7 @@ function RunLevel2(room) {
         if(workers.length <= (room.energyCapacityAvailable >= 550 ? 4 : 3)) {
             //console.log("111");
             let newName = 'Worker' + Game.time;
-            if(room.energyCapacityAvailable < 350) {
+            if(room.energyCapacityAvailable < 350 || workers.length===0) {
                 spawn.spawnCreep([WORK, CARRY, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'simpleWorker', harvesting: false, upgrading: false } });
             }
@@ -388,7 +388,7 @@ function RunLevel3(room) {
     let dangerRooms = [];
     if(Memory.dangerRooms) {
         for(let dangerRoom in Memory.dangerRooms) {
-            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+            if(Memory.dangerRooms[dangerRoom]+500>=Game.time) {
                 dangerRooms.push(dangerRoom);
             }
             else {
@@ -462,7 +462,7 @@ function RunLevel3(room) {
             else if(harvesters.length < 2) {
                 //console.log("111");
                 let newName = 'Harvester' + Game.time;
-                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], newName,
+                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'harvester' , timeBorn : Game.time} });
             }
             else if (builders.length < 1) {
@@ -664,7 +664,7 @@ function RunLevel4(room) {
     let dangerRooms = [];
     if(Memory.dangerRooms) {
         for(let dangerRoom in Memory.dangerRooms) {
-            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+            if(Memory.dangerRooms[dangerRoom]+500>=Game.time) {
                 dangerRooms.push(dangerRoom);
             }
             else {
@@ -933,7 +933,7 @@ function RunLevel5(room) {
     let dangerRooms = [];
     if(Memory.dangerRooms) {
         for(let dangerRoom in Memory.dangerRooms) {
-            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+            if(Memory.dangerRooms[dangerRoom]+500>=Game.time) {
                 dangerRooms.push(dangerRoom);
             }
             else {
@@ -1372,7 +1372,7 @@ function RunLatest(room) {
     let dangerRooms = [];
     if(Memory.dangerRooms) {
         for(let dangerRoom in Memory.dangerRooms) {
-            if(Memory.dangerRooms[dangerRoom]+300>=Game.time) {
+            if(Memory.dangerRooms[dangerRoom]+500>=Game.time) {
                 dangerRooms.push(dangerRoom);
             }
             else {

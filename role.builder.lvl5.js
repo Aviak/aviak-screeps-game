@@ -17,11 +17,13 @@ var roleBuilderLvl3 = {
                 filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                     && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
                     && Memory.structures['id'+structure.id]
-                    && Memory.structures['id'+structure.id].containerType === 'Request'
+                    && (Memory.structures['id'+structure.id].containerType === 'Request'
+                        || (Memory.structures['id'+structure.id].containerType === 'Harvest' && structure.store[RESOURCE_ENERGY] >= 1000)
+                        || (Memory.structures['id'+structure.id].containerType === 'Provider' && structure.store[RESOURCE_ENERGY] >= 1000))
             });
             if(!targetContainer) {
                 targetContainer =  creep.pos.findClosestByPath(FIND_STRUCTURES,{
-                    filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+                    filter: (structure) => (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE)
                         && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
                 });
             }

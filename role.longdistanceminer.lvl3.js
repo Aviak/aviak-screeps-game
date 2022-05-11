@@ -177,7 +177,8 @@ var roleLongDistanceMinerLvl3 = {
     ,
     getMiningLocations: function (room) {
         const MiningLocations = [   { originRoom : 'E7S53', room: 'E7S54', x: 42, y: 11, maxMiners: 0 },
-                                    { originRoom : 'E7S53', room: 'E8S53', x: 11, y: 21, maxMiners: 0 }];
+                                    { originRoom : 'E7S53', room: 'E7S52', x: 8, y: 20, maxMiners: 1 },
+                                    { originRoom : 'E7S53', room: 'E7S52', x: 31, y: 19, maxMiners: 2 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined);

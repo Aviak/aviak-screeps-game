@@ -14,11 +14,13 @@ let roleUpgraderLvl3 = {
                 filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
                                         && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
                                         && Memory.structures['id'+structure.id]
-                                        && Memory.structures['id'+structure.id].containerType === 'Request'
+                                        && (Memory.structures['id'+structure.id].containerType === 'Request'
+                                            || (Memory.structures['id'+structure.id].containerType === 'Harvest' && structure.store[RESOURCE_ENERGY] >= 1000)
+                                            || (Memory.structures['id'+structure.id].containerType === 'Provider' && structure.store[RESOURCE_ENERGY] >= 1000))
             });
             if(!targetContainer) {
                 targetContainer = creep.pos.findClosestByPath(FIND_STRUCTURES,{
-                    filter: (structure) => structure.structureType === STRUCTURE_CONTAINER
+                    filter: (structure) => (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE)
                         && structure.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()
                 });
             }
@@ -36,11 +38,18 @@ let roleUpgraderLvl3 = {
             }
         }
         if(creep.memory.upgrading) {
-            if(creep.pos.getRangeTo(creep.room.controller) > 3) {
+            let rangeToController = creep.pos.getRangeTo(creep.room.controller);
+            if(rangeToController > 3) {
                 //creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}});
                 // console.log(JSON.stringify(creep.room.controller.pos));
                 pathfinding.modMoveTo(creep, creep.room.controller.pos, 3);
             }
+            else if(rangeToController > 2) {
+                pathfinding.modMoveTo(creep, creep.room.controller.pos, 2);
+            }
+            // else if(rangeToController > 1) {
+            //     pathfinding.modMoveTo(creep, creep.room.controller.pos, 1);
+            // }
             creep.upgradeController(creep.room.controller);
         }
     }
