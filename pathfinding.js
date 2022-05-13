@@ -15,6 +15,13 @@ var pathfinding = {
         // if(targetPos.pos) {
         //     targetPos = targetPos.pos;
         // }
+
+        //TEMPORARY until i figure out wtf is going on here
+        if(creep.room.name !== targetPos.roomName || creep.pos.x===0 || creep.pos.x === 49  || creep.pos.y === 0 || creep.pos.y === 49) {
+            creep.moveTo(targetPos);
+            return;
+        }
+
         if(creep.pos.getRangeTo(targetPos) <= radius) {
             return;
         }

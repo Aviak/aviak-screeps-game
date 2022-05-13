@@ -87,9 +87,9 @@ var roleLongDistanceMinerLvl3 = {
 
                 //check exit to mining for being the closest
                 if(creep.memory.longDistanceMining.containerLocation
-                        && !creep.memory.longDistanceMining.exitCheckDone
-                        && creep.pos.isEqualTo(new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name))
-                        ) {
+                    && !creep.memory.longDistanceMining.exitCheckDone
+                    && creep.pos.isEqualTo(new RoomPosition(creep.memory.longDistanceMining.containerLocation.x, creep.memory.longDistanceMining.containerLocation.y, creep.room.name))
+                ) {
 
                     let exitCode = creep.room.findExitTo(creep.memory.longDistanceMining.room);
                     let exitPos = creep.pos.findClosestByPath(exitCode, {ignoreCreeps: true});
@@ -176,9 +176,11 @@ var roleLongDistanceMinerLvl3 = {
     }
     ,
     getMiningLocations: function (room) {
-        const MiningLocations = [   { originRoom : 'E7S53', room: 'E7S54', x: 42, y: 11, maxMiners: 0 },
-                                    { originRoom : 'E7S53', room: 'E7S52', x: 8, y: 20, maxMiners: 1 },
-                                    { originRoom : 'E7S53', room: 'E7S52', x: 31, y: 19, maxMiners: 2 }];
+        const MiningLocations = [   { originRoom : 'E7S53', room: 'E7S54', x: 42, y: 11, maxMiners: 2 },
+            { originRoom : 'E7S53', room: 'E7S52', x: 8, y: 20, maxMiners: 1 },
+            { originRoom : 'E7S53', room: 'E7S52', x: 31, y: 19, maxMiners: 2 },
+            { originRoom : 'E8S53', room: 'E8S52', x: 8, y: 42, maxMiners: 1 },
+            { originRoom : 'E8S53', room: 'E8S52', x: 9, y: 4, maxMiners: 2 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined && Game.creeps[_.findKey(Memory.creeps, elem)]!==undefined);

@@ -127,18 +127,21 @@ var roleCourierLvl3 = {
                 target = Game.getObjectById(creep.memory.target);
             }
             if(!target) {
-                let targets = creep.room.find(FIND_TOMBSTONES, {
-                    filter: (tomb) => tomb.store.getUsedCapacity() !== tomb.store[RESOURCE_ENERGY]
-                });
-                if(targets && targets.length > 0 && creep.room.find(FIND_HOSTILE_CREEPS).length === 0) {
-                    target = targets[0];
-                }
-                else {
-                    targets = creep.room.find(FIND_DROPPED_RESOURCES, {
-                        filter: (res) => res.resourceType !== RESOURCE_ENERGY
+                let targets = null;
+                if(creep.room.storage) {
+                    targets = creep.room.find(FIND_TOMBSTONES, {
+                        filter: (tomb) => tomb.store.getUsedCapacity() !== tomb.store[RESOURCE_ENERGY]
                     });
                     if(targets && targets.length > 0 && creep.room.find(FIND_HOSTILE_CREEPS).length === 0) {
                         target = targets[0];
+                    }
+                    else {
+                        targets = creep.room.find(FIND_DROPPED_RESOURCES, {
+                            filter: (res) => res.resourceType !== RESOURCE_ENERGY
+                        });
+                        if(targets && targets.length > 0 && creep.room.find(FIND_HOSTILE_CREEPS).length === 0) {
+                            target = targets[0];
+                        }
                     }
                 }
                 if(!target) {

@@ -50,6 +50,15 @@ var roleLongDistanceMinerLvl5 = {
         }
         //MOVING TO SOURCE IN TARGET ROOM
         if(creep.room.name === creep.memory.longDistanceMining.room) {
+            let SpawnConstructionSite = undefined;
+            if(creep.room.controller.my) {
+                let spawnConstructionSites = creep.room.find(FIND_CONSTRUCTION_SITES, {
+                    filter : (c)=>c.structureType === STRUCTURE_SPAWN
+                });
+                if(spawnConstructionSites && spawnConstructionSites.length > 0) {
+                    SpawnConstructionSite = spawnConstructionSites[0];
+                }
+            }
             if(!creep.memory.longDistanceMining.enterPos) {
                 creep.memory.longDistanceMining.enterPos = { x : creep.pos.x, y : creep.pos.y};
             }
@@ -105,155 +114,170 @@ var roleLongDistanceMinerLvl5 = {
                         creep.memory.longDistanceMining.position = {x : -1, y : -1};
                     }
                 }
-                if(creep.memory.longDistanceMining.position) {
-                    let targetPosition = undefined;
-                    if(creep.memory.longDistanceMining.position.x === -1) {
-                        if(creep.pos.getRangeTo(source) > 1) {
-                            pathfinding.modMoveTo(creep, source.pos, 1);
-                        }
-                        else {
-                            let containerPosition = undefined;
-                            let minRange = Number.MAX_VALUE;
-                            let enterPos = new RoomPosition(creep.memory.longDistanceMining.enterPos.x, creep.memory.longDistanceMining.enterPos.y, creep.room.name);
-                            for(let i=-1; i<=1 && !containerPosition; i++) {
-                                for(let j=-1; j<=1 && !containerPosition; j++) {
-                                    if(i===0 && j===0) {
-                                        continue;
-                                    }
-
-                                    let roomTerrain = creep.room.getTerrain();
-                                    if(roomTerrain.get(creep.pos.x+i, creep.pos.y+j) === TERRAIN_MASK_WALL) {
-                                        continue;
-                                    }
-                                    let newContainerPosition = new RoomPosition(creep.pos.x+i, creep.pos.y+j, creep.pos.roomName);
-                                    let range = newContainerPosition.getRangeTo(enterPos);
-                                    if(range < minRange ) {
-                                        containerPosition = newContainerPosition;
-                                        minRange = range;
-                                    }
-                                    // let res = creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
-                                    // if(res !== OK && res !== ERR_RCL_NOT_ENOUGH) {
-                                    //     // console.log('res ' + res + ' i='+i + ' j='+j + ' ' + (res !== ERR_RCL_NOT_ENOUGH) + ' ' + ERR_RCL_NOT_ENOUGH);
-                                    //     containerPosition = undefined;
-                                    // }
-                                }
-                            }
-                            creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
-                            creep.memory.longDistanceMining.position = undefined;
-                            // console.log('---'+JSON.stringify(containerPosition)+' ---- \n'+JSON.stringify(source.pos));
-                            for(let i=-1; i<=1 && !creep.memory.longDistanceMining.position; i++) {
-                                for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
-                                    let roomTerrain = creep.room.getTerrain();
-                                    if(roomTerrain.get(containerPosition.x+i, containerPosition.y+j) === TERRAIN_MASK_WALL) {
-                                        continue;
-                                    }
-                                    let currentPosition = new RoomPosition(containerPosition.x+i, containerPosition.y+j, containerPosition.roomName);
-                                    if(currentPosition.getRangeTo(containerPosition) === 1 && currentPosition.getRangeTo(source.pos) === 1) {
-                                        // console.log('FOUND 1 ' + JSON.stringify(currentPosition));
-                                        creep.memory.longDistanceMining.position = {x : currentPosition.x, y : currentPosition.y};
-                                    }
-                                }
-                            }
-                            targetPosition = new RoomPosition(creep.memory.longDistanceMining.position.x, creep.memory.longDistanceMining.position.y, creep.room.name);
-                        }
-                    }
-                    else {
-                        targetPosition = new RoomPosition(creep.memory.longDistanceMining.position.x, creep.memory.longDistanceMining.position.y, creep.room.name);
-                        if(creep.pos.getRangeTo(targetPosition) > 0) {
-                            pathfinding.modMoveTo(creep, targetPosition, 0);
-                        }
-                    }
-                    if(targetPosition && targetPosition.isEqualTo(creep.pos)) {
-                        //MINING & MAINTAINING MINING SITE
-                        let numberOfWorkParts = 0;
-                        if(!creep.memory.numberOfWorkParts) {
-                            numberOfWorkParts = (_.filter(creep.body, (el) => el.type === WORK)).length;
-                            creep.memory.numberOfWorkParts = numberOfWorkParts;
-                        }
-                        else {
-                            numberOfWorkParts = creep.memory.numberOfWorkParts;
-                        }
-                        if(creep.store.getUsedCapacity() < numberOfWorkParts) {
-                            let res = creep.harvest(source);
-                            if(res === OK) {
-                                if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
-                                    creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
-                                }
-                            }
-                        }
-                        else {
-                            // let structuresNear = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
-                            // let structuresToRepair = _.filter(structuresNear, (structure) => (numberOfWorkParts*100) < (structure.structure.hitsMax - structure.structure.hits));
-                            // if(structuresToRepair && structuresToRepair.length > 0) {
-                            //     creep.repair(structuresToRepair[0].structure);
-                            // }
-                            let container = undefined;
-                            if(!creep.memory.longDistanceMining.containerId) {
-                                let structures = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-1, creep.pos.x-1, creep.pos.y+1, creep.pos.x+1, true);
-                                // console.log('s ' + structures.length);
-                                let containers = _.filter(structures, (s)=>s.structure.structureType === STRUCTURE_CONTAINER);
-                                // console.log('c ' + containers.length);
-                                if(containers && containers.length > 0) {
-                                    container = containers[0].structure;
-                                    creep.memory.longDistanceMining.containerId = container.id;
-                                }
+                if (!SpawnConstructionSite || !((creep.store[RESOURCE_ENERGY] >= creep.store.getCapacity()-10 && creep.pos.getRangeTo(SpawnConstructionSite)>3) || (creep.pos.getRangeTo(SpawnConstructionSite)<=3 && creep.store[RESOURCE_ENERGY]>0))) {
+                    if(creep.memory.longDistanceMining.position) {
+                        let targetPosition = undefined;
+                        if(creep.memory.longDistanceMining.position.x === -1) {
+                            if(creep.pos.getRangeTo(source) > 1) {
+                                pathfinding.modMoveTo(creep, source.pos, 1);
                             }
                             else {
-                                container = Game.getObjectById(creep.memory.longDistanceMining.containerId);
-                            }
-                            if(container && ((numberOfWorkParts*100) < (container.hitsMax - container.hits))) {
-                                creep.repair(container);
-                            }
-                            else {
-                                if(creep.store.getUsedCapacity() < numberOfWorkParts*5 && creep.store.getFreeCapacity() >= numberOfWorkParts*2) {
-                                    let res =creep.harvest(source);
-                                    if(res === OK) {
-                                        if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
-                                            creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                                let containerPosition = undefined;
+                                let minRange = Number.MAX_VALUE;
+                                let enterPos = new RoomPosition(creep.memory.longDistanceMining.enterPos.x, creep.memory.longDistanceMining.enterPos.y, creep.room.name);
+                                for(let i=-1; i<=1 && !containerPosition; i++) {
+                                    for(let j=-1; j<=1 && !containerPosition; j++) {
+                                        if(i===0 && j===0) {
+                                            continue;
                                         }
+
+                                        let roomTerrain = creep.room.getTerrain();
+                                        if(roomTerrain.get(creep.pos.x+i, creep.pos.y+j) === TERRAIN_MASK_WALL) {
+                                            continue;
+                                        }
+                                        let newContainerPosition = new RoomPosition(creep.pos.x+i, creep.pos.y+j, creep.pos.roomName);
+                                        let range = newContainerPosition.getRangeTo(enterPos);
+                                        if(range < minRange ) {
+                                            containerPosition = newContainerPosition;
+                                            minRange = range;
+                                        }
+                                        // let res = creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
+                                        // if(res !== OK && res !== ERR_RCL_NOT_ENOUGH) {
+                                        //     // console.log('res ' + res + ' i='+i + ' j='+j + ' ' + (res !== ERR_RCL_NOT_ENOUGH) + ' ' + ERR_RCL_NOT_ENOUGH);
+                                        //     containerPosition = undefined;
+                                        // }
+                                    }
+                                }
+                                creep.room.createConstructionSite(containerPosition, STRUCTURE_CONTAINER);
+                                creep.memory.longDistanceMining.position = undefined;
+                                // console.log('---'+JSON.stringify(containerPosition)+' ---- \n'+JSON.stringify(source.pos));
+                                for(let i=-1; i<=1 && !creep.memory.longDistanceMining.position; i++) {
+                                    for(let j=-1; j<=1 && !creep.memory.longDistanceMining.position; j++) {
+                                        let roomTerrain = creep.room.getTerrain();
+                                        if(roomTerrain.get(containerPosition.x+i, containerPosition.y+j) === TERRAIN_MASK_WALL) {
+                                            continue;
+                                        }
+                                        let currentPosition = new RoomPosition(containerPosition.x+i, containerPosition.y+j, containerPosition.roomName);
+                                        if(currentPosition.getRangeTo(containerPosition) === 1 && currentPosition.getRangeTo(source.pos) === 1) {
+                                            // console.log('FOUND 1 ' + JSON.stringify(currentPosition));
+                                            creep.memory.longDistanceMining.position = {x : currentPosition.x, y : currentPosition.y};
+                                        }
+                                    }
+                                }
+                                targetPosition = new RoomPosition(creep.memory.longDistanceMining.position.x, creep.memory.longDistanceMining.position.y, creep.room.name);
+                            }
+                        }
+                        else {
+                            targetPosition = new RoomPosition(creep.memory.longDistanceMining.position.x, creep.memory.longDistanceMining.position.y, creep.room.name);
+                            if(creep.pos.getRangeTo(targetPosition) > 0) {
+                                pathfinding.modMoveTo(creep, targetPosition, 0);
+                            }
+                        }
+
+
+                        if (targetPosition && targetPosition.isEqualTo(creep.pos)) {
+                            //MINING & MAINTAINING MINING SITE
+                            let numberOfWorkParts = 0;
+                            if (!creep.memory.numberOfWorkParts) {
+                                numberOfWorkParts = (_.filter(creep.body, (el) => el.type === WORK)).length;
+                                creep.memory.numberOfWorkParts = numberOfWorkParts;
+                            }
+                            else {
+                                numberOfWorkParts = creep.memory.numberOfWorkParts;
+                            }
+                            if (creep.store.getUsedCapacity() < numberOfWorkParts || SpawnConstructionSite) {
+                                let res = creep.harvest(source);
+                                if (res === OK) {
+                                    if (!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                                        creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                                    }
+                                }
+                            }
+                            else {
+                                // let structuresNear = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
+                                // let structuresToRepair = _.filter(structuresNear, (structure) => (numberOfWorkParts*100) < (structure.structure.hitsMax - structure.structure.hits));
+                                // if(structuresToRepair && structuresToRepair.length > 0) {
+                                //     creep.repair(structuresToRepair[0].structure);
+                                // }
+                                let container = undefined;
+                                if (!creep.memory.longDistanceMining.containerId) {
+                                    let structures = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y - 1, creep.pos.x - 1, creep.pos.y + 1, creep.pos.x + 1, true);
+                                    // console.log('s ' + structures.length);
+                                    let containers = _.filter(structures, (s) => s.structure.structureType === STRUCTURE_CONTAINER);
+                                    // console.log('c ' + containers.length);
+                                    if (containers && containers.length > 0) {
+                                        container = containers[0].structure;
+                                        creep.memory.longDistanceMining.containerId = container.id;
                                     }
                                 }
                                 else {
-                                    let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y-3, creep.pos.x-3, creep.pos.y+3, creep.pos.x+3, true);
-                                    //console.log(JSON.stringify(constructionSitesNear[0]));
-                                    if(constructionSitesNear && constructionSitesNear.length > 0) {
-                                        let res = creep.build(constructionSitesNear[0].constructionSite);
+                                    container = Game.getObjectById(creep.memory.longDistanceMining.containerId);
+                                }
 
-                                        // console.log('build res ' + res + ' ' + JSON.stringify(constructionSitesNear[0]));
+                                if (container && ((numberOfWorkParts * 100) < (container.hitsMax - container.hits))) {
+                                    creep.repair(container);
+                                }
+                                else {
+                                    if (creep.store.getUsedCapacity() < numberOfWorkParts * 5 && creep.store.getFreeCapacity() >= numberOfWorkParts * 2) {
+                                        let res = creep.harvest(source);
+                                        if (res === OK) {
+                                            if (!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                                                creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                                            }
+                                        }
                                     }
                                     else {
-                                        if(creep.store.getFreeCapacity() < numberOfWorkParts*2) {
-                                            let container = undefined;
-                                            if(!creep.memory.longDistanceMining.containerId) {
-                                                let structures = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y-1, creep.pos.x-1, creep.pos.y+1, creep.pos.x+1, true);
-                                                // console.log('s ' + structures.length);
-                                                let containers = _.filter(structures, (s)=>s.structure.structureType === STRUCTURE_CONTAINER);
-                                                // console.log('c ' + containers.length);
-                                                if(containers && containers.length > 0) {
-                                                    container = containers[0].structure;
-                                                    creep.memory.longDistanceMining.containerId = container.id;
-                                                }
-                                            }
-                                            else {
-                                                container = Game.getObjectById(creep.memory.longDistanceMining.containerId);
-                                            }
-                                            creep.transfer(container, RESOURCE_ENERGY);
-                                        }
-                                        if(creep.store.getFreeCapacity() > 0) {
-                                            let res = creep.harvest(source);
-                                            if(res === OK) {
-                                                if(!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
-                                                    creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
-                                                }
-                                            }
-                                        }
+                                        let constructionSitesNear = creep.room.lookForAtArea(LOOK_CONSTRUCTION_SITES, creep.pos.y - 3, creep.pos.x - 3, creep.pos.y + 3, creep.pos.x + 3, true);
+                                        //console.log(JSON.stringify(constructionSitesNear[0]));
+                                        if (constructionSitesNear && constructionSitesNear.length > 0) {
+                                            let res = creep.build(constructionSitesNear[0].constructionSite);
 
+                                            // console.log('build res ' + res + ' ' + JSON.stringify(constructionSitesNear[0]));
+                                        }
+                                        else {
+                                            if (creep.store.getFreeCapacity() < numberOfWorkParts * 2) {
+                                                let container = undefined;
+                                                if (!creep.memory.longDistanceMining.containerId) {
+                                                    let structures = creep.room.lookForAtArea(LOOK_STRUCTURES, creep.pos.y - 1, creep.pos.x - 1, creep.pos.y + 1, creep.pos.x + 1, true);
+                                                    // console.log('s ' + structures.length);
+                                                    let containers = _.filter(structures, (s) => s.structure.structureType === STRUCTURE_CONTAINER);
+                                                    // console.log('c ' + containers.length);
+                                                    if (containers && containers.length > 0) {
+                                                        container = containers[0].structure;
+                                                        creep.memory.longDistanceMining.containerId = container.id;
+                                                    }
+                                                }
+                                                else {
+                                                    container = Game.getObjectById(creep.memory.longDistanceMining.containerId);
+                                                }
+                                                creep.transfer(container, RESOURCE_ENERGY);
+                                            }
+                                            if (creep.store.getFreeCapacity() > 0) {
+                                                let res = creep.harvest(source);
+                                                if (res === OK) {
+                                                    if (!creep.memory.ticksBeforeWork && creep.memory.timeBorn) {
+                                                        creep.memory.ticksBeforeWork = Game.time - creep.memory.timeBorn;
+                                                    }
+                                                }
+                                            }
+
+                                        }
                                     }
+
                                 }
 
                             }
+
+
                         }
                     }
+                }
+
+                else {
+                    if (creep.pos.getRangeTo(SpawnConstructionSite) > 3) {
+                        creep.moveTo(SpawnConstructionSite);
+                    }
+                    creep.build(SpawnConstructionSite);
                 }
             }
         }
@@ -287,8 +311,10 @@ var roleLongDistanceMinerLvl5 = {
     }
     ,
     getMiningLocations: function (room) {
-        const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', maxMiners: 1 },
-                                    { originRoom : 'E13N1', room: 'E12N1', maxMiners: 1 }];
+        const MiningLocations = [   { originRoom : 'E7S53', room: 'E7S54', x: 42, y: 11, maxMiners: 1 },
+            { originRoom : 'E7S53', room: 'E7S52', x: 8, y: 20, maxMiners: 0 },
+            { originRoom : 'E7S53', room: 'E7S52', x: 31, y: 19, maxMiners: 0 },
+            { originRoom : 'E7S53', room: 'E6S53', x: 39, y: 18, maxMiners: 1 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         // let cpu = Game.cpu.getUsed();

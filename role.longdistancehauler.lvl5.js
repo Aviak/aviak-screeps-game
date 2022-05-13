@@ -98,6 +98,25 @@ let roleLongDistanceHaulerLvl5 = {
                         creep.memory.target = undefined;
                     }
                 }
+                else {
+                    let targets = creep.room.find(FIND_DROPPED_RESOURCES, {
+                        filter: (res) => res.resourceType === RESOURCE_ENERGY && res.amount >= creep.store.getCapacity()
+                    });
+                    let target = null;
+                    if(targets && targets.length > 0 && creep.room.find(FIND_HOSTILE_CREEPS).length === 0) {
+                        target = targets[0];
+                    }
+                    if(target) {
+                        console.log("found res");
+                        if(creep.pos.getRangeTo(target) > 0) {
+                            creep.moveTo(target);
+                        }
+                        else {
+                            creep.pickup(target);
+                        }
+                    }
+
+                }
             }
             //MOVING TO TARGET ROOM
             else {
@@ -187,8 +206,10 @@ let roleLongDistanceHaulerLvl5 = {
     }
     ,
     getMiningLocations: function (room) {
-        const MiningLocations = [   { originRoom : 'E13N2', room: 'E13N3', maxMiners: 1 },
-                                    { originRoom : 'E13N1', room: 'E12N1', maxMiners: 1 }];
+        const MiningLocations = [   { originRoom : 'E7S53', room: 'E7S54', x: 42, y: 11, maxMiners: 1 },
+                                    { originRoom : 'E7S53', room: 'E7S52', x: 8, y: 20, maxMiners: 0 },
+                                    { originRoom : 'E7S53', room: 'E7S52', x: 31, y: 19, maxMiners: 0 },
+                                    { originRoom : 'E7S53', room: 'E6S53', x: 39, y: 18, maxMiners: 1 }];
         let locations = _.filter(MiningLocations, (l)=>l.originRoom === room.name);
 
         let assignedMiners = _.filter(Memory.creeps, (elem) => elem.longDistanceMining !== undefined && elem.role === 'longdistancehauler5' && Game.creeps[_.findKey(Memory.creeps, elem)]);

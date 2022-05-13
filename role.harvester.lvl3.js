@@ -28,7 +28,7 @@ let roleHarvesterLvl3 = {
             }
         }
         else {
-            targetPosition = new RoomPosition(creep.memory.targetPosition.x, creep.memory.targetPosition.y, creep.room.name);
+            targetPosition = new RoomPosition(creep.memory.targetPosition.x, creep.memory.targetPosition.y, creep.memory.roomOrigin);
         }
         if(targetPosition) {
             if(!targetPosition.isEqualTo(creep.pos)) {

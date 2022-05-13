@@ -811,6 +811,11 @@ function RunLevel4(room) {
                     { memory: { name : newName, roomOrigin : room.name, role: 'claimer' } });
 
             }
+            else if(upgraders.length < 5 && room.storage && room.storage.store[RESOURCE_ENERGY] >= 25000) {
+                let newName = 'Upgrader' + Game.time;
+                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                    { memory: { name : newName, roomOrigin : room.name, role: 'upgrader', building: false } });
+            }
 
             if (spawn.spawning) {
                 let spawningCreep = Game.creeps[spawn.spawning.name];
@@ -1056,7 +1061,9 @@ function RunLevel5(room) {
     let longDistanceHaulingLocations = roleLongDistanceHaulerLvl5.getMiningLocations(room);
     let longDistanceHaulersRequired = 0;
     for (let i of longDistanceHaulingLocations) {
-        longDistanceHaulersRequired += i.maxMiners;
+        if(!dangerRooms.includes(i.room)) {
+            longDistanceHaulersRequired += i.maxMiners;
+        }
     }
     if(longDistanceHaulersRequired > 0) {
         longDistanceHaulersRequired -= roleLongDistanceHaulerLvl5.countUnassignedHaulers(room);
@@ -1142,7 +1149,7 @@ function RunLevel5(room) {
                 //console.log('required ' + longDistanceMinersRequired + 'long distance miners');
                 let newName = 'LongDistanceMinerMk5' + Game.time;
 
-                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
                     { memory: { name : newName, roomOrigin : room.name, role: 'longdistanceminer5', timeBorn : Game.time } });
             }
             else if (longDistanceHaulersRequired > 0) {
